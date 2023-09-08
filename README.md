@@ -1,30 +1,24 @@
 ## Create Virtual Environment
 
-- Create the virtual environment
 ``` 
+# Create the virtual environment
 py -m venv ./venv
-```
-- Load the script
-```
+
+# Load the script
 source ./venv/scripts/activate
-```
 
-- Check the pip location has changed
-```
+# Check pip location has changed
 which pip
-```
 
-- To exit the Virtual Envrionment
-```
+# Exit virtual environment
 deactivate
 ```
 
-## Project Deployment
+## Install Dependancies
 
-- Install Dependancies
 ```
-python.exe -m pip install --upgrade pip
 pip install -r requirements.txt
+python.exe -m pip install --upgrade pip
 
 pip3 install 'django<4' gunicorn
 pip3 install dj_database_url==0.5.0 psycopg2
@@ -36,7 +30,7 @@ pip3 install urllib3==1.26.15
 pip freeze --local > requirements.txt
 ```
 
-- Create project
+## Project Deployment
 ```
 django-admin startproject scene_automation .
 python manage.py startapp front_end
