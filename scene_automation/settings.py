@@ -30,7 +30,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'https://scene-automation-e08fb55351d3.herokuapp.com/',
     'localhost',
-    '127.0.0.1'    
+    '127.0.0.1'
 ]
 
 # Application definition
@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'cloudinary_storage',
-    'django.contrib.staticfiles', 
+    'django.contrib.staticfiles',
     'cloudinary',
     'front_end',
 ]

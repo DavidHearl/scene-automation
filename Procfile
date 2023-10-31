@@ -1,1 +1,1 @@
-web: gunicorn scene-automation.wsgi
+web: gunicorn scene_automation.wsgi
