@@ -19,15 +19,23 @@ class Area(models.Model):
 
 
 class Status(models.Model):
+    STATUS_CHOICES = [
+        ("No Data", "No Data"),
+        ("Legacy", "Legacy"),
+        ("Failed", "Failed"),
+        ("Queued", "Queued"),
+        ("WIP", "WIP"),
+        ("Completed", "Completed")
+    ]
     area_name = models.ForeignKey(Area, on_delete=models.CASCADE)
-    imported = models.BooleanField(default=False)
-    processed = models.BooleanField(default=False)
-    registered = models.BooleanField(default=False)
-    aligned = models.BooleanField(default=False)
-    cleaned = models.BooleanField(default=False)
-    point_cloud = models.BooleanField(default=False)
-    exported = models.BooleanField(default=False)
-    uploaded = models.BooleanField(default=False)
+    imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
+    processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
+    registered = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
+    aligned = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
+    cleaned = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
+    point_cloud = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
+    exported = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
+    uploaded = models.CharField(max_length=20, choices=STATUS_CHOICES, default="No Data")
 
     def __str__(self):
         return f"{self.area_name.area_name} - {self.area_name.ship.name}"
