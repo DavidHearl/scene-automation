@@ -28,6 +28,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', '')
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '*',
     'https://scene-automation-e08fb55351d3.herokuapp.com/',
     'localhost',
     '127.0.0.1'
