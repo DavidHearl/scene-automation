@@ -7,5 +7,10 @@
 </head>
 <body>
     <h1>Hello World</h1>
+    <a href="admin">View Admin</a>
+
+    {% for ship in ships %}
+        <p>Ship: {{ ship.name }}</p>
+    {% endfor %}
 </body>
 </html>

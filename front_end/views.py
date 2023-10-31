@@ -1,5 +1,12 @@
 from django.shortcuts import render, HttpResponse
+from .models import Ship, Area, Status
 
-# Create your views here.
+
 def say_hello(request):
-    return render(request, 'front_end/front_end.html')
+    ships = Ship.objects.all()
+
+    context = {
+        'ships': ships
+    }
+
+    return render(request, 'front_end/front_end.html', context)
