@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from front_end.views import say_hello
+from front_end.views import ships_and_areas
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', say_hello, name='say_hello')
+    path('', ships_and_areas, name='ships_and_areas')
 ]

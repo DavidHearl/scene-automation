@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse
 from .models import Ship, Area
 
 
-def say_hello(request):
+def ships_and_areas(request):
     ships = Ship.objects.all()
     areas = Area.objects.all()
 

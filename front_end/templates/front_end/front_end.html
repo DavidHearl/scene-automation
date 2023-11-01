@@ -1,21 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <nav>
+{% extends "base.html" %}
+{% block title %} Ship Areas & Details {% endblock %}
 
-    </nav>
+{% block content %}
+
     <a href="admin">View Admin</a>
 
     {% for ship in ships %}
-        <p>Ship: {{ ship.name }}</p>
-        {% for area in areas %}
-            <p>Area: {{ area.area_name }}</p>
+        <h2>{{ ship.name }}</h2>
+        
+        {% for area in ship.area_set.all %}
+            <p>{{ area.area_name }}</p>
+            <span>{{ area.imported }}</span>
+            <span>{{ area.processed }}</span>
+            <span>{{ area.registered }}</span>
+            <span>{{ area.aligned }}</span>
+            <span>{{ area.cleaned }}</span>
+            <span>{{ area.point_cloud }}</span>
+            <span>{{ area.exported }}</span>
+            <span>{{ area.uploaded }}</span>
         {% endfor %}
+
     {% endfor %}
+{% endblock %}
+
 </body>
 </html>
