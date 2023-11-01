@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Ship, Area, Status
-
+from .models import Ship, Area
 
 class ShipAdmin(admin.ModelAdmin):
     list_display = (
@@ -9,19 +8,20 @@ class ShipAdmin(admin.ModelAdmin):
         'company',
     )
 
-
 class AreaAdmin(admin.ModelAdmin):
     list_display = (
         'ship',
         'area_name',
+        'imported',
+        'processed',
+        'registered',
+        'aligned',
+        'cleaned',
+        'point_cloud',
+        'exported',
+        'uploaded',
     )
-
-
-class StatusAdmin(admin.ModelAdmin):
-    class Meta:
-        verbose_name_plural = 'Status'
-
+    list_filter = ('ship',)  # Add a filter for 'ship'
 
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)
-admin.site.register(Status, StatusAdmin)

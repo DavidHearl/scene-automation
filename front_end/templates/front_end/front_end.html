@@ -6,16 +6,15 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hello World</h1>
+    <nav>
+
+    </nav>
     <a href="admin">View Admin</a>
 
     {% for ship in ships %}
         <p>Ship: {{ ship.name }}</p>
         {% for area in areas %}
             <p>Area: {{ area.area_name }}</p>
-            {% for stat in status %}
-                <p>Status: {{ stat.imported }}</p>
-            {% endfor %}
         {% endfor %}
     {% endfor %}
 </body>
