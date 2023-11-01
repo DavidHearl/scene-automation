@@ -19,7 +19,23 @@ def add_item(request):
     if request.method == 'POST':
         form = AddItemForm(request.POST)
         if form.is_valid():
-            form.save()
+            ship = form.cleaned_data['ship']
+            area_name = form.cleaned_data['area_name']
+
+            if not ship:
+                custom_ship_name = form.cleaned_data['custom_ship_name']
+                custom_company = form.cleaned_data['custom_company']
+                custom_contract_number = form.cleaned_data['custom_contract_number']
+                ship = Ship(
+                    name=custom_ship_name,
+                    company=custom_company,
+                    contract_number=custom_contract_number
+                )
+                ship.save()
+
+            area = Area(ship=ship, area_name=area_name)
+            area.save()
+
             return redirect('success_page')
     else:
         form = AddItemForm()

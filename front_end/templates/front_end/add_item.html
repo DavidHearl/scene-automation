@@ -3,7 +3,19 @@
 
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.ship.label_tag }} {{ form.ship }}
+    {{ form.area_name.label_tag }} {{ form.area_name }}
+    {{ form.custom_ship_name.label_tag }} {{ form.custom_ship_name }}
+    {{ form.custom_company.label_tag }} {{ form.custom_company }}
+    {{ form.custom_contract_number.label_tag }} {{ form.custom_contract_number }}
+    {{ form.imported.label_tag }} {{ form.imported }}
+    {{ form.processed.label_tag }} {{ form.processed }}
+    {{ form.registered.label_tag }} {{ form.registered }}
+    {{ form.aligned.label_tag }} {{ form.aligned }}
+    {{ form.cleaned.label_tag }} {{ form.cleaned }}
+    {{ form.point_cloud.label_tag }} {{ form.point_cloud }}
+    {{ form.exported.label_tag }} {{ form.exported }}
+    {{ form.uploaded.label_tag }} {{ form.uploaded }}
     <button type="submit">Submit</button>
 </form>
 
