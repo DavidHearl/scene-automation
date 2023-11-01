@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+<a href="{% url 'ships_and_areas' %}">Home</a>
+
+{% block content %}
+    <div class="container header-container">
+        <div class="overlay"></div>
+        <div class="row form">
+            <div class="col-12 account-forms">
+                <div class="allauth-form-inner-content push-down">
+                    {% block inner_content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
