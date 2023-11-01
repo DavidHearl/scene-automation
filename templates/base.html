@@ -35,8 +35,8 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <a href="{% url 'ships_and_areas' %}">Home</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item dropdown nav-style">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -45,7 +45,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{% url 'add_item' %}">
                                         <i class="fas fa-plus"></i>Add Area
                                     </a>
                                 </li>
@@ -62,12 +62,19 @@
                                         <i class="fas fa-sign-out-alt nav-icon"></i>Logout
                                     </a>
                                 </li>
+                                {% if user.is_superuser %}
+                                    <li>
+                                        <a class="dropdown-item" href="admin">
+                                            <i class="fas fa-key nav-icon"></i>Admin
+                                        </a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </li>
                     {% else %}
-                        <li class="nav-item dropdown">
-                            <a href="{% url 'account_signup' %}" class="dropdown-item">Register</a>
-                            <a href="{% url 'account_login' %}" class="dropdown-item">Login</a>
+                        <li class="nav-item dropdown not-authenticated">
+                            <a href="{% url 'account_signup' %}" class="dropdown-item ml-auto">Register</a>
+                            <a href="{% url 'account_login' %}" class="dropdown-item ml-auto">Login</a>
                         </li>
                     {% endif %}
                 </ul>
