@@ -2,23 +2,31 @@
 {% block title %} Ship Areas & Details {% endblock %}
 
 {% block content %}
-    {% for ship in ships %}
-        <h2>{{ ship.name }}</h2>
-        
-        {% for area in ship.area_set.all %}
-            <p>{{ area.area_name }}</p>
-            <span>{{ area.imported }}</span>
-            <span>{{ area.processed }}</span>
-            <span>{{ area.registered }}</span>
-            <span>{{ area.aligned }}</span>
-            <span>{{ area.cleaned }}</span>
-            <span>{{ area.point_cloud }}</span>
-            <span>{{ area.exported }}</span>
-            <span>{{ area.uploaded }}</span>
+    <div class="container">
+        {% for ship in ships %}
+            <h2>{{ ship.name }}</h2>
+            
+            {% for area in ship.area_set.all %}
+                <p>{{ area.area_name }}</p>
+                <span>{{ area.imported }}</span>
+                <span>{{ area.processed }}</span>
+                <span>{{ area.registered }}</span>
+                <span>{{ area.aligned }}</span>
+                <span>{{ area.cleaned }}</span>
+                <span>{{ area.point_cloud }}</span>
+                <span>{{ area.exported }}</span>
+                <span>{{ area.uploaded }}</span>
+            {% endfor %}
+
         {% endfor %}
+    </div>
 
-    {% endfor %}
+    <div class="card" style="width: 18rem;">
+        <img src="..." class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div>
 {% endblock %}
-
-</body>
-</html>

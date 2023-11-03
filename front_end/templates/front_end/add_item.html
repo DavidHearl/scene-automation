@@ -1,22 +1,62 @@
 {% extends "base.html" %}
+
 {% block content %}
-
-<form method="post">
-    {% csrf_token %}
-    {{ form.ship.label_tag }} {{ form.ship }}
-    {{ form.area_name.label_tag }} {{ form.area_name }}
-    {{ form.custom_ship_name.label_tag }} {{ form.custom_ship_name }}
-    {{ form.custom_company.label_tag }} {{ form.custom_company }}
-    {{ form.custom_contract_number.label_tag }} {{ form.custom_contract_number }}
-    {{ form.imported.label_tag }} {{ form.imported }}
-    {{ form.processed.label_tag }} {{ form.processed }}
-    {{ form.registered.label_tag }} {{ form.registered }}
-    {{ form.aligned.label_tag }} {{ form.aligned }}
-    {{ form.cleaned.label_tag }} {{ form.cleaned }}
-    {{ form.point_cloud.label_tag }} {{ form.point_cloud }}
-    {{ form.exported.label_tag }} {{ form.exported }}
-    {{ form.uploaded.label_tag }} {{ form.uploaded }}
-    <button type="submit">Submit</button>
-</form>
-
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-layout row">
+                <p class="label col-3">{{ form.ship.label_tag }}</p>
+                <p class="field col-9">{{ form.ship }}</p>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.custom_ship_name.label_tag }}</div>
+                <div class="field col-9">{{ form.custom_ship_name }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.custom_company.label_tag }}</div>
+                <div class="field col-9">{{ form.custom_company }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.custom_contract_number.label_tag }}</div>
+                <div class="field col-9">{{ form.custom_contract_number }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.area_name.label_tag }}</div>
+                <div class="field col-9">{{ form.area_name }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.imported.label_tag }}</div>
+                <div class="field col-9">{{ form.imported }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.processed.label_tag }}</div>
+                <div class="field col-9">{{ form.processed }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.registered.label_tag }}</div>
+                <div class="field col-9">{{ form.registered }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.aligned.label_tag }}</div>
+                <div class="field col-9">{{ form.aligned }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.cleaned.label_tag }}</div>
+                <div class="field col-9">{{ form.cleaned }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.point_cloud.label_tag }}</div>
+                <div class="field col-9">{{ form.point_cloud }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.exported.label_tag }}</div>
+                <div class="field col-9">{{ form.exported }}</div>
+            </div>
+            <div class="form-layout row">
+                <div class="label col-3">{{ form.uploaded.label_tag }}</div>
+                <div class="field col-9">{{ form.uploaded }}</div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
 {% endblock %}

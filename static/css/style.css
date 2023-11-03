@@ -15,3 +15,12 @@ i {
     display: flex;
     flex-direction: row;
 }
+
+.form-layout {
+    margin-top: 16px;
+}
+
+input,
+select {
+    width: 100%;
+}
