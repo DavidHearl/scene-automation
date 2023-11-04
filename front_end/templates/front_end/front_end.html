@@ -3,26 +3,110 @@
 
 {% block content %}
 <div class="container">
-    <div class="accordion accordion-flush" id="accordionFlushExample">
+    <!-- Testing -->
+    <div class="container">
+        {% for ship in ships %}
+            <button class="btn expand-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <h3>{{ ship.name }}</h3>
+                    </div>
+                    <div class="col-6 text-end">
+                        <h3>Contract Number: {{ ship.contract_number }}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <h4>Areas: {{ ship.area_set.all.count }}</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                        <h4>Scan Total: 0</h4>
+                    </div>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            </button>
+
+            <div class="collapse" id="collapse{{ forloop.counter }}">
+                <div class="card card-body card-expand">
+                    {% for area in ship.area_set.all %}
+                    <div class="row">
+                        <div class="col-4">
+                            <p class="area-title">{{ area.area_name }}</p>
+                        </div>
+                        <div class="col-1">{{ area.imported }}</div>
+                        <div class="col-1">{{ area.processed }}</div>
+                        <div class="col-1">{{ area.registered }}</div>
+                        <div class="col-1">{{ area.aligned }}</div>
+                        <div class="col-1">{{ area.cleaned }}</div>
+                        <div class="col-1">{{ area.point_cloud }}</div>
+                        <div class="col-1">{{ area.exported }}</div>
+                        <div class="col-1">{{ area.uploaded }}</div>
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+            {% for ship in ships %}
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse-{{ forloop.counter }}">
+                            <div class="row title-row">
+                                <div class="col">
+                                    <h3 class="ship-title"></h3>
+                                    <h4 class="ship-subtitle">
+                                        <span>Areas: {{ ship.area_set.all.count }}</span>
+                                    </h4>
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% for area in ship.area_set.all %}
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p>{{ area.area_name }}</p>
+                                    </div>
+                                    <div class="col-1"><button>{{ area.imported }}</button></div>
+                                    <div class="col-1"><button>{{ area.processed }}</button></div>
+                                    <div class="col-1"><button>{{ area.registered }}</button></div>
+                                    <div class="col-1"><button>{{ area.aligned }}</button></div>
+                                    <div class="col-1"><button>{{ area.cleaned }}</button></div>
+                                    <div class="col-1"><button>{{ area.point_cloud }}</button></div>
+                                    <div class="col-1"><button>{{ area.exported }}</button></div>
+                                    <div class="col-1"><button>{{ area.uploaded }}</button></div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Actual -->
+    <!-- <div class="accordion" id="accordionExample">
         {% for ship in ships %}
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapse-{{ forloop.counter }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse-{{ forloop.counter }}">
                         <div class="row title-row">
-                            <div class="col-4">
-                                <p>{{ ship.name }}</p>
-                            </div>
-                            <div class="col-4">
-                                <p>Contract Number: {{ ship.contract_number }}</p>
-                                
-                            </div>
-                            <div class="col-4">
-                                <p>Areas: {{ ship.area_set.all.count }}</p>
+                            <div class="col">
+                                <h3 class="ship-title"></h3>
+                                <h4 class="ship-subtitle">
+                                    <span>Areas: {{ ship.area_set.all.count }}</span>
+                                </h4>
                             </div>
                         </div>
                     </button>
                 </h2>
-                <div id="flush-collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="flush-heading-{{ forloop.counter }}" data-bs-parent="#accordionFlushExample">
+                <div id="collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ forloop.counter }}" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         {% for area in ship.area_set.all %}
                             <div class="row">
@@ -43,7 +127,7 @@
                 </div>
             </div>
         {% endfor %}
-    </div>
+    </div> -->
 </div>
 
 {% endblock %}

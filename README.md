@@ -2,10 +2,10 @@
 
 ``` 
 # Create the virtual environment
-py -m venv ./venv
+py -m venv ./venvwin
 
 # Load the script
-source ./venv/scripts/activate
+source ./venvwin/scripts/activate
 
 # Check pip location has changed
 which pip

@@ -1,4 +1,9 @@
 /* Navigtion */
+* {
+    margin: 0;
+    padding: 0;
+}
+
 nav {
     background-color: #2B3D5B;
 }
@@ -25,4 +30,55 @@ select {
     width: 100%;
 }
 
+/* Expandable */
+.expand-button {
+    margin-top: 24px;
+    padding: 0;
+    background-color: blue;
+    width: 100%;
+}
+
+
 /* Accordion */
+.expand-button {
+    background-color: #dddfe9;
+    border: 1px solid black;
+    color: black;
+    border-radius: 0;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    padding: 16px;
+}
+
+.btn:hover {
+    color: black;
+    background-color: white;
+    border-color: #dddfe9;
+}
+
+.card-expand {
+    border-radius: 0;
+    border-top:none;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+h4 {
+    color: gray;
+    font-size: 1rem;
+    margin: 4px 0 0 0;
+}
+
+.area-title{
+    margin: 0;
+}
+
+.progress {
+    margin-top: 8px;
+    height: 8px;
+}
