@@ -1,3 +1,27 @@
 from django.contrib import admin
+from .models import Ship, Area
 
-# Register your models here.
+class ShipAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'contract_number',
+        'company',
+    )
+
+class AreaAdmin(admin.ModelAdmin):
+    list_display = (
+        'ship',
+        'area_name',
+        'imported',
+        'processed',
+        'registered',
+        'aligned',
+        'cleaned',
+        'point_cloud',
+        'exported',
+        'uploaded',
+    )
+    list_filter = ('ship',)  # Add a filter for 'ship'
+
+admin.site.register(Ship, ShipAdmin)
+admin.site.register(Area, AreaAdmin)

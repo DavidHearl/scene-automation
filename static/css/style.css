@@ -1,0 +1,28 @@
+/* Navigtion */
+nav {
+    background-color: #2B3D5B;
+}
+
+i {
+    margin-right: 10px;
+}
+
+.dropdown-item {
+    padding: 4px 12px;
+}
+
+.not-authenticated {
+    display: flex;
+    flex-direction: row;
+}
+
+.form-layout {
+    margin-top: 16px;
+}
+
+input,
+select {
+    width: 100%;
+}
+
+/* Accordion */

@@ -1,11 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello World</h1>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %} Ship Areas & Details {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        {% for ship in ships %}
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-{{ forloop.counter }}" aria-expanded="false" aria-controls="flush-collapse-{{ forloop.counter }}">
+                        <div class="row title-row">
+                            <div class="col-4">
+                                <p>{{ ship.name }}</p>
+                            </div>
+                            <div class="col-4">
+                                <p>Contract Number: {{ ship.contract_number }}</p>
+                                
+                            </div>
+                            <div class="col-4">
+                                <p>Areas: {{ ship.area_set.all.count }}</p>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="flush-collapse-{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="flush-heading-{{ forloop.counter }}" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        {% for area in ship.area_set.all %}
+                            <div class="row">
+                                <div class="col-4">
+                                    <p>{{ area.area_name }}</p>
+                                </div>
+                                <div class="col-1"><button>{{ area.imported }}</button></div>
+                                <div class="col-1"><button>{{ area.processed }}</button></div>
+                                <div class="col-1"><button>{{ area.registered }}</button></div>
+                                <div class="col-1"><button>{{ area.aligned }}</button></div>
+                                <div class="col-1"><button>{{ area.cleaned }}</button></div>
+                                <div class="col-1"><button>{{ area.point_cloud }}</button></div>
+                                <div class="col-1"><button>{{ area.exported }}</button></div>
+                                <div class="col-1"><button>{{ area.uploaded }}</button></div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
