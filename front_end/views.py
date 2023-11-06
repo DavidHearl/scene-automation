@@ -17,26 +17,22 @@ def ships_and_areas(request):
     else:
         ship_form = ShipForm()
 
-    context = {
-        'ships': ships,
-        'areas': areas,
-        'ship_form' : ship_form,
-    }
 
-    return render(request, 'front_end/front_end.html', context)
-
-
-def add_area(request):
     if request.method == 'POST':
         area_form = AreaForm(request.POST)
         if area_form.is_valid():
             area = area_form.save()
-            return redirect('success_page')  # Redirect to a success page or any other desired URL after submission
+            messages.success(request, 'Area added successfully.')
+            print("Area Form Ship Value:", area_form.cleaned_data['ship'])
+            return redirect('ships_and_areas')  # Redirect to a success page or any other desired URL after submission
     else:
         area_form = AreaForm()
 
-    return render(request, 'front_end/add_area.html', {'area_form': area_form})
+    context = {
+        'ships': ships,
+        'areas': areas,
+        'ship_form' : ship_form,
+        'area_form' : area_form,
+    }
 
-
-def success_page(request):
-    return render(request, 'front_end/success_page.html')
+    return render(request, 'front_end/front_end.html', context)

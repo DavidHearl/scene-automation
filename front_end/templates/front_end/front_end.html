@@ -43,6 +43,24 @@
                             <div class="col-1 process-status"><span>{{ area.uploaded }}</span></div>
                         </div>
                     {% endfor %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="ship" value="{{ ship.id }}">
+                            <div class="row">
+                                <div class="col-4">{{ area_form.area_name }}</div>
+                                <div class="col-1">{{ area_form.imported }}</div>
+                                <div class="col-1">{{ area_form.processed }}</div>
+                                <div class="col-1">{{ area_form.registered }}</div>
+                                <div class="col-1">{{ area_form.aligned }}</div>
+                                <div class="col-1">{{ area_form.cleaned }}</div>
+                                <div class="col-1">{{ area_form.point_cloud }}</div>
+                                <div class="col-1">{{ area_form.exported }}</div>
+                                <div class="col-1">{{ area_form.uploaded }}</div>
+                            </div>                
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">Add Area</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         {% endfor %}
@@ -79,6 +97,12 @@
                 </div>
             </div>
         {% endif %}
+
+        <!-- <form method="post">
+            {% csrf_token %}
+            {{ area_form.as_p }}
+            <input type="submit" value="Submit">
+        </form> -->
 
         {% if messages %}
             <div class="toast-container">
