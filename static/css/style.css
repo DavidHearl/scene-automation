@@ -63,6 +63,10 @@ select {
     border-bottom-right-radius: 8px;
 }
 
+.card-body {
+    padding: 4px 8px;
+}
+
 h3 {
     font-size: 1.2rem;
     margin: 0;
@@ -81,4 +85,17 @@ h4 {
 .progress {
     margin-top: 8px;
     height: 8px;
+}
+
+/* Forms */
+.form-button {
+    background-color: green;
+}
+
+.add-ship {
+    border: 1px solid;
+    border-top: none;
+    padding: 4px 12px 8px 12px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
