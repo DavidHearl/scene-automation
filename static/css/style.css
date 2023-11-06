@@ -87,6 +87,21 @@ h4 {
     height: 14px;
 }
 
+.process-heading {
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.process-status {
+    padding: 4px;
+}
+
+.status-box {
+    border: 1px solid gray;
+    border-radius: 4px;
+    margin-bottom: 0;
+}
+
 /* Forms */
 .form-button {
     background-color: green;
@@ -99,3 +114,8 @@ h4 {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
 }
+
+.area-form {
+    padding: 4px;
+}
+

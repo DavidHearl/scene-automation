@@ -34,7 +34,15 @@ class Ship(models.Model):
 
         return round(percentage, 1)  # Round the percentage to one decimal place
 
+    def estimated_completion(self):
+        total_scans = self.total_scans()
+        completed_percentage = self.completed_percentage()
 
+        estimated_time = total_scans * 15
+        estimated_time = estimated_time / (60 * 8)
+        estimated_time = estimated_time * -((completed_percentage / 100) - 1)
+        
+        return round(estimated_time, 2)
 
     def __str__(self):
         return self.name
