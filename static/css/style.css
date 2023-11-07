@@ -119,3 +119,25 @@ h4 {
     padding: 4px;
 }
 
+.crud {
+    display: flex;
+    font-size: 0.7rem;
+    height: 100%;
+    margin-top: 5px;
+}
+
+.crud-button {
+    padding: 2px 4px;
+    border: 1px solid black;
+    border-radius: 2px;
+    color: white;
+}
+
+.delete {
+    background: red;
+}
+
+.save {
+    background-color: green;
+    margin-left: 8px;
+}

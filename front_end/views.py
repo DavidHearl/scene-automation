@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 from .models import Ship, Area
 from .forms import ShipForm, AreaForm
 
@@ -63,3 +64,9 @@ def edit_area(request, area_id):
     }
 
     return render(request, 'front_end/front_end.html', context)
+
+def delete_area(request, area_id):
+    area = get_object_or_404(Area, pk=area_id)
+    area.delete()
+    messages.success(request, 'Area deleted successfully.')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
