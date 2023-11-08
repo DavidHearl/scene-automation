@@ -161,9 +161,11 @@ select {
 
 .Legacy {
     background-color: purple;
+    color: white;
 }
 
 .Failed {
+    background-color: yellow;
     background: repeating-linear-gradient(45deg,
             rgba(80, 80, 80, 1),
             rgba(80, 80, 80, 1) 10px,

@@ -22,13 +22,16 @@ class Ship(models.Model):
 
             # Create a list of status choices
             process_stage = ["imported", "processed", "registered", "aligned", "cleaned", "point_cloud", "exported", "uploaded"]
+            process_weighting = [12.5, 100, 100, 12.5, 75, 100, 500, 100]
+            i = -1
 
             # Loop through the status choices and update weighting
             for status in process_stage:
+                i += 1
                 if getattr(area, status) == "Completed" or getattr(area, status) == "Legacy":
-                    weighting += 1
+                    weighting += process_weighting[i]
 
-            area_percentage = (100 * (weighting/8) * (int(area.scans) / int(ship_total_scans)))  # Correct the formula
+            area_percentage = (100 * (weighting/1000) * (int(area.scans) / int(ship_total_scans)))  # Correct the formula
 
             percentage += area_percentage
 
