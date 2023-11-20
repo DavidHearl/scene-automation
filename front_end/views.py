@@ -1,11 +1,27 @@
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.db.models import Sum, Count
 from .models import Ship, Area
 from .forms import ShipForm, AreaForm
 
 
 def ships_and_areas(request):
+    # Calculate the total scans for all areas
+    total_scans = Area.objects.aggregate(total_scans=Sum('scans'))['total_scans'] or 0
+
+    # Calculate the number of ships
+    num_ships = Ship.objects.count()
+
+    # Calculate the average scans per ship
+    avg_scans_per_ship = round(total_scans / num_ships, 0)
+
+    avg_completion_time = round(avg_scans_per_ship * 20)
+    avg_completion_time = round(avg_completion_time / (60 * 8), 1)
+
+    total_estimated_completion_for_all_ships = Ship.total_estimated_completion_for_all_ships()
+    print(f"Total Estimated Completion Time for All Ships: {total_estimated_completion_for_all_ships} hours")
+
     ships = Ship.objects.all()
     areas = Area.objects.all()
 
@@ -32,11 +48,17 @@ def ships_and_areas(request):
     context = {
         'ships': ships,
         'areas': areas,
+        'total_scans': total_scans,
+        'num_ships': num_ships,
+        'avg_scans_per_ship': avg_scans_per_ship,
+        'avg_completion_time': avg_completion_time,
+        'total_estimated_completion_for_all_ships': total_estimated_completion_for_all_ships,
         'ship_form' : ship_form,
         'area_form' : area_form,
     }
 
     return render(request, 'front_end/front_end.html', context)
+
 
 
 def edit_area(request, area_id):

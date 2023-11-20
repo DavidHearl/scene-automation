@@ -1,15 +1,19 @@
 from django.db import models
 
+# Time in minutes
 time_per_scan = 20
+time_per_area = 60
 
 class Ship(models.Model):
     name = models.CharField(max_length=200)
     contract_number = models.IntegerField(default=0, null=False, blank=False)
     company = models.CharField(max_length=200)
 
+    # Count the number of scans in each ship
     def total_scans(self):
         return sum(area.scans for area in self.area_set.all())
 
+    # Calculate the completed percentage
     def completed_percentage(self):
         ship_total_scans = self.total_scans()
 
@@ -38,6 +42,7 @@ class Ship(models.Model):
 
         return round(percentage, 1)  # Round the percentage to one decimal place
 
+    # Calculate the estimated completion date
     def estimated_completion(self):
         total_scans = self.total_scans()
         completed_percentage = self.completed_percentage()
@@ -50,6 +55,11 @@ class Ship(models.Model):
         estimated_time *= 0 if multiplier == 0 else multiplier
 
         return round(estimated_time, 2)
+
+    @classmethod
+    def total_estimated_completion_for_all_ships(cls):
+        total_estimated_time_for_all_ships = sum(ship.estimated_completion() for ship in cls.objects.all())
+        return round(total_estimated_time_for_all_ships, 2)
 
     def __str__(self):
         return self.name

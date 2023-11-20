@@ -5,9 +5,26 @@
 
 {% block content %}
 <div class="container">
+    <div class="row">
+        <h2 class="time-remaining">{{ total_estimated_completion_for_all_ships }} Days Remaining</h2> 
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-3 summary-heading">Total Scans</div>
+        <div class="col-3 summary-heading">Total Ships</div>
+        <div class="col-3 summary-heading">Average Scans</div>
+        <div class="col-3 summary-heading">Average Completion Time</div>
+    </div>
+    <div class="row">
+        <div class="col-3 summary-values">{{ total_scans }}</div>
+        <div class="col-3 summary-values">{{ num_ships }}</div>
+        <div class="col-3 summary-values">{{ avg_scans_per_ship }}</div>
+        <div class="col-3 summary-values">{{ avg_completion_time }} Days</div>
+    </div>
+
     <!-- Ship button card drop down -->
     {% for ship in ships|sort_with_zero_first:"contract_number" %}
-        <button class="btn expand-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
+        <button class="btn expand-button no-hover-background" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
             <!-- Primary Row -->
             <div class="row">
                 <div class="col-6 text-start">
@@ -152,35 +169,34 @@
                         <form method="post">
                             {% csrf_token %}
                             <input type="hidden" name="ship" value="{{ ship.id }}">
-                                <!-- Table Title -->
-                                <div class="row">
-                                    <div class="col-3"><h5 class="process-heading text-center">Area</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center"># Scans</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Imported</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Processed</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Registered</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Aligned</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Cleaned</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Point Cloud</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Exported</h5></div>
-                                    <div class="col-1 process-status"><h5 class="process-heading text-center">Uploaded</h5></div>            
-                                </div>
-                                <!-- Table Data -->
-                                <div class="row">
-                                    <div class="col-10 col-md-3 area-form">{{ area_form.area_name }}</div>
-                                    <div class="col-2 col-md-1 area-form">{{ area_form.scans }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.imported }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.processed }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.registered }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.aligned }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.cleaned }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.point_cloud }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.exported }}</div>
-                                    <div class="col-3 col-md-1 area-form">{{ area_form.uploaded }}</div>
-                                </div>                
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Add Area</button>
+                            <!-- Table Title -->
+                            <div class="row">
+                                <div class="col-2"><h5 class="process-heading text-center">Area</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center"># Scans</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Imported</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Processed</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Registered</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Aligned</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Cleaned</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Point Cloud</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Exported</h5></div>
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Uploaded</h5></div>            
+                                <div class="col-1 process-status"><h5 class="process-heading text-center">Submit</h5></div>            
                             </div>
+                            <!-- Table Data -->
+                            <div class="row">
+                                <div class="col-10 col-md-2 area-form">{{ area_form.area_name }}</div>
+                                <div class="col-2 col-md-1 area-form">{{ area_form.scans }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.imported }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.processed }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.registered }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.aligned }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.cleaned }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.point_cloud }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.exported }}</div>
+                                <div class="col-3 col-md-1 area-form">{{ area_form.uploaded }}</div>
+                                <div class="col-3 col-md-1 area-form"><button type="submit" class="btn btn-primary">Add Area</button></div>
+                            </div>                
                         </form>
                     </div>
                 <!-- Non authenticated data -->
