@@ -47,8 +47,13 @@ class Ship(models.Model):
         total_scans = self.total_scans()
         completed_percentage = self.completed_percentage()
 
-        estimated_time = total_scans * time_per_scan
-        estimated_time = estimated_time / (60 * 8)
+        estimated_time_per_scan = total_scans * time_per_scan / (60 * 8)
+
+        # Calculate the additional time based on the number of areas
+        total_areas = self.area_set.count()
+        additional_time_per_area = total_areas * (time_per_area / (60 * 8))
+
+        estimated_time = estimated_time_per_scan + additional_time_per_area
 
         # Ensure that the multiplication doesn't result in negative zero
         multiplier = -((completed_percentage / 100) - 1)
@@ -79,14 +84,16 @@ class Area(models.Model):
         ("Completed", "Completed")
     ]
 
-    imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
-    processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
-    registered = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
-    aligned = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
-    cleaned = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
-    point_cloud = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
-    exported = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
-    uploaded = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Queued")
+    default_value = "Completed"
+
+    imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
+    processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
+    registered = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
+    aligned = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
+    cleaned = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
+    point_cloud = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
+    exported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
+    uploaded = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 
     def __str__(self):
         return self.area_name

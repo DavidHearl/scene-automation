@@ -12,6 +12,10 @@ def ships_and_areas(request):
 
     # Calculate the number of ships
     num_ships = Ship.objects.count()
+    num_areas = Area.objects.count()
+
+    # Calculate the average areas per ship
+    avg_areas_per_ship = round(num_areas / num_ships, 0)
 
     # Calculate the average scans per ship
     avg_scans_per_ship = round(total_scans / num_ships, 0)
@@ -50,6 +54,8 @@ def ships_and_areas(request):
         'areas': areas,
         'total_scans': total_scans,
         'num_ships': num_ships,
+        'num_areas': num_areas,
+        'avg_areas_per_ship': avg_areas_per_ship,
         'avg_scans_per_ship': avg_scans_per_ship,
         'avg_completion_time': avg_completion_time,
         'total_estimated_completion_for_all_ships': total_estimated_completion_for_all_ships,
@@ -58,8 +64,6 @@ def ships_and_areas(request):
     }
 
     return render(request, 'front_end/front_end.html', context)
-
-
 
 def edit_area(request, area_id):
     area = get_object_or_404(Area, pk=area_id)
