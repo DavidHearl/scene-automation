@@ -87,6 +87,12 @@ h4 {
     height: 14px;
 }
 
+.progress-bar {
+    border: 1px solid gray;
+    border-radius: 6px;
+    background-color: #5e92b7;
+}
+
 .process-heading {
     font-size: 0.95rem;
     margin-bottom: 0;
