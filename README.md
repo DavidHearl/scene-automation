@@ -31,6 +31,14 @@ pip install django-allauth
 pip freeze --local > requirements.txt
 ```
 
+## Django Allauth
+Copy the templates from the correct directory
+```
+ls C:\Users\DavidH-LA\AppData\Local\Programs\Python\Python310\pip-modules\lib\
+
+cp -r C:/Users/DavidH-LA/AppData/Local/Programs/Python/Python310/lib/site-packages/allauth/templates/* ./templates
+```
+
 ## Project Deployment
 ```
 django-admin startproject scene_automation .

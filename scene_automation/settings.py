@@ -43,13 +43,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'front_end',    
-    'cloudinary_storage',
-    'cloudinary',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'cloudinary_storage',
+    'cloudinary',
+    'front_end',    
 ]
 
 MIDDLEWARE = [
@@ -99,7 +99,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 
 WSGI_APPLICATION = 'scene_automation.wsgi.application'

@@ -24,7 +24,6 @@ def ships_and_areas(request):
     avg_completion_time = round(avg_completion_time / (60 * 8), 1)
 
     total_estimated_completion_for_all_ships = Ship.total_estimated_completion_for_all_ships()
-    print(f"Total Estimated Completion Time for All Ships: {total_estimated_completion_for_all_ships} hours")
 
     ships = Ship.objects.all()
     areas = Area.objects.all()
