@@ -69,8 +69,8 @@
                         </li>
                     {% else %}
                         <li class="nav-item dropdown not-authenticated">
-                            <a href="{% url 'account_signup' %}" class="dropdown-item ml-auto">Register</a>
-                            <a href="{% url 'account_login' %}" class="dropdown-item ml-auto">Login</a>
+                            <a href="{% url 'account_signup' %}" class="dropdown-item ml-auto navigation-item">Register</a>
+                            <a href="{% url 'account_login' %}" class="dropdown-item ml-auto navigation-item">Login</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -82,7 +82,14 @@
     {% endblock %}
 
     <footer>
-        <h1>Footer</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <p class="footer-text">If there are any issues please contact: david.hearl@mjmmarine.com</p>
+                    <p class="footer-text">Extension: 234</p>
+                </div>
+            </div>
+        </div>
     </footer>
 
 </body>

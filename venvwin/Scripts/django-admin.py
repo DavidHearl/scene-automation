@@ -1,4 +1,4 @@
-#!C:\Local Storage\scene-automation\venvwin\Scripts\python.exe
+#!C:\Local Storage\GitHub\scene-automation\venvwin\Scripts\python.exe
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 

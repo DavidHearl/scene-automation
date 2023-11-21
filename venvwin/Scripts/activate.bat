@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Local Storage\scene-automation\venvwin
+set VIRTUAL_ENV=C:\Local Storage\GitHub\scene-automation\venvwin
 
 if not defined PROMPT set PROMPT=$P$G
 
