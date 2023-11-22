@@ -32,6 +32,15 @@ select {
     font-size: 0.9rem;
 }
 
+.login-notification {
+    text-align: center;
+    border: 1px dashed darkgray;
+    background: rgb(255, 255, 170);
+    margin: 12px 0 0 0;
+    border-radius: 8px;
+    padding: 8px;
+}
+
 /* Title */
 .time-remaining {
     text-align: center;
