@@ -1,3 +1,10 @@
+## Areas for possible Improvement
+[] - Priority List
+[] - Area in S**2m
+[] - Number of points in the cloud
+[] - Estimated number of scans
+[] - Area Type
+
 ## Create Virtual Environment
 
 ``` 
