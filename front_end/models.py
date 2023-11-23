@@ -75,16 +75,27 @@ class Area(models.Model):
     area_name = models.CharField(max_length=200)
     scans = models.IntegerField()
 
+    PRIORITY_CHOICES = (
+        (0, 'Priority 0'),
+        (1, 'Priority 1'),
+        (2, 'Priority 2'),
+        (3, 'Priority 3'),
+    )
+
     STATUS_CHOICES = [
         ("No Data", "No Data"),
         ("Legacy", "Legacy"),
-        ("Failed", "Failed"),
+        ("Minor Fail", "Minor Fail"),
+        ("Major Fail", "Major Fail"),
+        ("Critical Fail", "Critical Fail"),
         ("Queued", "Queued"),
         ("WIP", "WIP"),
         ("Completed", "Completed")
     ]
 
     default_value = "Completed"
+
+    priority = models.IntegerField(choices=PRIORITY_CHOICES, default=0, blank=False)
 
     imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
     processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)

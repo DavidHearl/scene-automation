@@ -198,13 +198,33 @@ select {
     color: white;
 }
 
-.Failed {
-    background-color: yellow;
+.Minor {
+    background-color: orange;
     background: repeating-linear-gradient(45deg,
-            rgba(80, 80, 80, 1),
-            rgba(80, 80, 80, 1) 10px,
-            yellow 10px,
-            yellow 20px);
+            rgb(70, 70, 70),
+            rgb(70, 70, 70) 10px,
+            orange 10px,
+            orange 20px);
+    color: #ffffff;
+}
+
+.Major {
+    background-color: orange;
+    background: repeating-linear-gradient(45deg,
+            rgb(60, 60, 60),
+            rgba(60, 60, 60, 1) 10px,
+            rgb(255, 85, 0) 10px,
+            rgb(255, 85, 0) 20px);
+    color: #ffffff;
+}
+
+.Critical {
+    background-color: rgb(255, 34, 0);
+    background: repeating-linear-gradient(45deg,
+            rgb(50, 50, 50),
+            rgba(50, 50, 50, 1) 10px,
+            rgb(255, 34, 0) 10px,
+            rgb(255, 34, 0) 20px);
     color: #ffffff;
 }
 

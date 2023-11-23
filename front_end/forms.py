@@ -11,3 +11,7 @@ class AreaForm(forms.ModelForm):
     class Meta:
         model = Area
         fields = '__all__'
+        widgets = {
+            'status': forms.Select(choices=Area.STATUS_CHOICES),
+            'priority': forms.Select(choices=Area.PRIORITY_CHOICES),
+        }

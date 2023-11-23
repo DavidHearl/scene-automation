@@ -6,7 +6,6 @@
 
 {% block content %}
 
-
 <div class="container">
     <!-- Login Notification -->
     {% if not user.is_authenticated %}
@@ -102,13 +101,20 @@
                                     <div class="col-6 col-md-2 area-form">
                                         <input type="text" name="area_name" value="{{ area.area_name }}">
                                     </div>
-                                    <div class="col-4 col-md-1 crud">
+                                    <div class="col-2 col-md-1 crud">
                                         <button class="crud-button delete" onclick="confirmAndDelete('{{ area.id }}')">Delete</button>
                                         <button class="crud-button save" type="submit">Save</button>
                                     </div>
-                                    <div class="col-2 col-md-1 area-form">
+                                    <div class="col-1 col-md-1 area-form">
                                         <input type="number" name="scans" value="{{ area.scans }}">
-                                    </div>
+                                        <select name="priority">
+                                            {% for choice_value, choice_label in area.PRIORITY_CHOICES %}
+                                                <option value="{{ choice_value }}" {% if choice_value == area.priority %}selected{% endif %}>
+                                                    {{ choice_label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>                                                                      
                                     <div class="col-3 col-md-1 area-form">
                                         <select name="imported" class="{{ area.imported }}">
                                             {% for status, label in area.STATUS_CHOICES %}
