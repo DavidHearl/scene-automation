@@ -200,15 +200,20 @@
                                     <!-- Point Cloud Total -->
                                     <div class="col-3 inline">
                                         <p class="label">Point Cloud:</p>
-                                        <input type="number" class="point-cloud-total">
+                                        <input type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
+                                    </div>
+                                    <!-- Point Cloud Total -->
+                                    <div class="col-2 inline">
+                                        <p class="label">Size:</p>
+                                        <input type="number" name="file_size" value="{{ area.file_size }}">
                                     </div>
                                     <!-- Spare -->
-                                    <div class="col-4 area-form">
+                                    <div class="col-2 area-form">
                                         <!-- 
                                             Placeholder - No purpose yet
                                          -->
                                     </div>
-                                    <!-- Area Type -->s
+                                    <!-- Area Type -->
                                     <div class="col-1 area-form">
                                         <div>
                                             <div class="area-type">Placeholder</div>

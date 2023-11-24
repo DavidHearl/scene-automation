@@ -74,6 +74,8 @@ class Area(models.Model):
     ship = models.ForeignKey(Ship, on_delete=models.CASCADE)
     area_name = models.CharField(max_length=200)
     scans = models.IntegerField()
+    point_cloud_size = models.IntegerField(default=0)
+    file_size = models.IntegerField(default=0)
 
     PRIORITY_CHOICES = (
         (0, 'Priority 0'),

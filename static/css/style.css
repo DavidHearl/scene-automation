@@ -275,6 +275,7 @@ select {
     border: 1px solid black;
     border-radius: 4px;
     text-align: center;
+    font-size: 0.8rem;
 }
 
 /* Authentication */
