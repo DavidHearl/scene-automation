@@ -204,6 +204,11 @@ h4 {
     margin: 0;
 }
 
+.data-label {
+    width: 100%;
+    margin: 0;
+}
+
 .point-cloud-total {
     padding: 0 4px;
     width: 60%;

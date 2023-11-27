@@ -198,20 +198,27 @@
                                         <button class="crud-button save" type="submit">Save</button>
                                     </div>
                                     <!-- Point Cloud Total -->
-                                    <div class="col-3 inline">
-                                        <p class="label">Point Cloud:</p>
+                                    <div class="col-1 inline">
+                                        <p class="data-label">Point Cloud:</p>
+                                    </div>
+                                    <div class="col-2 area-form">
                                         <input type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
                                     </div>
-                                    <!-- Point Cloud Total -->
-                                    <div class="col-2 inline">
-                                        <p class="label">Size:</p>
-                                        <input type="number" name="file_size" value="{{ area.file_size }}">
+                                    <!-- Label -->
+                                    <div class="col-1">
+                                        <p class="data-label area-form">Size (GB):</p>
                                     </div>
-                                    <!-- Spare -->
-                                    <div class="col-2 area-form">
-                                        <!-- 
-                                            Placeholder - No purpose yet
-                                         -->
+                                    <!-- Raw File Size -->
+                                    <div class="col-1 area-form">
+                                        <input type="number" name="raw_size" value="{{ area.raw_size }}">
+                                    </div>
+                                    <!-- Processed File Fize -->
+                                    <div class="col-1 area-form">
+                                        <input type="number" name="processed_size" value="{{ area.processed_size }}">
+                                    </div>
+                                    <!-- Exported File Size -->
+                                    <div class="col-1 area-form">
+                                        <input type="number" name="exported_size" value="{{ area.exported_size }}">
                                     </div>
                                     <!-- Area Type -->
                                     <div class="col-1 area-form">
@@ -266,10 +273,22 @@
                     </div>
                 <!-- Non authenticated data -->
                 {% else %}
+                    <div class="row">
+                        <div class="col-3 process-status"><h5 class="process-heading text-center">Area</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center"># Scans</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Imported</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Processed</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Registered</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Aligned</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Cleaned</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Point Cloud</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Exported</h5></div>
+                        <div class="col-1 process-status"><h5 class="process-heading text-center">Uploaded</h5></div>                     
+                    </div>
                     {% for area in ship.area_set.all|dictsort:"area_name" %}
                         <div class="container">
                             <div class="row">
-                                <div class="col-3"><p class="area-title">{{ area.area_name }}</p></div>
+                                <div class="col-3 process-status"><p class="area-title">{{ area.area_name }}</p></div>
                                 <div class="col-1 process-status text-center"><p class="area-title">{{ area.scans }}</p></div>
                                 <div class="col-1 process-status text-center"><p class="status-box {{ area.imported }}">{{ area.imported }}</p></div>
                                 <div class="col-1 process-status text-center"><p class="status-box {{ area.processed }}">{{ area.processed }}</p></div>

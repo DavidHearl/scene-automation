@@ -3,6 +3,9 @@ from django.db import models
 # Time in minutes
 time_per_scan = 20
 time_per_area = 60
+minor_error = 30
+major_error = 45
+critical_error = 60 
 
 class Ship(models.Model):
     name = models.CharField(max_length=200)
@@ -44,16 +47,22 @@ class Ship(models.Model):
 
     # Calculate the estimated completion date
     def estimated_completion(self):
+        # Get number of scans and complete %
         total_scans = self.total_scans()
         completed_percentage = self.completed_percentage()
 
+        # Work out estimated time (workdays)
         estimated_time_per_scan = total_scans * time_per_scan / (60 * 8)
 
         # Calculate the additional time based on the number of areas
         total_areas = self.area_set.count()
         additional_time_per_area = total_areas * (time_per_area / (60 * 8))
 
-        estimated_time = estimated_time_per_scan + additional_time_per_area
+        # Calculate the additional time for failures
+        # Placeholder
+
+        # Add additional time to total time
+        estimated_time = estimated_time_per_scan + additional_time_per_area # + Placeholder
 
         # Ensure that the multiplication doesn't result in negative zero
         multiplier = -((completed_percentage / 100) - 1)
@@ -75,7 +84,9 @@ class Area(models.Model):
     area_name = models.CharField(max_length=200)
     scans = models.IntegerField()
     point_cloud_size = models.IntegerField(default=0)
-    file_size = models.IntegerField(default=0)
+    raw_size = models.IntegerField(default=0)
+    processed_size = models.IntegerField(default=0)
+    exported_size = models.IntegerField(default=0)
 
     PRIORITY_CHOICES = (
         (0, 'Priority 0'),
