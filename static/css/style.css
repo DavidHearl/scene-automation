@@ -8,6 +8,17 @@ nav {
     background-color: #001e2a;
 }
 
+.nav-link {
+    text-decoration: none;
+    color: white;
+    margin: 0 16px;
+}
+
+.nav-link:hover{
+    text-decoration: underline;
+    color: gray;
+}
+
 i {
     margin-right: 10px;
 }
@@ -206,7 +217,8 @@ h4 {
 
 .data-label {
     width: 100%;
-    margin: 0;
+    margin: 1px 0 0 0;
+    font-size: 0.9rem;
 }
 
 .point-cloud-total {
@@ -281,6 +293,10 @@ select {
     border-radius: 4px;
     text-align: center;
     font-size: 0.8rem;
+}
+
+.area-margin {
+    margin-left: 8px;
 }
 
 /* Authentication */
@@ -389,4 +405,24 @@ footer {
 
 .wrapper {
     min-height: 100%;
+}
+
+.status-symbol {
+    width: 17px;
+    height: 16px;
+    border-radius: 12px;
+    background-color: green;
+    border: 1px solid;
+    margin-top: 4px;
+}
+
+@media only screen and (max-width: 767px) {
+    .ship-titles {
+        display: none; /* Hide the entire row for mobile devices */
+    }
+
+    .data-label {
+        font-size: 0.75rem;
+
+    }
 }

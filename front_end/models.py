@@ -84,9 +84,9 @@ class Area(models.Model):
     area_name = models.CharField(max_length=200)
     scans = models.IntegerField()
     point_cloud_size = models.IntegerField(default=0)
-    raw_size = models.IntegerField(default=0)
-    processed_size = models.IntegerField(default=0)
-    exported_size = models.IntegerField(default=0)
+    raw_size = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    processed_size = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    exported_size = models.DecimalField(max_digits=5, decimal_places=2,default=0)
 
     PRIORITY_CHOICES = (
         (0, 'Priority 0'),
