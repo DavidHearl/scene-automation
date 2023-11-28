@@ -12,14 +12,8 @@ class AreaAdmin(admin.ModelAdmin):
     list_display = (
         'ship',
         'area_name',
-        'imported',
-        'processed',
-        'registered',
-        'aligned',
-        'cleaned',
-        'point_cloud',
-        'exported',
-        'uploaded',
+        'scans',
+        'point_cloud_size'
     )
     list_filter = ('ship',)  # Add a filter for 'ship'
 
