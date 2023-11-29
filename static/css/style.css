@@ -8,13 +8,13 @@ nav {
     background-color: #001e2a;
 }
 
-.nav-link {
+.standard-nav-link {
     text-decoration: none;
     color: white;
-    margin: 0 16px;
+    margin-right: 32px;
 }
 
-.nav-link:hover{
+.standard-nav-link:hover{
     text-decoration: underline;
     color: gray;
 }
