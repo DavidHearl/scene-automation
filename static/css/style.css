@@ -416,6 +416,74 @@ footer {
     margin-top: 4px;
 }
 
+/* Manual */
+.manual {
+    margin-top: 32px;
+}
+
+.manual-p {
+    padding: 8px;
+    margin: 0;
+}
+
+.manual-h1 {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    background-color:#34709c;
+    padding: 8px;
+    color: white;
+    border-radius: 4px;
+    margin: 0;
+}
+
+.manual-h2 {
+    text-transform: capitalize;
+    font-size: 1.25rem;
+    background-color:#34709c80;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 0;
+}
+
+.manual-h3 {
+    text-transform: capitalize;
+    font-size: 1rem;
+    background-color:#34709c3c;
+    color: black;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin: 0;
+}
+
+.manual-h4 {
+    text-transform: capitalize;
+    font-size: 0.9rem;
+    background-color:#34709c32;
+    color: black;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin: 0;
+}
+
+.primary-index {
+    font-weight: 600;
+}
+
+.secondary-index {
+    padding-left: 32px;
+}
+
+.tertiary-index {
+    padding-left: 48px;
+}
+
+.emphasize {
+    color: palevioletred;
+    font-style: italic;
+    font-weight: 500;
+}
+
 @media only screen and (max-width: 767px) {
     .ship-titles {
         display: none; /* Hide the entire row for mobile devices */

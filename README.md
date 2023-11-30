@@ -4,6 +4,7 @@
 [] - Number of points in the cloud
 [] - Estimated number of scans
 [] - Area Type
+[] - Completion Date
 
 ## Create Virtual Environment
 
