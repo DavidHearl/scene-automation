@@ -44,10 +44,13 @@
         <button class="btn expand-button no-hover-background" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
             <!-- Primary Row -->
             <div class="row">
-                <div class="col-6 text-start">
+                <div class="col-4 text-start">
                     <h3>{{ ship.name }}</h3>
                 </div>
-                <div class="col-6 text-end">
+                <div class="col-4 text-center">
+                    <h4>Priority: {{ ship.priority }}</h4>
+                </div>
+                <div class="col-4 text-end">
                     <h3>Contract Number: {{ ship.contract_number }}</h3>
                 </div>
             </div>
