@@ -41,37 +41,40 @@
 
     <!-- Ship button card drop down -->
     {% for ship in ships|sort_with_zero_first:"contract_number" %}
+        <!-- Percentage Bar -->
+        <div class="progress rounded-top">
+            <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
+        </div>
         <button class="btn expand-button no-hover-background" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">
             <!-- Primary Row -->
             <div class="row">
-                <div class="col-4 text-start">
-                    <h3>{{ ship.name }}</h3>
+                <div class="col-6 text-start">
+                    <h3 class="overview-text">{{ ship.name }}</h3>
                 </div>
-                <div class="col-4 text-center">
-                    <h4>Priority: {{ ship.priority }}</h4>
-                </div>
-                <div class="col-4 text-end">
-                    <h3>Contract Number: {{ ship.contract_number }}</h3>
+                <div class="col-6 text-end">
+                    <h3 class="overview-text">Contract Number: {{ ship.contract_number }}</h3>
                 </div>
             </div>
             <!-- Secondary Row -->
             <div class="row">
-                <div class="col-4 text-start">
-                    <h4>Areas: {{ ship.area_set.all.count }}</h4>
+                <div class="col-6 text-start">
+                    <h4 class="overview-text">Scan Total: {{ ship.total_scans }}</h4>
                 </div>
-                <!-- Hidden Completion time -->
-                <div class="col-4 text-center">
-                    {% if user.is_authenticated %}
-                        <h4>Estimated Completion: {{ ship.estimated_completion }} Days</h4>
-                    {% endif %}
-                </div>
-                <div class="col-4 text-end">
-                    <h4>Scan Total: {{ ship.total_scans }}</h4>
+                <div class="col-6 text-end">
+                    <h4 class="overview-text">Priority: {{ ship.priority }}</h4>
                 </div>
             </div>
-            <!-- Percentage Bar -->
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
+            <!-- Tertiary Row -->
+            <div class="row">
+                <div class="col-6 text-start">
+                    <h4 class="overview-text">Areas: {{ ship.area_set.all.count }}</h4>
+                </div>
+                <!-- Hidden Completion time -->
+                <div class="col-6 text-end">
+                    {% if user.is_authenticated %}
+                        <h4 class="overview-text">Completion: <strong>{{ ship.estimated_completion }}</strong> Days</h4>
+                    {% endif %}
+                </div>
             </div>
         </button>
 
@@ -87,7 +90,7 @@
                                 <input type="hidden" name="ship" value="{{ ship.id }}">
                                 <!-- Row 0 -->
                                 <div class="row ship-titles">
-                                    <div class="col-3 process-status"><h5 class="process-heading text-center">Area</h5></div>
+                                    <div class="col-3 process-status"><h5 class="process-heading text-start">Area</h5></div>
                                     <div class="col-1 process-status"><h5 class="process-heading text-center"># Scans</h5></div>
                                     <div class="col-1 process-status"><h5 class="process-heading text-center">Imported</h5></div>
                                     <div class="col-1 process-status"><h5 class="process-heading text-center">Processed</h5></div>
@@ -170,7 +173,7 @@
                                 <div class="row">
                                     <!-- Area Priority -->
                                     <div class="col-3 col-md-2 area-form">
-                                        <select name="priority">
+                                        <select class="text-center" name="priority">
                                             {% for choice_value, choice_label in area.PRIORITY_CHOICES %}
                                                 <option value="{{ choice_value }}" {% if choice_value == area.priority %}selected{% endif %}>
                                                     {{ choice_label }}
@@ -191,7 +194,7 @@
                                         <p class="data-label">Point Cloud:</p>
                                     </div>
                                     <div class="col-3 col-md-2 area-form">
-                                        <input type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
+                                        <input class="text-center" type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
                                     </div>
                                     <!-- Label -->
                                     <div class="col-2 col-md-1 area-form">
@@ -199,20 +202,22 @@
                                     </div>
                                     <!-- Raw File Size -->
                                     <div class="col-2 col-md-1 area-form">
-                                        <input type="text" name="raw_size" value="{{ area.raw_size }}">
+                                        <input class="text-center" type="text" name="raw_size" value="{{ area.raw_size }}">
                                     </div>
                                     <!-- Processed File Fize -->
                                     <div class="col-2 col-md-1 area-form">
-                                        <input type="text" name="processed_size" value="{{ area.processed_size }}">
+                                        <input class="text-center" type="text" name="processed_size" value="{{ area.processed_size }}">
                                     </div>
                                     <!-- Exported File Size -->
                                     <div class="col-2 col-md-1 area-form">
-                                        <input type="text" name="exported_size" value="{{ area.exported_size }}">
+                                        <input class="text-center" type="text" name="exported_size" value="{{ area.exported_size }}">
                                     </div>
                                     <!-- Area Type -->
                                     <div class="col-4 col-md-1 area-form">
                                         <div>
-                                            <div class="area-type">Placeholder</div>
+                                            <div class="area-type">
+                                                <p>Placeholder</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -227,7 +232,7 @@
                             <input type="hidden" name="ship" value="{{ ship.id }}">
                             <!-- Table Title -->
                             <div class="row ship-titles">
-                                <div class="col-3"><h5 class="process-heading text-center">Area</h5></div>
+                                <div class="col-3"><h5 class="process-heading text-start">Area</h5></div>
                                 <div class="col-1 process-status"><h5 class="process-heading text-center"># Scans</h5></div>
                                 <div class="col-1 process-status"><h5 class="process-heading text-center">Imported</h5></div>
                                 <div class="col-1 process-status"><h5 class="process-heading text-center">Processed</h5></div>
@@ -252,30 +257,35 @@
                                 <div class="col-3 col-md-1 area-form">{{ area_form.uploaded }}</div>
                             </div>
                             <div class="row">
-                                <div class="col-12 area-form">
+                                <div class="col-10 col-md-3 area-form">{{ area_form.priority }}</div>
+                                <div class="col-2 col-md-1 area-form"><p class="data-label">Point Cloud:</p></div>
+                                <div class="col-3 col-md-2 area-form">{{ area_form.point_cloud_size }}</div>
+                                <div class="col-2 col-md-1 area-form"><p class="data-label">Size (GB):</p></div>
+                                <div class="col-2 col-md-1 area-form">{{ area_form.raw_size }}</div>
+                                <div class="col-2 col-md-1 area-form">{{ area_form.processed_size }}</div>
+                                <div class="col-2 col-md-1 area-form">{{ area_form.exported_size }}</div>
+                                <div class="col-2 area-form">
                                     <button type="submit" class="btn add-area-button">Add Area
-
-                                    </button>
                                 </div>
-                            </div>           
+                            </div>
                         </form>
                     </div>
                 <!-- Non authenticated data -->
                 {% else %}
-                    <div class="row">
-                        <div class="col-3 process-status"><h5 class="process-heading text-center">Area</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center"># Scans</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Imported</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Processed</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Registered</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Aligned</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Cleaned</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Point Cloud</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Exported</h5></div>
-                        <div class="col-1 process-status"><h5 class="process-heading text-center">Uploaded</h5></div>                     
-                    </div>
-                    {% for area in ship.area_set.all|dictsort:"area_name" %}
-                        <div class="container">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-3 process-status"><h5 class="process-heading text-starts">Area</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center"># Scans</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Imported</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Processed</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Registered</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Aligned</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Cleaned</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Point Cloud</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Exported</h5></div>
+                            <div class="col-1 process-status"><h5 class="process-heading text-center">Uploaded</h5></div>                     
+                        </div>
+                        {% for area in ship.area_set.all|dictsort:"area_name" %}
                             <div class="row">
                                 <div class="col-3 process-status"><p class="area-title">{{ area.area_name }}</p></div>
                                 <div class="col-1 process-status text-center"><p class="area-title">{{ area.scans }}</p></div>
@@ -288,8 +298,8 @@
                                 <div class="col-1 process-status text-center"><p class="status-box {{ area.exported }}">{{ area.exported }}</p></div>
                                 <div class="col-1 process-status text-center"><p class="status-box {{ area.uploaded }}">{{ area.uploaded }}</p></div>
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 {% endif %}
             </div>
         </div>
