@@ -40,7 +40,7 @@
     </div>
 
     <!-- Ship button card drop down -->
-    {% for ship in ships|sort_with_zero_first:"contract_number" %}
+    {% for ship in ships %}
         <!-- Percentage Bar -->
         <div class="progress rounded-top">
             <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>

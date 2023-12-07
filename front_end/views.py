@@ -138,8 +138,18 @@ def ships_and_areas(request):
         ship.completed_percentage = calculate_completed_percentage(ship)
         ship.estimated_completion = calculate_estimated_completion(ship)
 
+    # Define a sorting key function
+    def sorting_key(ship):
+        if ship.completed_percentage >= 100:
+            return (-4, ship.contract_number)  # Priority is disregarded if completion is 100% or more
+        else:
+            return (-ship.priority, -ship.completed_percentage, ship.contract_number)
+
+    # Sort ships based on the new sorting key
+    sorted_ships = sorted(ships, key=sorting_key, reverse=True)
+
     context = {
-        'ships': ships,
+        'ships': sorted_ships,
         'completed_percentages': [ship.completed_percentage for ship in ships],
         'areas': areas,
         'total_scans': total_scans,
