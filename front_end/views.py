@@ -1,9 +1,11 @@
+import time
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.db.models import Sum, Count
+from django.db.models import Sum, Count, F
 from .models import Ship, Area
 from .forms import ShipForm, AreaForm
+from functools import wraps
 
 
 # Time in minutes
@@ -16,6 +18,18 @@ critical_error_time = 45
 time_per_area_failed = 30
 
 
+def timing_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"{func.__name__} took {end_time - start_time} seconds")
+        return result
+    return wrapper
+
+
+# @timing_decorator
 def calculate_completed_percentage(ship):
     # Move the completed_percentage function logic here
     ship_total_scans = ship.total_scans()
@@ -40,6 +54,7 @@ def calculate_completed_percentage(ship):
     return round(percentage, 1)
 
 
+# @timing_decorator
 def calculate_estimated_completion(ship):
     total_scans = ship.total_scans()
     completed_percentage = calculate_completed_percentage(ship)
@@ -69,33 +84,34 @@ def calculate_estimated_completion(ship):
     return round(estimated_time, 2)
 
 
+@timing_decorator
 def total_estimated_completion_for_all_ships():
     # Iterate over all ships and sum their estimated completion times
     total_estimated_time_for_all_ships = sum(calculate_estimated_completion(ship) for ship in Ship.objects.all())
     return round(total_estimated_time_for_all_ships, 2)
 
 
+@timing_decorator
 def ships_and_areas(request):
-    # Calculate the total scans for all areas
+    # Fetch ships and areas
+    ships = Ship.objects.all().prefetch_related('area_set')
+    areas = Area.objects.all()
+
+    # Calculate the total scans for all areas using database aggregation
     total_scans = Area.objects.aggregate(total_scans=Sum('scans'))['total_scans'] or 0
 
-    # Calculate the number of ships
-    num_ships = Ship.objects.count()
-    num_areas = Area.objects.count()
+    # Calculate the number of ships and areas
+    num_ships = ships.count()
+    num_areas = areas.count()
 
-    # Calculate the average areas per ship
-    avg_areas_per_ship = round(num_areas / num_ships, 0)
+    # Calculate the average areas per ship and scans per ship
+    avg_areas_per_ship = round(num_areas / num_ships) if num_ships != 0 else 0
+    avg_scans_per_ship = round(total_scans / num_ships) if num_ships != 0 else 0
 
-    # Calculate the average scans per ship
-    avg_scans_per_ship = round(total_scans / num_ships, 0)
-
-    avg_completion_time = round(avg_scans_per_ship * 20)
-    avg_completion_time = round(avg_completion_time / (60 * 8), 1)
-
+    avg_completion_time = round(avg_scans_per_ship * 20 / (60 * 8), 1)
+    
+    # Calculate total estimated completion time
     total_estimated_completion = total_estimated_completion_for_all_ships()
-
-    ships = Ship.objects.all()
-    areas = Area.objects.all()
 
     # Add ship
     if request.method == 'POST':
@@ -117,10 +133,10 @@ def ships_and_areas(request):
     else:
         area_form = AreaForm()
 
+    # Calculate completed percentage and estimated completion for each ship
     for ship in ships:
         ship.completed_percentage = calculate_completed_percentage(ship)
         ship.estimated_completion = calculate_estimated_completion(ship)
-        print(f"Ship: {ship.name}, Completed Percentage: {ship.completed_percentage}, Estimated Completion: {ship.estimated_completion}")
 
     context = {
         'ships': ships,
@@ -133,8 +149,8 @@ def ships_and_areas(request):
         'avg_scans_per_ship': avg_scans_per_ship,
         'avg_completion_time': avg_completion_time,
         'total_estimated_completion': total_estimated_completion,
-        'ship_form' : ship_form,
-        'area_form' : area_form,
+        'ship_form': ship_form,
+        'area_form': area_form,
     }
 
     return render(request, 'front_end/front_end.html', context)

@@ -1,13 +1,5 @@
 from django.db import models
 
-# Time in minutes
-hours_per_workday = 8
-time_per_scan = 20
-time_per_area = 60
-minor_error_time = 15
-major_error_time = 30
-critical_error_time = 45
-time_per_area_failed = 30
 
 class Ship(models.Model):
     PRIORITY_CHOICES = (
