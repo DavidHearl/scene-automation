@@ -138,6 +138,18 @@ def ships_and_areas(request):
         ship.completed_percentage = calculate_completed_percentage(ship)
         ship.estimated_completion = calculate_estimated_completion(ship)
 
+        # Calculate completion status for each area of the current ship
+        for area in ship.area_set.all():
+            area.is_completed = (
+                area.scans != 0
+                and area.point_cloud_size != 0
+                and area.raw_size != 0
+                and area.processed_size != 0
+                and area.exported_size != 0
+                and all(getattr(area, field) == "Completed" for field in ['imported', 'processed', 'registered', 'aligned', 'cleaned', 'point_cloud', 'exported', 'uploaded'])
+            )
+
+
     # Define a sorting key function
     def sorting_key(ship):
         if ship.completed_percentage >= 100:
@@ -196,3 +208,4 @@ def delete_area(request, area_id):
     area.delete()
     messages.success(request, 'Area deleted successfully.')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

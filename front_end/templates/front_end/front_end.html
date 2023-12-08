@@ -105,7 +105,7 @@
                                 <div class="row">
                                     <!-- Area Name -->
                                     <div class="col-9 col-md-3 area-form inline">
-                                        <div class="status-symbol"></div>
+                                        <div class="status-symbol {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}"></div>
                                         <input class="area-margin" type="text" name="area_name" value="{{ area.area_name }}">
                                     </div>
                                     <!-- Number of Scans -->
