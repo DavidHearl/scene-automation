@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+p {
+    margin: 0;
+}
+
 nav {
     background-color: #001e2a;
 }
@@ -414,6 +418,20 @@ footer {
     margin-top: 4px;
 }
 
+.all-completed,
+.not-completed {
+    border: 1px solid;
+    text-align: center;
+}
+
+.all-completed {
+    background: #56bd45;
+}
+
+.not-completed {
+    background: #bd4545;
+}
+
 /* Manual */
 .manual {
     margin-top: 32px;
@@ -504,16 +522,4 @@ table {
         font-size: 0.75rem;
 
     }
-}
-
-.all-completed {
-    background: #56bd45;
-    border: 1px solid;
-    text-align: center;
-}
-
-.not-completed {
-    background: #bd4545;
-    border: 1px solid;
-    text-align: center;
 }

@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'cloudinary',
     'front_end',    
-    'scanning_manual',    
+    'scanning_manual',
+    'data',
 ]
 
 MIDDLEWARE = [

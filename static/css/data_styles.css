@@ -1,0 +1,36 @@
+.col-2 {
+    padding: 0;
+}
+
+.title {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 16px;
+    padding: 4px;
+    border: 1px solid;
+    background: cornflowerblue;
+    border-radius: 8px;
+}
+
+.child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    margin: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+}
+
+.all-completed {
+    background: greenyellow;
+}
+
+.not-completed {
+    background: red;
+}
+
+p {
+    font-size: 0.8rem;
+}

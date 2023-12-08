@@ -9,4 +9,5 @@ urlpatterns = [
     path('front_end/', include('front_end.urls')),
     path('accounts/', include('allauth.urls')),
     path('scanning_manual/', include('scanning_manual.urls')),
+    path('data/', include('data.urls')),
 ]
