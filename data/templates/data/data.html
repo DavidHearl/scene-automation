@@ -12,12 +12,41 @@
 {% block content %}
 
 <div class="container">
+    <div class="row key">
+        <div class="col-2">
+            <div class="inline">
+                <div class="all-completed-key all-completed"></div>
+                <p>Data Fully Populated</p>
+            </div>
+            <div class="inline">
+                <div class="not-completed-key not-completed"></div>
+                <p>Data not fully populated</p>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="row">
+                <div class="col-2 summary-heading">Total Scans</div>
+                <div class="col-2 summary-heading">Total Ships</div>
+                <div class="col-2 summary-heading">Total Areas</div>
+            </div>
+            <!-- Data Summary Values -->
+            <div class="row">
+                <div class="col-2 summary-values">{{ total_scans }}</div>
+                <div class="col-2 summary-values">{{ num_ships }}</div>
+                <div class="col-2 summary-values">{{ num_areas }}</div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <h2 class="text-center title">Ships</h2>
         {% for ship in ships %}
             <div class="col-2 content-container">
                 <div class="child">
-                    <p>{{ ship.name }}</p>
+                    <div class="block">
+                        <p class="ship-title">{{ ship.name }}</p>
+                        <p>Scans: {{ ship.total_scans }}</p>
+                        <p>Areas: {{ ship.area_set.all.count }}</p>
+                    </div>
                 </div>
             </div>
         {% endfor %}
@@ -25,15 +54,20 @@
     <div class="row">
         <h2 class="text-center title">Areas</h2>
         {% for ship in ships %}
-        {% for area in ship.area_set.all|dictsort:"area_name" %}
-            <div class="col-2 text-center">
-                <div class="child {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}">
-                    <p>{{ area.area_name }}</p>
+            {% for area in ship.area_set.all|dictsort:"area_name" %}
+                <div class="col-2 text-center">
+                    <div class="child {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}">
+                        <div class="block">
+                            <p class="ship-title">{{ ship.name }}</p>
+                            <p>{{ area.area_name }}</p>
+                            <p>Scans: {{ area.scans }}</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
         {% endfor %}
     </div>
 </div>
 
 {% endblock %}
+

@@ -17,18 +17,41 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px;
+    min-height: 88px;
     margin: 8px;
     border-radius: 8px;
     border: 1px solid black;
+    padding: 4px;
+}
+
+.block {
+    display: block;
+    text-align: center;
+}
+
+.all-completed-key,
+.not-completed-key {
+    border: 1px solid;
+    text-align: center;
+    height: 16px;
+    width: 16px;
+    margin: 2px 8px 0 0;
 }
 
 .all-completed {
-    background: greenyellow;
+    background: rgb(46, 204, 113);
 }
 
 .not-completed {
-    background: red;
+    background: rgb(231, 76, 60);
+}
+
+.key {
+    margin-top: 12px;
+}
+
+.ship-title {
+    font-weight: 700;
 }
 
 p {
