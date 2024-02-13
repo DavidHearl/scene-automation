@@ -504,6 +504,35 @@ table {
     font-size: 0.85rem;
 }
 
+/* Modify Scroll */
+/* For WebKit-based browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #34709c;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+@media only screen and (max-width: 1400px) {
+    .container {
+        width: 100%;
+        padding-right: 48px;
+        padding-left: 16px;
+        margin-right: 16px;
+        margin-left: 16px;
+        max-width: 1350px;
+    }
+    
+    .select {
+        font-size: 0.7rem;
+    }
+}
+
 @media only screen and (max-width: 1024px) {
     .area-title {
         font-size: 0.7rem;

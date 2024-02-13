@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
 from front_end.models import Ship, Area
 from functools import wraps
+from django.db.models import Q
 
 
 # Time in minutes
@@ -26,6 +27,17 @@ def timing_decorator(func):
         print(f"{func.__name__} took {end_time - start_time} seconds")
         return result
     return wrapper
+
+
+def area_view(request):
+    areas = Area.objects.exclude(Q(scans=0) | Q(point_cloud_size=0))
+    max_scans = areas.aggregate(Max('scans'))['scans__max']
+    max_point_cloud_size = areas.aggregate(Max('point_cloud_size'))['point_cloud_size__max']
+    return render(request, 'data.html', {
+        'areas': areas,
+        'max_scans': max_scans,
+        'max_point_cloud_size': max_point_cloud_size
+    })
 
 
 # @timing_decorator

@@ -41,7 +41,7 @@ class Area(models.Model):
         (3, 'Priority 3'),
     )
 
-    default_value = "Completed"
+    default_value = "Queued"
 
     ship = models.ForeignKey(Ship, on_delete=models.CASCADE)
     area_name = models.CharField(max_length=200)

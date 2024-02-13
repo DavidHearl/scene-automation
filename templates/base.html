@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>
-        {% block title %}My Site{% endblock %}
+        {% block title %}{% endblock %}
     </title>
     
     {% block meta %}
@@ -43,10 +43,6 @@
 </head>
 
 <body>
-    <header>
-        <title></title>
-    </header>
-
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <!-- Standard Navigation Menu -->
@@ -58,6 +54,7 @@
             <a class="standard-nav-link" href="{% url 'ships_and_areas' %}">Home</a>
             <a class="standard-nav-link" href="{% url 'manual_page' %}">Manual</a>
             <a class="standard-nav-link" href="{% url 'data_view' %}">Data</a>
+            <a class="standard-nav-link" href="">Bookings</a>
             <a class="standard-nav-link" href="">Theory</a>
             <!-- Authenticated User Menu -->
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
@@ -84,7 +81,7 @@
                                 </li>
                                 {% if user.is_superuser %}
                                     <li>
-                                        <a class="dropdown-item" href="admin">
+                                        <a class="dropdown-item" href="{% url 'admin:index' %}">
                                             <i class="fas fa-key nav-icon"></i>Admin
                                         </a>
                                     </li>

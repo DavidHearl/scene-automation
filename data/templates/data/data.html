@@ -38,6 +38,10 @@
         </div>
     </div>
     <div class="row">
+        <!-- Canvas for the chart -->
+        <canvas id="myChart"></canvas>
+    </div>
+    <div class="row">
         <h2 class="text-center title">Ships</h2>
         {% for ship in ships %}
             <div class="col-2 content-container">
@@ -68,6 +72,60 @@
         {% endfor %}
     </div>
 </div>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'Scans vs Point Cloud',
+                data: [
+                    {% for area in areas %}
+                    {
+                        y: {{ area.point_cloud_size }},
+                        x: {{ area.scans }},
+                        label: '{{ area.area_name }}'  // Add this line
+                    },
+                    {% endfor %}
+                ],
+                backgroundColor: 'rgba(0, 123, 255, 0.5)'
+            }]
+        },
+        options: {
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem, data) {
+                        var label = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].label;
+                        return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    max: 100,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Scans'
+                    }
+                },
+                y: {
+                    max: 1000000000,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Point Cloud Size'
+                    }
+                }
+                
+            }
+        }
+    });
+</script>
 
 {% endblock %}
 
