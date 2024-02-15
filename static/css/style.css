@@ -325,6 +325,10 @@ select {
     color: white;
 }
 
+.Not {
+    background-color: #8db9f9;
+}
+
 .navigation-item {
     color: white;
 }
