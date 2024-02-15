@@ -14,4 +14,5 @@ class AreaForm(forms.ModelForm):
         widgets = {
             'status': forms.Select(choices=Area.STATUS_CHOICES),
             'priority': forms.Select(choices=Area.PRIORITY_CHOICES),
+            'machine': forms.Select(choices=Area.AVAILABLE_MACHINES),
         }

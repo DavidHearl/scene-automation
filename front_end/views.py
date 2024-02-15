@@ -45,7 +45,7 @@ def calculate_completed_percentage(ship):
         process_weighting = [12.5, 100, 100, 12.5, 75, 100, 500, 100]
 
         for i, status in enumerate(process_stage):
-            if getattr(area, status) == "Completed" or getattr(area, status) == "Legacy" or getattr(area, status) == "No Data":
+            if getattr(area, status) == "Completed" or getattr(area, status) == "Legacy" or getattr(area, status) == "No Data" or getattr(area, status) == "Not Required":
                 weighting += process_weighting[i]
 
         area_percentage = (100 * (weighting/1000) * (int(area.scans) / int(ship_total_scans)))
@@ -113,6 +113,33 @@ def ships_and_areas(request):
     # Calculate total estimated completion time
     total_estimated_completion = total_estimated_completion_for_all_ships()
 
+    try:
+        area_1 = get_object_or_404(Area, machine='Machine 1')
+        machine_value_1 = area_1.machine
+        machine_ship_name_1 = area_1.ship
+        machine_area_name_1 = area_1.area_name
+    except:
+        machine_ship_name_1 = None
+        machine_area_name_1 = None
+
+    try:
+        area_2 = get_object_or_404(Area, machine='Machine 2')
+        machine_value_2 = area_2.machine
+        machine_ship_name_2 = area_2.ship
+        machine_area_name_2 = area_2.area_name
+    except:
+        machine_ship_name_2 = None
+        machine_area_name_2 = None
+
+    try:
+        area_3 = get_object_or_404(Area, machine='Machine 3')
+        machine_value_3 = area_3.machine
+        machine_ship_name_3 = area_3.ship
+        machine_area_name_3 = area_3.area_name
+    except:
+        machine_ship_name_3 = None
+        machine_area_name_3 = None
+
     # Add ship
     if request.method == 'POST':
         ship_form = ShipForm(request.POST)
@@ -173,6 +200,12 @@ def ships_and_areas(request):
         'total_estimated_completion': total_estimated_completion,
         'ship_form': ship_form,
         'area_form': area_form,
+        'machine_ship_name_1': machine_ship_name_1,
+        'machine_ship_name_2': machine_ship_name_2,
+        'machine_ship_name_3': machine_ship_name_3,
+        'machine_area_name_1': machine_area_name_1,
+        'machine_area_name_2': machine_area_name_2,
+        'machine_area_name_3': machine_area_name_3,
     }
 
     return render(request, 'front_end/front_end.html', context)

@@ -31,7 +31,9 @@ class Area(models.Model):
         ("Critical Fail", "Critical Fail"),
         ("Queued", "Queued"),
         ("WIP", "WIP"),
-        ("Completed", "Completed")
+        ("Completed", "Completed"),
+        ("Hold", "Hold"),
+        ("Not Required", "Not Required")
     ]
 
     PRIORITY_CHOICES = (
@@ -40,6 +42,13 @@ class Area(models.Model):
         (2, 'Priority 2'),
         (3, 'Priority 3'),
     )
+
+    AVAILABLE_MACHINES = [
+        ("Machine 1", "Machine 1"),
+        ("Machine 2", "Machine 2"),
+        ("Machine 3", "Machine 3"),
+        ("-", "-")
+    ]
 
     default_value = "Queued"
 
@@ -51,6 +60,7 @@ class Area(models.Model):
     processed_size = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     exported_size = models.DecimalField(max_digits=5, decimal_places=2,default=0)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, blank=False)
+    machine = models.CharField(max_length=20, choices=AVAILABLE_MACHINES, default="-")
 
     # Processing Operations
     imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)

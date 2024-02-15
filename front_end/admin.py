@@ -13,7 +13,9 @@ class AreaAdmin(admin.ModelAdmin):
         'ship',
         'area_name',
         'scans',
-        'point_cloud_size'
+        'point_cloud_size',
+        'machine'
+
     )
     list_filter = ('ship',)  # Add a filter for 'ship'
 

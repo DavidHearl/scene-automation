@@ -12,16 +12,17 @@
 
 <div class="container">
     <!-- Login Notification -->
-    {% if not user.is_authenticated %}
+    <!-- {% if not user.is_authenticated %}
         <div class="row">
             <div class="col-12">
                 <p class="login-notification">Signup is now working correctly. Please register for a tailored experience</p>
             </div>
         </div>
-    {% endif %}
+    {% endif %} -->
     <!-- Days remaining -->
     <div class="row">
-        <h2 class="time-remaining">{{ total_estimated_completion }} Days Remaining</h2> 
+        <h2 class="time-remaining">{{ total_estimated_completion }} Days Remaining</h2>
+        
     </div>
     <hr>
     <!-- Data Summary Titles -->
@@ -41,6 +42,39 @@
         <div class="col-2 summary-values">{{ avg_areas_per_ship }}</div>
         <div class="col-2 summary-values">{{ avg_scans_per_ship }}</div>
         <div class="col-2 summary-values">{{ avg_completion_time }} Days</div>
+    </div>
+
+    <!-- Current Machine Processing -->
+    <div class="row current-machine-job">
+        <div class="col-12 col-md-4">
+            <div class="machine-status-inactive"></div>
+            <div class="current-job-box">
+                <h4 class="machine-title">Frankenstein</h4>
+                <h5 class="current-machine-job">Currently Processing: {{ machine_ship_name_1 }}, {{ machine_area_name_1 }}</h5>
+                <!-- <p>Estimated Completion: { estimated_completion_time }</p> -->
+                <p>Processing Responsibility: 64%</p>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4"">
+            <div class="machine-status-active"></div>
+            <div class="current-job-box">
+                <h4 class="machine-title">Design Laptop 1</h4>
+                <h5 class="current-machine-job">Currently Processing: {{ machine_ship_name_2 }}, {{ machine_area_name_2 }}</h5>
+                <!-- <p>Estimated Completion: { estimated_completion_time }</p> -->
+                <p>Processing Responsibility: 18%</p>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4"">
+            <div class="machine-status-active"></div>
+            <div class="current-job-box">
+                <h4 class="machine-title">Design Laptop 2</h4>
+                <h5 class="current-machine-job">Currently Processing: {{ machine_ship_name_3 }}, {{ machine_area_name_3 }}</h5>
+                <!-- <p>Estimated Completion: { estimated_completion_time }</p> -->
+                <p>Processing Responsibility: 18%</p>
+            </div>
+        </div>
     </div>
 
     <!-- Ship button card drop down -->
@@ -216,13 +250,15 @@
                                     <div class="col-2 col-md-1 area-form">
                                         <input class="text-center" type="text" name="exported_size" value="{{ area.exported_size }}">
                                     </div>
-                                    <!-- Area Type -->
+                                    <!-- Processing Machine -->
                                     <div class="col-4 col-md-1 area-form">
-                                        <div>
-                                            <div class="area-type">
-                                                <p>Placeholder</p>
-                                            </div>
-                                        </div>
+                                        <select class="text-center" name="machine">
+                                            {% for choice_value, choice_label in area.AVAILABLE_MACHINES %}
+                                                <option value="{{ choice_value }}" {% if choice_value == area.machine %}selected{% endif %}>
+                                                    {{ choice_label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
                                 </div>
                             </form>
