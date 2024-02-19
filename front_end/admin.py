@@ -22,6 +22,7 @@ class MachineAdmin(admin.ModelAdmin):
         'name',
     )
 
+
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Machine, MachineAdmin)
