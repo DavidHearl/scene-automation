@@ -3,14 +3,14 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
-from .models import Ship, Area
-from .forms import ShipForm, AreaForm
+from .models import Ship, Area, Machine
+from .forms import ShipForm, AreaForm, MachineForm
 from functools import wraps
 
 
 # Time in minutes
 hours_per_workday = 8
-time_per_scan = 20
+time_per_scan = 25
 time_per_area = 60
 minor_error_time = 15
 major_error_time = 30
@@ -96,6 +96,7 @@ def ships_and_areas(request):
     # Fetch ships and areas
     ships = Ship.objects.all().prefetch_related('area_set')
     areas = Area.objects.all()
+    machines = Machine.objects.all()
 
     # Calculate the total scans for all areas using database aggregation
     total_scans = Area.objects.aggregate(total_scans=Sum('scans'))['total_scans'] or 0
@@ -112,33 +113,6 @@ def ships_and_areas(request):
     
     # Calculate total estimated completion time
     total_estimated_completion = total_estimated_completion_for_all_ships()
-
-    try:
-        area_1 = get_object_or_404(Area, machine='Machine 1')
-        machine_value_1 = area_1.machine
-        machine_ship_name_1 = area_1.ship
-        machine_area_name_1 = area_1.area_name
-    except:
-        machine_ship_name_1 = None
-        machine_area_name_1 = None
-
-    try:
-        area_2 = get_object_or_404(Area, machine='Machine 2')
-        machine_value_2 = area_2.machine
-        machine_ship_name_2 = area_2.ship
-        machine_area_name_2 = area_2.area_name
-    except:
-        machine_ship_name_2 = None
-        machine_area_name_2 = None
-
-    try:
-        area_3 = get_object_or_404(Area, machine='Machine 3')
-        machine_value_3 = area_3.machine
-        machine_ship_name_3 = area_3.ship
-        machine_area_name_3 = area_3.area_name
-    except:
-        machine_ship_name_3 = None
-        machine_area_name_3 = None
 
     # Add ship
     if request.method == 'POST':
@@ -159,6 +133,16 @@ def ships_and_areas(request):
             return redirect('ships_and_areas')
     else:
         area_form = AreaForm()
+
+    # Add machine
+    if request.method == 'POST':
+        machine_form = MachineForm(request.POST)
+        if machine_form.is_valid():
+            machine = machine_form.save()
+            messages.success(request, 'Machine added successfully.')
+            return redirect('ships_and_areas')
+    else:
+        machine_form = MachineForm()
 
     # Calculate completed percentage and estimated completion for each ship
     for ship in ships:
@@ -191,6 +175,7 @@ def ships_and_areas(request):
         'ships': sorted_ships,
         'completed_percentages': [ship.completed_percentage for ship in ships],
         'areas': areas,
+        'machines': machines,
         'total_scans': total_scans,
         'num_ships': num_ships,
         'num_areas': num_areas,
@@ -200,12 +185,7 @@ def ships_and_areas(request):
         'total_estimated_completion': total_estimated_completion,
         'ship_form': ship_form,
         'area_form': area_form,
-        'machine_ship_name_1': machine_ship_name_1,
-        'machine_ship_name_2': machine_ship_name_2,
-        'machine_ship_name_3': machine_ship_name_3,
-        'machine_area_name_1': machine_area_name_1,
-        'machine_area_name_2': machine_area_name_2,
-        'machine_area_name_3': machine_area_name_3,
+        'machine_form': machine_form,
     }
 
     return render(request, 'front_end/front_end.html', context)

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ship, Area
+from .models import Ship, Area, Machine
 
 class ShipForm(forms.ModelForm):
     class Meta:
@@ -15,3 +15,8 @@ class AreaForm(forms.ModelForm):
             'status': forms.Select(choices=Area.STATUS_CHOICES),
             'priority': forms.Select(choices=Area.PRIORITY_CHOICES),
         }
+
+class MachineForm(forms.ModelForm):
+    class Meta:
+        model = Machine
+        fields = ('currently_processing',)
