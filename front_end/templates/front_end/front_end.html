@@ -253,11 +253,7 @@
                                     <!-- Processing Machine -->
                                     <div class="col-4 col-md-1 area-form">
                                         <select class="text-center" name="machine">
-                                            {% for choice_value, choice_label in area.AVAILABLE_MACHINES %}
-                                                <option value="{{ choice_value }}" {% if choice_value == area.machine %}selected{% endif %}>
-                                                    {{ choice_label }}
-                                                </option>
-                                            {% endfor %}
+                                            
                                         </select>
                                     </div>
                                 </div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ship, Area
+from .models import Ship, Area, Machine
 
 class ShipAdmin(admin.ModelAdmin):
     list_display = (
@@ -14,10 +14,14 @@ class AreaAdmin(admin.ModelAdmin):
         'area_name',
         'scans',
         'point_cloud_size',
-        'machine'
-
     )
     list_filter = ('ship',)  # Add a filter for 'ship'
 
+class MachineAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)
+admin.site.register(Machine, MachineAdmin)

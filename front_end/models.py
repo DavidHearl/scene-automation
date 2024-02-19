@@ -43,13 +43,6 @@ class Area(models.Model):
         (3, 'Priority 3'),
     )
 
-    AVAILABLE_MACHINES = [
-        ("Machine 1", "Machine 1"),
-        ("Machine 2", "Machine 2"),
-        ("Machine 3", "Machine 3"),
-        ("-", "-")
-    ]
-
     default_value = "Queued"
 
     ship = models.ForeignKey(Ship, on_delete=models.CASCADE)
@@ -60,7 +53,6 @@ class Area(models.Model):
     processed_size = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     exported_size = models.DecimalField(max_digits=5, decimal_places=2,default=0)
     priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, blank=False)
-    machine = models.CharField(max_length=20, choices=AVAILABLE_MACHINES, default="-")
 
     # Processing Operations
     imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
@@ -75,3 +67,47 @@ class Area(models.Model):
     def __str__(self):
         return self.area_name
 
+
+class Machine(models.Model):
+    MACHINE_STATUS = [
+        ("Idle", "Idle"),
+        ("Active", "Active"),
+    ]
+
+    name = models.CharField(max_length=200)
+    status = models.CharField(max_length=20, choices=MACHINE_STATUS, default="Idle")
+
+    # CPU Specifications
+    cpu = models.CharField(max_length=50)
+    cpu_core_count = models.IntegerField()
+    cpu_thread_count = models.IntegerField()
+    cpu_base_frequency = models.DecimalField(max_digits=5, decimal_places=2)
+    cpu_turbo_frequency = models.DecimalField(max_digits=5, decimal_places=2)
+    cpu_cache = models.IntegerField()
+    cpu_tdp = models.IntegerField()
+    
+    # CPU Benchmarks
+    cpu_interger_math = models.IntegerField()
+    cpu_floating_point_math = models.IntegerField()
+    cpu_data_encryption = models.IntegerField()
+    cpu_data_compression = models.IntegerField()
+    cpu_single_thread = models.IntegerField()
+
+    # Memory Specifications
+    ram_capacity = models.IntegerField()
+    ram_type = models.CharField(max_length=50)
+    ram_frequency = models.IntegerField()
+
+    # Storage Specifications
+    storage_capacity = models.IntegerField()
+    storage_read_speed = models.IntegerField()
+    storage_write_speed = models.IntegerField()
+
+    # GPU Specifications
+    gpu = models.CharField(max_length=50)
+    gpu_memory = models.IntegerField()
+    gpu_pixel_rate = models.DecimalField(max_digits=10, decimal_places=2)
+    gpu_texture_rate = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
