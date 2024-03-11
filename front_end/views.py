@@ -10,7 +10,7 @@ from functools import wraps
 
 # Time in minutes
 hours_per_workday = 8
-time_per_scan = 25
+time_per_scan = 29
 time_per_area = 60
 minor_error_time = 15
 major_error_time = 30
@@ -18,6 +18,7 @@ critical_error_time = 45
 time_per_area_failed = 30
 
 
+""" Decorator to measure the time taken by a function """
 def timing_decorator(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -29,9 +30,10 @@ def timing_decorator(func):
     return wrapper
 
 
-# @timing_decorator
+""" Calculate the time required to complete the processing per ship """
+@timing_decorator
 def calculate_completed_percentage(ship):
-    # Move the completed_percentage function logic here
+    # Get the total number of scans for the ship
     ship_total_scans = ship.total_scans()
 
     if ship_total_scans == 0:
@@ -42,10 +44,12 @@ def calculate_completed_percentage(ship):
     for area in ship.area_set.all():
         weighting = 0
         process_stage = ["imported", "processed", "registered", "aligned", "cleaned", "point_cloud", "exported", "uploaded"]
-        process_weighting = [12.5, 100, 100, 12.5, 75, 100, 500, 100]
+        process_weighting = [12.5, 150, 200, 12.5, 100, 100, 350, 75]
+
+        completed_statuses = ["Completed", "Legacy", "No Data", "Not Required"]
 
         for i, status in enumerate(process_stage):
-            if getattr(area, status) == "Completed" or getattr(area, status) == "Legacy" or getattr(area, status) == "No Data" or getattr(area, status) == "Not Required":
+            if getattr(area, status) in completed_statuses:
                 weighting += process_weighting[i]
 
         area_percentage = (100 * (weighting/1000) * (int(area.scans) / int(ship_total_scans)))
@@ -216,9 +220,10 @@ def edit_area(request, area_id):
 
     return render(request, 'front_end/front_end.html', context)
 
+@timing_decorator
 def delete_area(request, area_id):
     area = get_object_or_404(Area, pk=area_id)
     area.delete()
     messages.success(request, 'Area deleted successfully.')
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+    return render(request, 'front_end/front_end.html')

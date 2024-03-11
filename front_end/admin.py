@@ -1,11 +1,13 @@
 from django.contrib import admin
 from .models import Ship, Area, Machine
 
+
 class ShipAdmin(admin.ModelAdmin):
     list_display = (
         'name',
         'contract_number',
         'company',
+        'priority',
     )
 
 class AreaAdmin(admin.ModelAdmin):

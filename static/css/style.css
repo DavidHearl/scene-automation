@@ -200,6 +200,7 @@ h4 {
 
 /* Forms */
 .form-button {
+    margin-top: 20px;
     background-color: #001e2a;
     color: white;
 }
