@@ -6,6 +6,7 @@ from django.db.models import Sum, Count, F
 from .models import Ship, Area, Machine
 from .forms import ShipForm, AreaForm, MachineForm
 from functools import wraps
+import datetime
 
 
 # Time in minutes
@@ -118,6 +119,16 @@ def ships_and_areas(request):
     # Calculate total estimated completion time
     total_estimated_completion = total_estimated_completion_for_all_ships()
 
+    # Calculate the number of weeks and days to add to today's date
+    add_week = round(total_estimated_completion / 5)
+    add_day = total_estimated_completion - (add_week * 5)
+
+    # Get today's date
+    today = datetime.date.today()
+
+    # Add 2 days to today's date
+    today += datetime.timedelta(weeks=add_week, days=add_day)
+
     # Add ship
     if request.method == 'POST':
         ship_form = ShipForm(request.POST)
@@ -187,6 +198,7 @@ def ships_and_areas(request):
         'avg_scans_per_ship': avg_scans_per_ship,
         'avg_completion_time': avg_completion_time,
         'total_estimated_completion': total_estimated_completion,
+        'today': today,
         'ship_form': ship_form,
         'area_form': area_form,
         'machine_form': machine_form,

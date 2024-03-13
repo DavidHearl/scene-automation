@@ -55,7 +55,7 @@ class Area(models.Model):
 	processed_size = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	exported_size = models.DecimalField(max_digits=5, decimal_places=2,default=0)
 	priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, blank=False)
-	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
 	# Processing Operations
 	imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
