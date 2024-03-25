@@ -591,6 +591,9 @@ table {
     .select {
         font-size: 0.7rem;
     }
+    .auth-with-fields {
+        width: 70%;
+    }
 }
 
 @media only screen and (max-width: 1024px) {
@@ -599,6 +602,9 @@ table {
     }
     .status-box {
         font-size: 0.75rem;
+    }
+    .auth-with-fields {
+        width: 100%;
     }
 }
 

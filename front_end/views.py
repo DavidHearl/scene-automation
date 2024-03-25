@@ -11,13 +11,16 @@ import datetime
 
 # Time in minutes
 hours_per_workday = 8
-time_per_scan = 29
+time_per_scan = 30
 time_per_area = 60
 minor_error_time = 15
 major_error_time = 30
 critical_error_time = 45
 time_per_area_failed = 30
 
+# Variables to add
+number_of_scans = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+time_per_scan_volume = [15, 30, 45, 60, 75, 90, 105, 120, 135, 150]
 
 """ Decorator to measure the time taken by a function """
 def timing_decorator(func):
@@ -45,7 +48,7 @@ def calculate_completed_percentage(ship):
     for area in ship.area_set.all():
         weighting = 0
         process_stage = ["imported", "processed", "registered", "aligned", "cleaned", "point_cloud", "exported", "uploaded"]
-        process_weighting = [12.5, 150, 200, 12.5, 100, 100, 350, 75]
+        process_weighting = [1, 15, 40, 1, 15, 10, 15, 3]
 
         completed_statuses = ["Completed", "Legacy", "No Data", "Not Required"]
 
@@ -53,13 +56,13 @@ def calculate_completed_percentage(ship):
             if getattr(area, status) in completed_statuses:
                 weighting += process_weighting[i]
 
-        area_percentage = (100 * (weighting/1000) * (int(area.scans) / int(ship_total_scans)))
+        area_percentage = (100 * (weighting/100) * (int(area.scans) / int(ship_total_scans)))
         percentage += area_percentage
 
     return round(percentage, 1)
 
 
-# @timing_decorator
+@timing_decorator
 def calculate_estimated_completion(ship):
     total_scans = ship.total_scans()
     completed_percentage = calculate_completed_percentage(ship)
