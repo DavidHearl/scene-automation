@@ -21,7 +21,9 @@
     {% endif %} -->
     <!-- Days remaining -->
     <div class="row">
-        <h2 class="time-remaining">{{ total_estimated_completion }} Days Remaining</h2>
+        {% if user.is_superuser %}
+            <h2 class="time-remaining">{{ total_estimated_completion }} Days Remaining</h2>
+        {% endif %}
         <h3 class="completion-date">Estimated Completion Date: {{ today }}</h3>
     </div>
     <hr>
