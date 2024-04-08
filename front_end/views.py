@@ -11,7 +11,7 @@ import datetime
 
 # Time in minutes
 hours_per_workday = 8
-time_per_scan = 30
+time_per_scan = 25
 time_per_area = 60
 minor_error_time = 15
 major_error_time = 30
