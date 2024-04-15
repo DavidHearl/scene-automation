@@ -215,7 +215,9 @@
                                     </div>
                                     <!-- Delete -->
                                     <div class="col-2 col-md-1 crud">
-                                        <button class="crud-button delete" onclick="confirmAndDelete('{{ area.id }}')">Delete</button>
+                                        <button class="crud-button delete">
+                                            <a href="{% url 'delete_area' area.id %}">Delete</a>
+                                        </button>
                                     </div>
                                     <!-- Save -->
                                     <div class="col-2 col-md-1 crud">

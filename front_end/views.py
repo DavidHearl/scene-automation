@@ -241,4 +241,4 @@ def delete_area(request, area_id):
     area.delete()
     messages.success(request, 'Area deleted successfully.')
 
-    return render(request, 'front_end/front_end.html')
+    return redirect('ships_and_areas')
