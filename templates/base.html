@@ -43,66 +43,55 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <!-- Standard Navigation Menu -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a class="standard-nav-link" href="{% url 'ships_and_areas' %}">Home</a>
-            <a class="standard-nav-link" href="{% url 'manual_page' %}">Manual</a>
-            <a class="standard-nav-link" href="{% url 'data_view' %}">Data</a>
-            <a class="standard-nav-link" href="">Bookings</a>
-            <a class="standard-nav-link" href="">Theory</a>
-            <!-- Authenticated User Menu -->
-            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                <ul class="navbar-nav">
-                    {% if user.is_authenticated %}
-                        <li class="nav-item dropdown nav-style">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <span>{{ user.email }}</span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                <li>
-                                    <a class="dropdown-item" href="">
-                                        <i class="fas fa-unlock-alt"></i>Change Password
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'account_logout' %}">
-                                        <i class="fas fa-sign-out-alt nav-icon"></i>Logout
-                                    </a>
-                                </li>
-                                {% if user.is_superuser %}
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'admin:index' %}">
-                                            <i class="fas fa-key nav-icon"></i>Admin
-                                        </a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </li>
-                    {% else %}
-                        <li class="nav-item dropdown not-authenticated">
-                            <a href="{% url 'account_signup' %}" class="dropdown-item ml-auto navigation-item">Register</a>
-                            <a href="{% url 'account_login' %}" class="dropdown-item ml-auto navigation-item">Login</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
-        </div>
+    <nav>
+        <ul class="navigation">
+            <li>
+                <a href="{% url 'ships_and_areas' %}">Home</a>
+            </li>
+            <li>
+                <a href="{% url 'manual_page' %}">Manual</a>
+            </li>
+            <li>
+                <a href="{% url 'data_view' %}">Data</a>
+            </li>
+            <li>
+                <a href="">Bookings</a>
+            </li>
+            <li>
+                <a href="">Theory</a>
+            </li>
+        </ul>
+        <ul class="user-details">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <li>
+                        <a href="{% url 'admin:index' %}">Admin</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{% url 'account_logout' %}">Logout</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% url 'account_login' %}">Login</a>
+                </li>
+                <li>
+                    <a href="{% url 'account_signup' %}">Register</a>
+                </li>
+            {% endif %}
+        </ul>
     </nav>
 
+    <div id="particles-js">
     {% block content %}
-    {% endblock %}
 
-    <footer>
+    {% endblock %}
+    </div>
+
+    <script src="{% static 'particles/particles.js' %}"></script>
+    <script src="{% static 'particles/app.js' %}"></script>
+
+    <!-- <footer>
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -111,6 +100,6 @@
                 </div>
             </div>
         </div>
-    </footer>
+    </footer> -->
 </body>
 </html>
