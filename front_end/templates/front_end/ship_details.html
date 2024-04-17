@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Summaries -->
+    <div class="headlines">
+        <div class="summary-boxes">
+            <h4 class="summary-title">Ship:</h4>
+            <h2 class="summary-content">{{ ship.name }}</h2>
+        </div>
+
+        <div class="summary-boxes">
+            <h4 class="summary-title">Completion Percentage</h4>
+            <h2 class="summary-content"></h2>
+        </div>
+        
+        <div class="summary-boxes">
+            <h4 class="summary-title">Areas</h4>
+            <h2 class="summary-content"></h2>
+        </div>
+        
+        <div class="summary-boxes">
+            <h4 class="summary-title">Scans</h4>
+            <h2 class="summary-content"></h2>
+        </div>
+    </div>
+
+    <!-- Ship Details -->
+    <div class="area-container">
+        {% for area in areas %}
+            <div class="area-card">
+                <div class="process-title">
+                    <a class="area-title">{{ area.area_name }}</a>
+                </div>
+                <div class="number-of-scans">
+                    <p class="number-value">{{ area.scans }}</p>
+                </div>
+                <div class="process-status">
+                    <p class="status-box {{ area.processed }}">{{ area.processed }}</p>
+                </div>
+                <div class="process-status">
+                    <p class="status-box {{ area.registered }}">{{ area.registered }}</p>
+                </div>
+                <div class="process-status">
+                    <p class="status-box {{ area.cleaned }}">{{ area.cleaned }}</p>
+                </div>
+                <div class="process-status">
+                    <p class="status-box {{ area.point_cloud }}">{{ area.point_cloud }}</p>
+                </div>
+                <div class="process-status">
+                    <p class="status-box {{ area.exported }}">{{ area.exported }}</p>
+                </div>
+                <div class="process-status">
+                    <p class="status-box {{ area.uploaded }}">{{ area.uploaded }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+
+{% endblock %}

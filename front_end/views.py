@@ -236,6 +236,19 @@ def edit_area(request, area_id):
 
     return render(request, 'front_end/front_end.html', context)
 
+def ship_detail(request, ship_id):
+    ship = get_object_or_404(Ship, pk=ship_id)
+    areas = Area.objects.filter(ship=ship)
+
+    context = {
+        'ship': ship,
+        'areas': areas,
+        'completed_percentage': calculate_completed_percentage(ship),
+        'estimated_completion': calculate_estimated_completion(ship),
+    }
+
+    return render(request, 'front_end/ship_details.html', context)
+
 @timing_decorator
 def delete_area(request, area_id):
     area = get_object_or_404(Area, pk=area_id)

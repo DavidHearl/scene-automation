@@ -105,6 +105,11 @@ a:hover {
     border: 1px solid #515151;
 }
 
+.ship-card::before {
+    background: rgba(0, 0, 0, 0.5); /* Adjust color and opacity as needed */
+    z-index: 1;
+}
+
 img {
     position: relative;
     width: 92%;
@@ -162,6 +167,62 @@ img {
     height: 32px;
     background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
     border: none;
+}
+
+/* ------------------------------------------------------------------------------ */
+/* --------------------------------- Ship Detail -------------------------------- */
+/* ------------------------------------------------------------------------------ */
+.area-container {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+    width: 86%;
+    margin-left: 7%;
+    padding: 12px;
+}
+
+.area-card {
+    display: flex;
+}
+
+.area-card > * {
+    flex: 1;
+    justify-content: center;
+}
+
+.area-title, .process-title {
+    flex-grow: 1;
+    justify-content: start;
+    margin: 0;
+    padding: 0;
+}
+
+.area-title {
+    color: black;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.process-title {
+    flex-basis: 250px; /* Adjust this value to change the size of the boxes */
+    flex-shrink: 0;
+}
+
+.number-value {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+}
+
+.status-box {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    border: 1px solid;
+    padding: 0;
 }
 
 /* * {

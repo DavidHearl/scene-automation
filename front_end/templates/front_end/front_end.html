@@ -52,7 +52,7 @@
                 <p class="card-text">Priority: {{ ship.priority }}</p>
                 <p class="card-text">Areas: {{ ship.area_set.all.count }}</p>
                 <button class="more-info">
-                    <a href="">More Info</a>
+                    <a href="{% url 'ship_detail' ship.id %}">More Info</a>
                 </button>
             </div>
         {% endfor %}
