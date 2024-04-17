@@ -14,6 +14,7 @@ class Ship(models.Model):
 	contract_number = models.IntegerField(default=0, null=False, blank=False)
 	company = models.CharField(max_length=200)
 	priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, blank=False)
+	image = models.ImageField(null=True, blank=True)
 
 	# Count the number of scans in each ship
 	def total_scans(self):

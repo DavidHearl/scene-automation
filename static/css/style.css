@@ -1,20 +1,30 @@
-/* Navigtion */
+/* Background */
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    background: linear-gradient(to bottom, rgb(39, 68, 131), rgb(19, 38, 101));
+    font-family: roboto;
 }
 
 #particles-js {
-    height: 80%;
+    background: linear-gradient(to bottom, rgb(39, 68, 131), rgb(19, 38, 101));
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 250%;
+    overflow: hidden;
+    z-index: -1;
 }
 
+/* Navigtion */
 nav {
     display: flex;
     justify-content: space-between;
     padding: 0 5%;
     background: #0006;
+    position: fixed;
+    width: 100%;
 }
 
 ul {
@@ -36,6 +46,122 @@ a {
 a:hover {
     color: rgb(136, 192, 255);
     text-decoration: underline;
+}
+
+/* Completion */
+.headlines {
+    display: flex;
+    padding-top: 64px;
+    width: 93%;
+    padding-left: 7%;
+    gap: 24px;
+}
+
+.summary-boxes {
+    background-color: rgb(255, 255, 255);
+    border-radius: 4px;
+    width: 100%;
+}
+
+.summary-title {
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 4px;
+    margin: 0;
+    color: rgb(39, 68, 131);
+}
+
+.summary-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    margin: 0px 0 8px 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+/* Ship Cards */
+.card-container {
+    display: flex;
+    width: 86%;
+    margin-left: 7%;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.ship-card {
+    display: flex;
+    flex-direction: column;
+    width: 265px;
+    height: 350px;
+    background-color: rgb(255, 255, 255);
+    margin: 16px;
+    border-radius: 20px;
+    box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
+    border: 1px solid #515151;
+}
+
+img {
+    position: relative;
+    width: 92%;
+    height: 125px;
+    object-fit: cover;
+    margin-left: 4%;
+    border-radius: 8px;
+    opacity: 0.9;
+    margin-top: 6px;
+    border: 1px solid;
+}
+
+.progress {
+    border-radius: 8px;
+    height: 20px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.progress-bar {
+    background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
+}
+
+.card-body {
+    padding: 0px 4px 8px 4px;
+}
+
+.card-title {
+    display: flex;
+    justify-content: center;
+    font-size: 1.4rem;
+    font-weight: 600;
+    padding: 8px 8px 2px 8px;
+}
+
+.card-secondary-title {
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: rgb(39, 68, 131)
+}
+
+.card-text {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+.more-info {
+    width: 94%;
+    margin-left: 3%;
+    border-radius: 16px;
+    height: 32px;
+    background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
+    border: none;
 }
 
 /* * {

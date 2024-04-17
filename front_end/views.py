@@ -117,7 +117,8 @@ def ships_and_areas(request):
     avg_areas_per_ship = round(num_areas / num_ships) if num_ships != 0 else 0
     avg_scans_per_ship = round(total_scans / num_ships) if num_ships != 0 else 0
 
-    avg_completion_time = round(avg_scans_per_ship * 20 / (60 * 8), 1)
+    avg_completion_time = round(((avg_scans_per_ship * time_per_scan) + (20 * time_per_area)) / (60 * 8), 1)
+    avg_completion_time = avg_completion_time / 5
     
     # Calculate total estimated completion time
     total_estimated_completion = total_estimated_completion_for_all_ships()

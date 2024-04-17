@@ -9,42 +9,91 @@
 {% load custom_filters %}
 
 {% block content %}
+    <!-- Summaries -->
+    <div class="headlines">
+        <div class="summary-boxes">
+            <h4 class="summary-title">Time Remaining:</h4>
+            <h2 class="summary-content">{{ total_estimated_completion }} Days</h2>
+        </div>
 
+        <div class="summary-boxes">
+            <h4 class="summary-title">Completion Date:</h4>
+            <h2 class="summary-content">{{ today }}</h2>
+        </div>
+        
+        <div class="summary-boxes">
+            <h4 class="summary-title">Ship and Areas</h4>
+            <h2 class="summary-content">{{ num_ships }}, {{ num_areas }}</h2>
+        </div>
+        
+        <div class="summary-boxes">
+            <h4 class="summary-title">Processing Time / Ship:</h4>
+            <h2 class="summary-content">{{ avg_completion_time }} Weeks</h2>
+        </div>
+    </div>
+
+    <!-- Ship and Area Details -->
+    <div class="card-container">
+        {% for ship in ships %}
+            <div class="ship-card">
+                 <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
+                </div>
+                <h5 class="card-title">{{ ship.name }}</h5>
+                <h5 class="card-secondary-title">Contract Number: {{ ship.contract_number }}</h5>
+               
+                {% if ship.image %}
+                    <img src="{{ ship.image.url }}" class="ship-image" alt="...">
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <p class="card-text">Completion in {{ ship.estimated_completion }} days</p>
+                {% endif %}
+                <p class="card-text">Scans: {{ ship.total_scans }}</p>
+                <p class="card-text">Priority: {{ ship.priority }}</p>
+                <p class="card-text">Areas: {{ ship.area_set.all.count }}</p>
+                <button class="more-info">
+                    <a href="">More Info</a>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
 
-<!-- <div class="container"> -->
-    <!-- Login Notification -->
-    <!-- {% if not user.is_authenticated %}
-        <div class="row">
-            <div class="col-12">
-                <p class="login-notification">Signup is now working correctly. Please register for a tailored experience</p>
+    
+
+
+            <!-- <div class="progress rounded-top">
+                <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
             </div>
-        </div>
-    {% endif %} -->
-    <!-- Days remaining -->
-    <!-- <div class="row">
-        <h2 class="time-remaining">{{ total_estimated_completion }} Days Remaining</h2>
-        <h3 class="completion-date">Estimated Completion Date: {{ today }}</h3>
-    </div>
-    <hr> -->
-    <!-- Data Summary Titles -->
-    <!-- <div class="row">
-        <div class="col-2 summary-heading">Total Scans</div>
-        <div class="col-2 summary-heading">Total Ships</div>
-        <div class="col-2 summary-heading">Total Areas</div>
-        <div class="col-2 summary-heading">Areas Per Ship</div>
-        <div class="col-2 summary-heading">Scans Per Ship</div>
-        <div class="col-2 summary-heading">Average Completion Time</div>
-    </div> -->
-    <!-- Data Summary Values -->
-    <!-- <div class="row">
-        <div class="col-2 summary-values">{{ total_scans }}</div>
-        <div class="col-2 summary-values">{{ num_ships }}</div>
-        <div class="col-2 summary-values">{{ num_areas }}</div>
-        <div class="col-2 summary-values">{{ avg_areas_per_ship }}</div>
-        <div class="col-2 summary-values">{{ avg_scans_per_ship }}</div>
-        <div class="col-2 summary-values">{{ avg_completion_time }} Days</div>
-    </div> -->
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <h3 class="overview-text">{{ ship.name }}</h3>
+                    </div>
+                    <div class="col-6 text-end">
+                        <h3 class="overview-text">Contract Number: {{ ship.contract_number }}</h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <h4 class="overview-text">Scan Total: {{ ship.total_scans }}</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                        <h4 class="overview-text">Priority: {{ ship.priority }}</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 text-start">
+                        <h4 class="overview-text">Areas: {{ ship.area_set.all.count }}</h4>
+                    </div>
+                    <div class="col-6 text-end">
+                        {% if user.is_authenticated %}
+                            <h4 class="overview-text">Completion: <strong>{{ ship.estimated_completion }}</strong> Days</h4>
+                        {% endif %}
+                    </div>
+                </div>
+            </button> -->
+
+
 
     <!-- Current Machine Processing -->
     <!-- <div class="row current-machine-job">
