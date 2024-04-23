@@ -106,7 +106,7 @@ a:hover {
     margin-top: 12px;
     flex-wrap: wrap;
     justify-content: space-around;
-    gap: 16px;
+    gap: 20px;
 }
 
 /* Origional width was 265px */
@@ -114,8 +114,8 @@ a:hover {
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 265px;
-    height: 350px;
+    width: 270px;
+    height: 365px;
     background-color: rgb(255, 255, 255);
     border-radius: 20px;
     box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
@@ -167,7 +167,7 @@ img {
     justify-content: center;
     font-size: 1rem;
     font-weight: 600;
-    margin-bottom: 4px;
+    margin-bottom: 0;
     color: rgb(39, 68, 131)
 }
 
@@ -175,6 +175,32 @@ img {
     display: flex;
     justify-content: center;
     margin: 0;
+}
+
+.done {
+    color: green;
+}
+
+.to-be-completed {
+    color: rgb(181, 12, 0);
+}
+
+.card-feature-text {
+    display: flex;
+    justify-content: center;
+    font-size: 2rem;
+    color: rgb(162, 162, 162);
+    font-weight: 600;
+    margin: 0;
+}
+
+.areas-and-scans {
+    display: flex;
+    justify-content: space-around;
+    width: 92%;
+    margin: 0 auto;
+    margin-top: 8px;
+    padding: 0;
 }
 
 .more-info {

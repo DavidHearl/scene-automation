@@ -41,16 +41,27 @@
                 </div>
                 <h5 class="card-title">{{ ship.name }}</h5>
                 <h5 class="card-secondary-title">Contract Number: {{ ship.contract_number }}</h5>
-               
+                {% if user.is_authenticated %}
+                    {% if ship.estimated_completion == 0 %}
+                        <p class="card-text done">Completed</p>
+                    {% else %}
+                        <p class="card-text to-be-completed">Completion in {{ ship.estimated_completion }} days</p>
+                    {% endif %}
+                {% endif %}
                 {% if ship.image %}
                     <img src="{{ ship.image.url }}" class="ship-image" alt="...">
                 {% endif %}
-                {% if user.is_authenticated %}
-                    <p class="card-text">Completion in {{ ship.estimated_completion }} days</p>
-                {% endif %}
-                <p class="card-text">Scans: {{ ship.total_scans }}</p>
-                <p class="card-text">Priority: {{ ship.priority }}</p>
-                <p class="card-text">Areas: {{ ship.area_set.all.count }}</p>
+                <div class="areas-and-scans">
+                    <div class="scans">
+                        <p class="card-text">Scans</p>
+                        <p class="card-feature-text">{{ ship.total_scans }}</p>
+                    </div>
+                    <div class="areas">
+                        <p class="card-text">Areas</p>
+                        <p class="card-feature-text">{{ ship.area_set.all.count }}</p>
+                    </div>
+                </div>
+                <!-- <p class="card-text">Priority: {{ ship.priority }}</p> -->
                 <button class="more-info">
                     <a href="{% url 'ship_detail' ship.id %}">More Info</a>
                 </button>
