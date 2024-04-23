@@ -1,3 +1,14 @@
+/* Global Variables */
+:root {
+    --card-background: repeating-linear-gradient(
+        150deg,
+        rgb(251, 251, 251),
+        rgb(251, 251, 251) 30px,
+        rgb(246, 246, 246) 30px,
+        rgb(246, 246, 246) 60px
+    );
+}
+
 /* Background */
 body {
     margin: 0;
@@ -7,13 +18,12 @@ body {
 }
 
 #particles-js {
-    /* background: linear-gradient(to bottom, rgb(39, 68, 131), rgb(19, 38, 101)); */
     background: linear-gradient(to bottom, rgb(46, 55, 74), rgb(77, 92, 142));
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 250%;
+    height: 300%;
     overflow: hidden;
     z-index: -1;
 }
@@ -23,9 +33,11 @@ nav {
     display: flex;
     justify-content: space-between;
     padding: 0 5%;
-    background: #0006;
+    background: rgb(25, 31, 44);
     position: fixed;
     width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid;
 }
 
 ul {
@@ -37,7 +49,7 @@ ul {
 }
 
 a {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 600;
     margin: 0 20px;
     text-decoration: none;
@@ -53,13 +65,14 @@ a:hover {
 .headlines {
     display: flex;
     padding-top: 64px;
-    width: 93%;
-    padding-left: 7%;
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto;
     gap: 24px;
 }
 
 .summary-boxes {
-    background-color: rgb(255, 255, 255);
+    background: var(--card-background);
     border-radius: 4px;
     width: 100%;
 }
@@ -87,20 +100,23 @@ a:hover {
 /* Ship Cards */
 .card-container {
     display: flex;
-    width: 86%;
-    margin-left: 7%;
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto;
     margin-top: 12px;
     flex-wrap: wrap;
     justify-content: space-around;
+    gap: 16px;
 }
 
+/* Origional width was 265px */
 .ship-card {
     display: flex;
     flex-direction: column;
+    position: relative;
     width: 265px;
     height: 350px;
     background-color: rgb(255, 255, 255);
-    margin: 16px;
     border-radius: 20px;
     box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
     border: 1px solid #515151;
@@ -162,6 +178,8 @@ img {
 }
 
 .more-info {
+    position: absolute;
+    bottom: 8px;
     width: 94%;
     margin-left: 3%;
     border-radius: 16px;
@@ -179,14 +197,17 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    width: 86%;
-    margin-left: 7%;
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto;
     padding: 12px;
-    border: 1px solid black;
+    background: var(--card-background);
+    border-radius: 8px;
 }
 
 .area-card {
     display: flex;
+    gap: 2px;
 }
 
 .area-card > * {
@@ -206,13 +227,13 @@ img {
 }
 
 .area-title {
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     font-weight: 400;
     font-size: 1rem;
 }
 
 .area-title:hover {
-    color: rgb(95, 218, 214);
+    color: rgb(72, 106, 231);
     cursor: pointer;
     text-decoration: none;
 }
@@ -224,7 +245,7 @@ img {
 
 .number-value {
     display: flex;
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     margin: 0;
     padding: 0;
     justify-content: center;
@@ -237,20 +258,22 @@ img {
     height: 24px;
     margin: 0;
     padding: 2px;
+    border-radius: 2px;
 }
 /* Keys */
 .keys {
     display: flex;
     justify-content: space-between;
-    width: 86%;
-    margin: 8px 7%;
+    width: 92%;
+    max-width: 1400px;
+    margin: 8px auto;
     gap: 4px;
 }
 
 .key-container {
     width: 11.75%;
     min-width: 105px;
-    background: white;
+    background: var(--card-background);
     padding: 4px;
     border-radius: 8px;
     justify-content: center;
@@ -330,25 +353,29 @@ img {
 
 .area-details {
     display: flex;
-    width: 86%;
-    margin-left: 7%;
+    width: 92%;
+    max-width: 1400px;
+    margin: 0 auto;
     flex-wrap: wrap;
     gap: 16px;
+    justify-content: space-around;
 }
 
 .area-form {
     width: 100%;
+    /* margin-bottom: 8px; */
 }
 
 .area-form > input,
 .area-form > select {
     width: 100%;
-}
-
-.crud {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+    border: none;
+    border-radius: 8px;
+    height: 28px;
+    font-size: 0.9rem;
+    text-align: center;
+    border: 1px solid rgb(128, 128, 128);
+    margin-bottom: 8px;
 }
 
 .crud-button-container {
@@ -357,15 +384,27 @@ img {
 
 .crud-button {
     width: 100%;
+    height: 28px;
 }
 
 .area-detail-card {
     display: flex;
-    width: calc(25% - 16px);
+    width: calc(25% - 20px);
     margin-top: 12px;
     flex-wrap: wrap;
     justify-content: space-around;
-    border: 1px solid white;
+    background: var(--card-background);
+    border-radius: 12px;
+    padding: 8px;
+}
+
+/* pseudo element so the page stops at the correct location */
+.area-detail-card::before {
+    content: "";
+    display: flex;
+    flex-direction: column;
+    height: -128px;
+    margin-top: 62px;
 }
 
 .data-label {
@@ -373,9 +412,38 @@ img {
     display: flex;
     width: 100%;
     margin: 0;
+    margin-bottom: 8px;
     padding: 0;
 }
 
 .area-detail-card > .area-form {
     width: 100%;
 }
+
+.save {
+    background: green;
+    border: 1px solid darkgreen;
+    border-radius: 8px;
+}
+
+.delete {
+    background: red;
+    border: 1px solid darkred;
+    border-radius: 8px;
+}
+
+.save, .delete {
+    color: white;
+    font-weight: 600;
+}
+
+.ship-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ------------------------------------------------------------------------------ */
+/* -------------------------------- Media Quieres ------------------------------- */
+/* ------------------------------------------------------------------------------ */

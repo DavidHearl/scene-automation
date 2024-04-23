@@ -103,8 +103,13 @@
                 <div class="area-form inline">
                     <div class="status-symbol {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}"></div>
                     <input class="area-margin" type="text" name="area_name" value="{{ area.area_name }}">
-                    
                 </div>
+
+                <!-- Processing Machine -->
+                <div class="area-form">
+                    <p class="data-label">Time: {{ area.time_remaining }}</p>
+                </div>
+
                 <!-- Area Priority -->
                 <div class="area-form">
                     <select class="text-center" name="priority">
@@ -161,49 +166,53 @@
                         {% endfor %}
                     </select>
                 </div>
-                <!-- Point Cloud Total -->
-                <div class="area-form">
-                    <p class="data-label">Point Cloud:</p>
-                </div>
-                <div class="area-form">
-                    <input class="text-center" type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
-                </div>
+               
                 <!-- Label -->
-                <div class="area-form">
-                    <p class="data-label">Size (GB):</p>
+                <div class="ship-detail-row">
+                     <!-- Point Cloud Total -->
+                    <div class="area-form">
+                        <p class="data-label">Point Cloud:</p>
+                    </div>
+                    <div class="area-form">
+                        <input class="text-center" type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
+                    </div>
                 </div>
-                <!-- Raw File Size -->
+
                 <div class="area-form">
-                    <input class="text-center" type="text" name="raw_size" value="{{ area.raw_size }}">
+                    <p class="data-label">Folder Sizes (GB):</p>
                 </div>
-                <!-- Processed File Fize -->
-                <div class="area-form">
-                    <input class="text-center" type="text" name="processed_size" value="{{ area.processed_size }}">
+
+                <div class="ship-detail-row">
+                    <!-- Raw File Size -->
+                    <div class="area-form">
+                        <input class="text-center" type="text" name="raw_size" value="{{ area.raw_size }}">
+                    </div>
+                    <!-- Processed File Fize -->
+                    <div class="area-form">
+                        <input class="text-center" type="text" name="processed_size" value="{{ area.processed_size }}">
+                    </div>
+                    <!-- Exported File Size -->
+                    <div class="area-form">
+                        <input class="text-center" type="text" name="exported_size" value="{{ area.exported_size }}">
+                    </div>
                 </div>
-                <!-- Exported File Size -->
-                <div class="area-form">
-                    <input class="text-center" type="text" name="exported_size" value="{{ area.exported_size }}">
-                </div>
-                <!-- Processing Machine -->
-                <div class="area-form">
-                    <p class="data-label">Time: </p>
-                </div>
+            
                  <!-- Delete and Save -->
-                 <div class="crud">
+                 <div class="ship-detail-row">
                     <div class="crud-button-container">
                         <button class="crud-button delete">
                             <a href="{% url 'delete_area' area.id %}">Delete</a>
                         </button>
                     </div>
                     <div class="crud-button-container">
-                        <button class="crud-button save" type="submit">Save</button>
+                        <button class="crud-button save" type="submit">
+                            <a href="">Save</a>
+                        </button>
                     </div>
                 </div>
             </form>
         </div>  
         {% endfor %}
     </div>
-
-
 
 {% endblock %}
