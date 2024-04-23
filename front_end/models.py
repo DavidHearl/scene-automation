@@ -15,6 +15,7 @@ class Ship(models.Model):
 	company = models.CharField(max_length=200)
 	priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, blank=False)
 	image = models.ImageField(null=True, blank=True)
+	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
 	# Count the number of scans in each ship
 	def total_scans(self):
@@ -59,10 +60,8 @@ class Area(models.Model):
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
 	# Processing Operations
-	imported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 	processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 	registered = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
-	aligned = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 	cleaned = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 	point_cloud = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 	exported = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)

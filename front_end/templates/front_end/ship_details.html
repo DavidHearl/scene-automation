@@ -99,6 +99,9 @@
         <div id="{{ area.area_name }}" class="area-detail-card">
             <form class="area-form" method="post" action="{% url 'edit_area' area.id %}">
                 {% csrf_token %}
+                <!-- Ship Name -->
+                <input type="hidden" name="ship" value="{{ ship.id }}">
+
                 <!-- Area Name -->
                 <div class="area-form inline">
                     <div class="status-symbol {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}"></div>
@@ -206,7 +209,7 @@
                     </div>
                     <div class="crud-button-container">
                         <button class="crud-button save" type="submit">
-                            <a href="">Save</a>
+                            Save
                         </button>
                     </div>
                 </div>

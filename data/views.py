@@ -52,7 +52,7 @@ def calculate_completed_percentage(ship):
 
     for area in ship.area_set.all():
         weighting = 0
-        process_stage = ["imported", "processed", "registered", "aligned", "cleaned", "point_cloud", "exported", "uploaded"]
+        process_stage = ["processed", "registered", "cleaned", "point_cloud", "exported", "uploaded"]
         process_weighting = [12.5, 100, 100, 12.5, 75, 100, 500, 100]
 
         for i, status in enumerate(process_stage):
@@ -137,7 +137,7 @@ def data_view(request):
                 and area.raw_size != 0
                 and area.processed_size != 0
                 and area.exported_size != 0
-                and all(getattr(area, field) == "Completed" for field in ['imported', 'processed', 'registered', 'aligned', 'cleaned', 'point_cloud', 'exported', 'uploaded'])
+                and all(getattr(area, field) == "Completed" for field in ['processed', 'registered', 'cleaned', 'point_cloud', 'exported', 'uploaded'])
             )
 
 

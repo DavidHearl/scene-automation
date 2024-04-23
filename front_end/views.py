@@ -47,8 +47,8 @@ def calculate_completed_percentage(ship):
 
     for area in ship.area_set.all():
         weighting = 0
-        process_stage = ["imported", "processed", "registered", "aligned", "cleaned", "point_cloud", "exported", "uploaded"]
-        process_weighting = [1, 15, 40, 1, 15, 10, 15, 3]
+        process_stage = ["processed", "registered", "cleaned", "point_cloud", "exported", "uploaded"]
+        process_weighting = [15, 40, 15, 10, 15, 5]
 
         completed_statuses = ["Completed", "Legacy", "No Data", "Not Required"]
 
@@ -176,7 +176,7 @@ def ships_and_areas(request):
                 and area.raw_size != 0
                 and area.processed_size != 0
                 and area.exported_size != 0
-                and all(getattr(area, field) == "Completed" for field in ['imported', 'processed', 'registered', 'aligned', 'cleaned', 'point_cloud', 'exported', 'uploaded'])
+                and all(getattr(area, field) == "Completed" for field in ['processed', 'registered', 'cleaned', 'point_cloud', 'exported', 'uploaded'])
             )
 
 
@@ -234,7 +234,7 @@ def edit_area(request, area_id):
         'modify_form': modify_form,
     }
 
-    return render(request, 'front_end/front_end.html', context)
+    return render(request, 'front_end/ship_details.html', context)
 
 def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
