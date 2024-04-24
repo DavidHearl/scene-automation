@@ -221,7 +221,7 @@ def edit_area(request, area_id):
         if modify_form.is_valid():
             area = modify_form.save()
             messages.success(request, 'Area edited successfully.')
-            return redirect('ships_and_areas')
+            return redirect('ship_detail', area.ship.id)
         else:
             print("Form is not valid")
             print(modify_form.errors)

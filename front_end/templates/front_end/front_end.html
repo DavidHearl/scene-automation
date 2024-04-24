@@ -42,6 +42,11 @@
                 <h5 class="card-title">{{ ship.name }}</h5>
                 <h5 class="card-secondary-title">Contract Number: {{ ship.contract_number }}</h5>
                 {% if user.is_authenticated %}
+                    <style>
+                        .areas-and-scans {
+                            margin-top: 8px;
+                        }
+                    </style>
                     {% if ship.estimated_completion == 0 %}
                         <p class="card-text done">Completed</p>
                     {% else %}

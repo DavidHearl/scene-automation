@@ -68,13 +68,17 @@ a:hover {
     width: 92%;
     max-width: 1400px;
     margin: 0 auto;
-    gap: 24px;
+    gap: 1%;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .summary-boxes {
     background: var(--card-background);
+    min-width: 200px;
     border-radius: 4px;
-    width: 100%;
+    width: 24%;
+    margin-bottom: 8px;
 }
 
 .summary-title {
@@ -199,7 +203,7 @@ img {
     justify-content: space-around;
     width: 92%;
     margin: 0 auto;
-    margin-top: 8px;
+    margin-top: 22px;
     padding: 0;
 }
 
@@ -470,6 +474,75 @@ img {
     gap: 8px;
 }
 
+.process-description {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    margin-bottom: 4px;
+    padding: 0;
+    font-size: 0.65rem;
+}
+
+.above-process-description {
+    margin-bottom: 4px !important;
+}
+
 /* ------------------------------------------------------------------------------ */
 /* -------------------------------- Media Quieres ------------------------------- */
 /* ------------------------------------------------------------------------------ */
+.mobile-nav {
+    display: none;
+}
+
+.hamburger {
+    display: none;
+}
+
+@media (max-width: 760px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+        margin: 10px;
+        background: none;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        position: absolute;
+        z-index: 9999;
+    }
+
+    .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        transform: translateX(-100%);
+    }
+
+    .mobile-nav > .navigation,
+    .mobile-nav > .user-details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-top: 64px;
+    }
+
+    .mobile-nav.open {
+        display: flex;
+        transform: translateX(0);
+    }
+
+    .navigation,
+    .user-details {
+        margin-top: 0 !important; 
+        margin: 20px !important;
+    }
+
+    .navigation > li,
+    .user-details > li {
+        margin: 8px;
+    }
+}
