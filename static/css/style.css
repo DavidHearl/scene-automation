@@ -488,6 +488,64 @@ img {
 }
 
 /* ------------------------------------------------------------------------------ */
+/* -------------------------------- Authentication ------------------------------ */
+/* ------------------------------------------------------------------------------ */
+.auth-container {
+    display: flex;
+    justify-content: center;
+}
+
+.auth-with-fields {
+    display: flex;
+    margin-top: 96px;
+    flex-direction: column;
+    border: 1px solid black;
+    background: var(--card-background);
+    padding: 16px;
+    border-radius: 16px;
+}
+
+.auth-primary {
+    justify-content: center;
+    display: flex;
+    color: #465b9b;
+    text-decoration: underline;
+}
+
+.auth-secondary {
+    justify-content: center;
+    display: flex;
+}
+
+.auth-link {
+    margin: 0;
+    color: #217e82;
+}
+
+.auth-button {
+    width: 100%;
+    color: white;
+    padding: 4px;
+    background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
+    border: none;
+    border-radius: 8px;
+}
+
+.login > ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    list-style: disc;
+}
+
+#id_login,
+#id_password {
+    min-width: 75%;
+}
+
+
+
+/* ------------------------------------------------------------------------------ */
 /* -------------------------------- Media Quieres ------------------------------- */
 /* ------------------------------------------------------------------------------ */
 .mobile-nav {
