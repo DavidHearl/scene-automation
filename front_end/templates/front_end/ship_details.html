@@ -63,6 +63,36 @@
 
     <!-- Ship Details -->
     <div class="area-container">
+        <div class="area-card">
+            <div class="process-title">
+                <p class="area-title">Area Name</p>
+            </div>
+            <div class="number-of-scans">
+                <p class="number-value"># Scans</p>
+            </div>
+            <div class="process-status">
+                <p class="status-box">Process</p>
+            </div>
+            <div class="process-status">
+                <p class="status-box">Register</p>
+            </div>
+            <div class="process-status">
+                <p class="status-box {{ area.cleaned }}">Clean</p>
+            </div>
+            <div class="process-status">
+                <p class="status-box {{ area.point_cloud }}">Point Cloud</p>
+            </div>
+            <div class="process-status">
+                <p class="status-box {{ area.exported }}">Export</p>
+            </div>
+            <div class="process-status">
+                <p class="status-box {{ area.uploaded }}">Upload</p>
+            </div>
+        </div>
+
+
+
+
         {% for area in areas %}
             <div class="area-card">
                 <div class="process-title">
