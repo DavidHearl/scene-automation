@@ -294,6 +294,7 @@ img {
 .keys {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     width: 92%;
     max-width: 1400px;
     margin: 8px auto;
@@ -420,6 +421,7 @@ img {
 .area-detail-card {
     display: flex;
     width: calc(25% - 20px);
+    min-width: 300px;
     margin-top: 12px;
     flex-wrap: wrap;
     justify-content: space-around;
