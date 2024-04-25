@@ -6,12 +6,16 @@
 {% load custom_filters %}
 
 {% block extra_css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/data_styles.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/data_styles.css' %}"> -->
 {% endblock %}
 
 {% block content %}
 
-<div class="container">
+<div class="placeholder">
+    <h2>This Page is a work in progress</h2>
+</div>
+
+<!-- <div class="container">
     <div class="row key">
         <div class="col-2">
             <div class="inline">
@@ -28,18 +32,18 @@
                 <div class="col-2 summary-heading">Total Scans</div>
                 <div class="col-2 summary-heading">Total Ships</div>
                 <div class="col-2 summary-heading">Total Areas</div>
-            </div>
+            </div> -->
             <!-- Data Summary Values -->
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-2 summary-values">{{ total_scans }}</div>
                 <div class="col-2 summary-values">{{ num_ships }}</div>
                 <div class="col-2 summary-values">{{ num_areas }}</div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row"> -->
         <!-- Canvas for the chart -->
-        <canvas id="myChart"></canvas>
+        <!-- <canvas id="myChart"></canvas>
     </div>
     <div class="row">
         <h2 class="text-center title">Ships</h2>
@@ -71,10 +75,10 @@
             {% endfor %}
         {% endfor %}
     </div>
-</div>
+</div> -->
 
 <!-- Include Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
     var ctx = document.getElementById('myChart').getContext('2d');
@@ -125,7 +129,7 @@
             }
         }
     });
-</script>
+</script> -->
 
 {% endblock %}
 
