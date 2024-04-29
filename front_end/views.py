@@ -125,6 +125,10 @@ def calculate_ship_time():
                     # Add the time remaining for each area
                     ship_time_remaining += area.time_remaining
                     ship.time_remaining = ship_time_remaining
+
+                    if ship.completed_percentage == 0:
+                        ship.time_remaining = 0
+
                     ship.save()
 
             print(f'total time remaining: {ship.time_remaining} days for {ship.name}')
