@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ship, Area, Machine
+from .models import Ship, Area, Machine, Statistics
 
 
 class ShipAdmin(admin.ModelAdmin):
@@ -24,7 +24,18 @@ class MachineAdmin(admin.ModelAdmin):
         'name',
     )
 
+class StatisticsAdmin(admin.ModelAdmin):
+    list_display = (
+        'total_time',
+        'total_scans',
+        'average_scans_per_ship',
+        'average_scans_per_area',
+        'average_areas_per_ship',
+        'average_completion_time_per_ship',
+    )
+
 
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Machine, MachineAdmin)
+admin.site.register(Statistics, StatisticsAdmin)

@@ -1,6 +1,16 @@
 from django.db import models
 
 
+class Statistics(models.Model):
+	total_time = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	total_scans = models.IntegerField(default=0)
+	
+	average_scans_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	average_scans_per_area = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	average_areas_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	average_completion_time_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+
 class Ship(models.Model):
 	PRIORITY_CHOICES = (
 		(0, 'Priority 0'),
@@ -17,9 +27,8 @@ class Ship(models.Model):
 	image = models.ImageField(null=True, blank=True)
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
-	# Count the number of scans in each ship
-	def total_scans(self):
-		return sum(area.scans for area in self.area_set.all())
+	completed_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	total_scans = models.IntegerField(default=0)
 
 	def __str__(self):
 		return self.name

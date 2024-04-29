@@ -13,7 +13,7 @@
     <div class="headlines">
         <div class="summary-boxes">
             <h4 class="summary-title">Time Remaining:</h4>
-            <h2 class="summary-content">{{ total_estimated_completion }} Days</h2>
+            <h2 class="summary-content">{{ statistics.total_time }} Days</h2>
         </div>
 
         <div class="summary-boxes">
@@ -28,7 +28,7 @@
         
         <div class="summary-boxes">
             <h4 class="summary-title">Processing Time / Ship:</h4>
-            <h2 class="summary-content">{{ avg_completion_time }} Weeks</h2>
+            <h2 class="summary-content">TBE</h2>
         </div>
     </div>
 
@@ -47,10 +47,10 @@
                             margin-top: 8px;
                         }
                     </style>
-                    {% if ship.estimated_completion == 0 %}
+                    {% if ship.time_remaining == 0 %}
                         <p class="card-text done">Completed</p>
                     {% else %}
-                        <p class="card-text to-be-completed">Completion in {{ ship.estimated_completion }} days</p>
+                        <p class="card-text to-be-completed">Completion in {{ ship.time_remaining }} days</p>
                     {% endif %}
                 {% endif %}
                 {% if ship.image %}

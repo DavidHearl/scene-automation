@@ -54,7 +54,7 @@
                 <a href="{% url 'data_view' %}">Data</a>
             </li>
             <li>
-                <a href="">Bookings</a>
+                <a href="{% url 'booking' %}">Bookings</a>
             </li>
             <li>
                 <a href="">Theory</a>
@@ -128,7 +128,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("Hello World");
+            console.log("Hambuger Loaded");
             document.querySelector('.hamburger').addEventListener('click', function() {
                 document.querySelector('.mobile-nav').classList.toggle('open');
             });

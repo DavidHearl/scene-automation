@@ -3,24 +3,34 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
-from .models import Ship, Area, Machine
+from .models import Ship, Area, Machine, Statistics
 from .forms import ShipForm, AreaForm, MachineForm
 from functools import wraps
 import datetime
 
 
-# Time in minutes
-hours_per_workday = 8
-time_per_scan = 25
-time_per_area = 60
+# Constants to define the time taken for each process
+time_per_scan = 20
+time_per_area = 30
+
+# Error times
 minor_error_time = 15
 major_error_time = 30
 critical_error_time = 45
-time_per_area_failed = 30
 
-# Variables to add
-number_of_scans = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
-time_per_scan_volume = [15, 30, 45, 60, 75, 90, 105, 120, 135, 150]
+# Constants to define the number of hours in a workday
+hours_per_workday = 8
+
+# Constant to define the time added for complexity of the area
+polynomial_factor = 1.006 # 0.6% increase in time per scan
+
+# Processes and their respective weightings
+process_stage = ["processed", "registered", "cleaned", "point_cloud", "exported", "uploaded"]
+process_weighting = [15, 40, 15, 10, 15, 5]
+
+# Define the complete status'
+completed_statuses = ["Completed", "Legacy", "No Data", "Not Required"]
+
 
 """ Decorator to measure the time taken by a function """
 def timing_decorator(func):
@@ -34,98 +44,150 @@ def timing_decorator(func):
     return wrapper
 
 
+""" Calculate the time to complete an area """
+@timing_decorator
+def calculate_area_time():
+    # Define the areas
+    ships = Ship.objects.all()
+    areas = Area.objects.all()
+    statistics = Statistics.objects.get(id=8)
+    total = 0
+    count = 0
+
+    # Iterate over all areas
+    for area in areas:
+        if area.time_remaining != 0:
+            print(f'{area.time_remaining} {area.area_name}')
+            count += 1
+
+            # Set the time
+            time_remaining = 0 + time_per_area
+            number_of_scans = area.scans
+
+            # Calculate the base time & polynomial factor
+            base_time = number_of_scans * time_per_scan
+            polynomial_time = base_time * (polynomial_factor ** number_of_scans)
+
+            # Add the polynomial time
+            time_remaining += polynomial_time
+
+            # Add time for failures
+            if area.registered == "Minor Fail":
+                time_remaining += number_of_scans * minor_error_time
+            elif area.registered == "Major Fail":
+                time_remaining += number_of_scans * major_error_time
+            elif area.registered == "Critical Fail":
+                time_remaining += number_of_scans * critical_error_time
+
+            # Set the time based on completion percentage
+            complete_percentage = 0
+
+            # Define the current percentage
+            for i, status in enumerate(process_stage):
+                if getattr(area, status) in completed_statuses:
+                    complete_percentage += process_weighting[i]
+
+            # Calculate the time remaining based on the completion percentage
+            time_remaining = time_remaining * (1 - (complete_percentage / 100))
+
+            # Set time remaining based on a workday
+            time_remaining = time_remaining / (60 * hours_per_workday)
+
+            # Add the time to the area
+            area.time_remaining = time_remaining
+            area.save()
+
+            # Add a running total
+            total += time_remaining
+
+    # Update the statistics
+    statistics.total_time = total
+    statistics.save()
+
+    print(f'total time remaining: {total} days for {count} areas')
+
+
 """ Calculate the time required to complete the processing per ship """
 @timing_decorator
-def calculate_completed_percentage(ship):
-    # Get the total number of scans for the ship
-    ship_total_scans = ship.total_scans()
+def calculate_ship_time():
+    # Define the ships
+    ships = Ship.objects.all()
 
-    if ship_total_scans == 0:
-        return 0
+    # Iterate through each ship
+    for ship in ships:
+        if ship.time_remaining != 0:
+            # Get all the areas of the ship
+            areas = ship.area_set.all() # Get all related parameters using the _set method
+            ship_time_remaining = 0
 
-    percentage = 0
+            for area in areas:
+                if area.time_remaining != 0:
+                    # Add the time remaining for each area
+                    ship_time_remaining += area.time_remaining
+                    ship.time_remaining = ship_time_remaining
+                    ship.save()
 
-    for area in ship.area_set.all():
-        weighting = 0
-        process_stage = ["processed", "registered", "cleaned", "point_cloud", "exported", "uploaded"]
-        process_weighting = [15, 40, 15, 10, 15, 5]
-
-        completed_statuses = ["Completed", "Legacy", "No Data", "Not Required"]
-
-        for i, status in enumerate(process_stage):
-            if getattr(area, status) in completed_statuses:
-                weighting += process_weighting[i]
-
-        area_percentage = (100 * (weighting/100) * (int(area.scans) / int(ship_total_scans)))
-        percentage += area_percentage
-
-    return round(percentage, 1)
+            print(f'total time remaining: {ship.time_remaining} days for {ship.name}')
 
 
+""" Calculate the total completion time for all ships """
 @timing_decorator
-def calculate_estimated_completion(ship):
-    total_scans = ship.total_scans()
-    completed_percentage = calculate_completed_percentage(ship)
-    estimated_time_per_scan = total_scans * time_per_scan / (60 * hours_per_workday)
-    total_areas = ship.area_set.count()
-    additional_time_per_area = total_areas * (time_per_area / (60 * hours_per_workday))
-    total_failure_time = 0
-    number_of_failures = 0
+def calculate_overall_statistics():
+    # Get all the ships, areas and statistics
+    ships = Ship.objects.all()
+    areas = Area.objects.all()
+    statistics = Statistics.objects.get(id=8)
+    
+    # Set the total time to 0
+    total_time = 0
+    
+    # Iterate through each ship
+    for ship in ships:
+        if ship.time_remaining != 0:
+            total_time += ship.time_remaining
+    
+    return round(total_time, 2)
 
-    for area in ship.area_set.all():
-        if area.registered == "Minor Fail":
-            total_failure_time += int(area.scans) * minor_error_time
-            number_of_failures += 1
-        elif area.registered == "Major Fail":
-            total_failure_time += int(area.scans) * major_error_time
-            number_of_failures += 1
-        elif area.registered == "Critical Fail":
-            total_failure_time += int(area.scans) * critical_error_time
-            number_of_failures += 1
+    # Update the statistics
+    statistics.total_time = total_time
 
-    total_area_fail_time = (number_of_failures * time_per_area_failed) / (60 * hours_per_workday)
-    total_failure_time = (total_failure_time / (60 * hours_per_workday)) + total_area_fail_time
-    estimated_time = estimated_time_per_scan + additional_time_per_area + total_failure_time
-    multiplier = 1 - (completed_percentage / 100)
-    estimated_time *= 0 if multiplier == 0 else multiplier
+    # Set total scans to 0
+    total_scans = 0
 
-    return round(estimated_time, 2)
+    # Iterate through each area and add the scans to the scan total
+    for area in areas:
+        if area.scans != 0:
+            total_scans += area.scans
 
+    # Update the statistics
+    statistics.total_scans = total_scans
 
-@timing_decorator
-def total_estimated_completion_for_all_ships():
-    # Iterate over all ships and sum their estimated completion times
-    total_estimated_time_for_all_ships = sum(calculate_estimated_completion(ship) for ship in Ship.objects.all())
-    return round(total_estimated_time_for_all_ships, 2)
+    # Save the statistics
+    statistics.save()
+   
 
-
+""" Render the main page """
 @timing_decorator
 def ships_and_areas(request):
-    # Fetch ships and areas
-    ships = Ship.objects.all().prefetch_related('area_set')
-    areas = Area.objects.all()
-    machines = Machine.objects.all()
+    # Use the other functions
+    calculate_area_time()
+    calculate_ship_time()
+    calculate_overall_statistics()
 
-    # Calculate the total scans for all areas using database aggregation
-    total_scans = Area.objects.aggregate(total_scans=Sum('scans'))['total_scans'] or 0
+    # Fetch ships and areas
+    ships = Ship.objects.all().order_by('completed_percentage')
+    areas = Area.objects.all()
+    statistics = Statistics.objects.get(id=8)
+
+    total_time = statistics.total_time
 
     # Calculate the number of ships and areas
     num_ships = ships.count()
     num_areas = areas.count()
 
-    # Calculate the average areas per ship and scans per ship
-    avg_areas_per_ship = round(num_areas / num_ships) if num_ships != 0 else 0
-    avg_scans_per_ship = round(total_scans / num_ships) if num_ships != 0 else 0
-
-    avg_completion_time = round(((avg_scans_per_ship * time_per_scan) + (20 * time_per_area)) / (60 * 8), 1)
-    avg_completion_time = avg_completion_time / 5
-    
-    # Calculate total estimated completion time
-    total_estimated_completion = total_estimated_completion_for_all_ships()
-
     # Calculate the number of weeks and days to add to today's date
-    add_week = round(total_estimated_completion / 5)
-    add_day = total_estimated_completion - (add_week * 5)
+    add_week = round(statistics.total_time / 5)
+    add_day = round(statistics.total_time) - (add_week * 5)
 
     # Get today's date
     today = datetime.date.today()
@@ -133,82 +195,33 @@ def ships_and_areas(request):
     # Add 2 days to today's date
     today += datetime.timedelta(weeks=add_week, days=add_day)
 
-    # Add ship
-    if request.method == 'POST':
-        ship_form = ShipForm(request.POST)
-        if ship_form.is_valid():
-            ship = ship_form.save()
-            messages.success(request, 'Ship added successfully.')
-            return redirect('ships_and_areas')
-    else:
-        ship_form = ShipForm()
-
-    # Add area
-    if request.method == 'POST':
-        area_form = AreaForm(request.POST)
-        if area_form.is_valid():
-            area = area_form.save()
-            messages.success(request, 'Area added successfully.')
-            return redirect('ships_and_areas')
-    else:
-        area_form = AreaForm()
-
-    # Add machine
-    if request.method == 'POST':
-        machine_form = MachineForm(request.POST)
-        if machine_form.is_valid():
-            machine = machine_form.save()
-            messages.success(request, 'Machine added successfully.')
-            return redirect('ships_and_areas')
-    else:
-        machine_form = MachineForm()
-
-    # Calculate completed percentage and estimated completion for each ship
+    # Calculate the complete percentage and total scans per ship
     for ship in ships:
-        ship.completed_percentage = calculate_completed_percentage(ship)
-        ship.estimated_completion = calculate_estimated_completion(ship)
+        total_scans_per_ship = 0
+        completed_percentage = 0
 
-        # Calculate completion status for each area of the current ship
         for area in ship.area_set.all():
-            area.is_completed = (
-                area.scans != 0
-                and area.point_cloud_size != 0
-                and area.raw_size != 0
-                and area.processed_size != 0
-                and area.exported_size != 0
-                and all(getattr(area, field) == "Completed" for field in ['processed', 'registered', 'cleaned', 'point_cloud', 'exported', 'uploaded'])
-            )
+            total_scans_per_ship += area.scans
 
+            for i, status in enumerate(process_stage):
+                if getattr(area, status) in completed_statuses:
+                    completed_percentage += process_weighting[i]
 
-    # Define a sorting key function
-    def sorting_key(ship):
-        if ship.completed_percentage >= 100:
-            return (-4, ship.contract_number)  # Priority is disregarded if completion is 100% or more
-        else:
-            return (-ship.priority, -ship.completed_percentage, ship.contract_number)
-
-    # Sort ships based on the new sorting key
-    sorted_ships = sorted(ships, key=sorting_key, reverse=True)
+        ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
+        ship.total_scans = total_scans_per_ship
+        ship.save()
 
     context = {
-        'ships': sorted_ships,
-        'completed_percentages': [ship.completed_percentage for ship in ships],
+        'ships': ships,
         'areas': areas,
-        'machines': machines,
-        'total_scans': total_scans,
+        'statistics': statistics,
         'num_ships': num_ships,
         'num_areas': num_areas,
-        'avg_areas_per_ship': avg_areas_per_ship,
-        'avg_scans_per_ship': avg_scans_per_ship,
-        'avg_completion_time': avg_completion_time,
-        'total_estimated_completion': total_estimated_completion,
         'today': today,
-        'ship_form': ship_form,
-        'area_form': area_form,
-        'machine_form': machine_form,
     }
 
     return render(request, 'front_end/front_end.html', context)
+
 
 def edit_area(request, area_id):
     area = get_object_or_404(Area, pk=area_id)
@@ -236,6 +249,7 @@ def edit_area(request, area_id):
 
     return render(request, 'front_end/ship_details.html', context)
 
+
 def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
     areas = Area.objects.filter(ship=ship)
@@ -243,11 +257,13 @@ def ship_detail(request, ship_id):
     context = {
         'ship': ship,
         'areas': areas,
-        'completed_percentage': calculate_completed_percentage(ship),
-        'estimated_completion': calculate_estimated_completion(ship),
     }
 
     return render(request, 'front_end/ship_details.html', context)
+
+
+def booking(request):
+    return render(request, 'front_end/bookings.html')
 
 @timing_decorator
 def delete_area(request, area_id):
@@ -256,3 +272,36 @@ def delete_area(request, area_id):
     messages.success(request, 'Area deleted successfully.')
 
     return redirect('ships_and_areas')
+
+
+# Previously belonging in the ships_and_areas view
+
+    # Add ship
+    # if request.method == 'POST':
+    #     ship_form = ShipForm(request.POST)
+    #     if ship_form.is_valid():
+    #         ship = ship_form.save()
+    #         messages.success(request, 'Ship added successfully.')
+    #         return redirect('ships_and_areas')
+    # else:
+    #     ship_form = ShipForm()
+
+    # Add area
+    # if request.method == 'POST':
+    #     area_form = AreaForm(request.POST)
+    #     if area_form.is_valid():
+    #         area = area_form.save()
+    #         messages.success(request, 'Area added successfully.')
+    #         return redirect('ships_and_areas')
+    # else:
+    #     area_form = AreaForm()
+
+    # Add machine
+    # if request.method == 'POST':
+    #     machine_form = MachineForm(request.POST)
+    #     if machine_form.is_valid():
+    #         machine = machine_form.save()
+    #         messages.success(request, 'Machine added successfully.')
+    #         return redirect('ships_and_areas')
+    # else:
+    #     machine_form = MachineForm()
