@@ -1,10 +1,11 @@
 from django import forms
 from .models import Ship, Area, Machine
 
+
 class ShipForm(forms.ModelForm):
     class Meta:
         model = Ship
-        fields = ['name', 'contract_number', 'company']
+        fields = '__all__'
 
 
 class AreaForm(forms.ModelForm):

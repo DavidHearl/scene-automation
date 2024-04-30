@@ -228,6 +228,16 @@ def ships_and_areas(request):
             ship.total_scans = total_scans_per_ship
             ship.save()
 
+    if request.method == 'POST':
+        ship_form = ShipForm(request.POST)
+        if ship_form.is_valid():
+            ship = ship_form.save(commit=False)
+            ship.save()
+            messages.success(request, 'Ship added successfully.')
+            return redirect('ships_and_areas')
+
+    ship_form = ShipForm()
+
     context = {
         'ships': ships,
         'areas': areas,
@@ -235,6 +245,7 @@ def ships_and_areas(request):
         'num_ships': num_ships,
         'num_areas': num_areas,
         'today': today,
+        'ship_form': ship_form,
     }
 
     return render(request, 'front_end/front_end.html', context)
@@ -244,9 +255,21 @@ def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
     areas = Area.objects.filter(ship=ship)
 
+    if request.method == 'POST':
+        area_form = AreaForm(request.POST)
+        if area_form.is_valid():
+            area = area_form.save(commit=False)
+            area.ship = ship
+            area.save()
+            messages.success(request, 'Area added successfully.')
+            return redirect('ship_detail', ship_id)
+
+    area_form = AreaForm()
+
     context = {
         'ship': ship,
         'areas': areas,
+        'area_form': area_form,
     }
 
     return render(request, 'front_end/ship_details.html', context)

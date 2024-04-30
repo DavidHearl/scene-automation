@@ -246,6 +246,61 @@
                 </form>
             </div>  
             {% endfor %}
+
+            <!-- Add new area form -->
+            <div class="area-detail-card" id="add-area">
+                <form class="area-form" method="post">
+                    {% csrf_token %}
+                    <!-- Ship Name -->
+                    <input type="hidden" name="ship" value="{{ ship.id }}">
+
+                    <!-- Area Name -->
+                    <div class="area-form inline">{{ area_form.area_name }}</div>
+
+                    <!-- Processing Machine -->
+                    <div class="area-form"><p class="data-label">Time: 0</p></div>
+
+                    <!-- Area Priority -->
+                    <div class="area-form">{{ area_form.priority }}</div>
+                    <!-- Number of Scans -->
+                    <div class="area-form">{{ area_form.scans }}</div>
+                    <div class="area-form">
+                        <p class="process-description">Process : Register : Clean : Point : Export : Upload</p>
+                    </div>
+                    <div class="area-form">{{ area_form.processed }}</div>
+                    <div class="area-form">{{ area_form.registered }}</div>
+                    <div class="area-form">{{ area_form.cleaned }}</div>
+                    <div class="area-form">{{ area_form.point_cloud }}</div>
+                    <div class="area-form">{{ area_form.exported }}</div>
+                    <div class="area-form">{{ area_form.uploaded }}</div>
+                
+                    <!-- Label -->
+                    <div class="ship-detail-row">
+                        <!-- Point Cloud Total -->
+                        <div class="area-form">
+                            <p class="data-label">Point Cloud:</p>
+                        </div>
+                        <div class="area-form">{{ area_form.point_cloud_size }}</div>
+                    </div>
+
+                    <div class="area-form">
+                        <p class="data-label">Folder Sizes (GB):</p>
+                    </div>
+
+                    <div class="ship-detail-row">
+                        <!-- Raw File Size -->
+                        <div class="area-form">{{ area_form.raw_size }}</div>
+                        <!-- Processed File Fize -->
+                        <div class="area-form">{{ area_form.processed_size }}</div>
+                        <!-- Exported File Size -->
+                        <div class="area-form">{{ area_form.exported_size }}</div>
+                    </div>
+                    <!-- Submit -->
+                    <div>
+                        <button class="crud-button add" type="submit">Add Area</button>
+                    </div>
+                </form>
+            </div>
         </div>
     {% endif %}
 

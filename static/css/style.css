@@ -23,7 +23,6 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 300%;
     overflow: hidden;
     z-index: -1;
 }
@@ -109,8 +108,8 @@ a:hover {
     margin: 0 auto;
     margin-top: 12px;
     flex-wrap: wrap;
-    justify-content: space-around;
-    gap: 20px;
+    justify-content: center;
+    gap: 24px;
 }
 
 /* Origional width was 265px */
@@ -120,7 +119,7 @@ a:hover {
     position: relative;
     width: 270px;
     height: 365px;
-    background-color: rgb(255, 255, 255);
+    background: var(--card-background);
     border-radius: 20px;
     box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
     border: 1px solid #515151;
@@ -220,6 +219,16 @@ img {
 
 .more-info > a {
     padding: 28px 64px;
+}
+
+/* Completed Opacity Effect */
+.ship-card-completed,
+.ship-card-completed > .progress > .progress-bar,
+.ship-card-completed > img,
+.ship-card-completed > .more-info,
+.ship-card-completed > .card-title,
+.ship-card-completed > .card-secondary-title {
+    opacity: 0.7;
 }
 
 /* ------------------------------------------------------------------------------ */
@@ -390,10 +399,10 @@ img {
     display: flex;
     width: 92%;
     max-width: 1400px;
-    margin: 0 auto;
+    margin: 20px auto;
     flex-wrap: wrap;
-    gap: 16px;
-    justify-content: space-around;
+    gap: 20px;
+    justify-content: center;
 }
 
 .area-form {
@@ -426,12 +435,12 @@ img {
     display: flex;
     width: calc(25% - 20px);
     min-width: 335px;
-    margin-top: 12px;
     flex-wrap: wrap;
     justify-content: space-around;
     background: var(--card-background);
     border-radius: 12px;
     padding: 8px;
+    border: 1px solid gray
 }
 
 /* pseudo element so the page stops at the correct location */
@@ -473,6 +482,12 @@ img {
     font-weight: 600;
 }
 
+.add {
+    background: rgb(28, 155, 155);
+    border: 1px solid rgb(6, 82, 145);
+    border-radius: 8px;
+}
+
 .ship-detail-row {
     display: flex;
     justify-content: space-between;
@@ -492,6 +507,17 @@ img {
 .above-process-description {
     margin-bottom: 4px !important;
 }
+
+#add-area {
+    background: repeating-linear-gradient(
+        150deg,
+        rgb(220, 251, 251),
+        rgb(220, 251, 251) 30px,
+        rgb(215, 246, 246) 30px,
+        rgb(215, 246, 246) 60px
+    );
+}
+
 
 /* ------------------------------------------------------------------------------ */
 /* -------------------------------- Authentication ------------------------------ */
