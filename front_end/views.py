@@ -3,7 +3,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
-from .models import Ship, Area, Machine, Statistics
+from .models import Ship, Area, Machine, Statistics, Booking
 from .forms import ShipForm, AreaForm, MachineForm
 from functools import wraps
 import datetime
@@ -318,19 +318,28 @@ def delete_area(request, area_id):
 # --------------------------------------------------------------------------- #
 
 def booking(request):
-    year = 2024
+    # Get all bookings
+    bookings = Booking.objects.all()
 
-    month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-    month_values = []
+    # Create a dictionary where the keys are the dates and the values are the classes
+    booking_classes = {}
+    for booking in bookings:
+        key = (booking.date.day, booking.date.month)
+        # Use the date and month as the key and the scanner as the value
+        booking_classes[key] = booking.scanner
 
-    for i in range(len(month_names)):
-        dates = calendar.Calendar()
-        dates = dates.monthdayscalendar(year, i + 1)
-        month_values.append(dates)
+    # Create a dictionary where the keys are the months and the values are the matrices representing the months' calendars
+    year_calendar = {}
+    for month in range(1, 13):
+        month_calendar = calendar.monthcalendar(2024, month)
+        for week in month_calendar:
+            for i, day in enumerate(week):
+                if day != 0:
+                    week[i] = (day, booking_classes.get((day, month), ''))
+        year_calendar[month] = month_calendar
 
     context = {
-        'dates': dates,
-        'months': zip(month_values, month_names),
+        'year_calendar': year_calendar,
     }
 
     return render(request, 'front_end/bookings.html', context)

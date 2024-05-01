@@ -13,49 +13,34 @@
 
 {% csrf_token %}
 
-
 {% block content %}
-    <div class="year">
-        {% for month_value, month_name in months %}
-            <div class="month">
-                <div class="title-block">
-                    <h2 class="title">{{ month_name }}</h2>
-                    <div class="week day-headers">
-                        <div class="day">
-                            M
-                        </div>
-                        <div class="day">
-                            T
-                        </div>
-                        <div class="day">
-                            W
-                        </div>
-                        <div class="day">
-                            T
-                        </div>
-                        <div class="day">
-                            F
-                        </div>
-                        <div class="day">
-                            S
-                        </div>
-                        <div class="day">
-                            S
-                        </div>
-                    </div>
-                </div>
-                {% for week in month_value %}
-                    <div class="week">
-                        {% for day in week %}
-                            <div class="day">
-                                {% if day != 0 %}
-                                    {{ day }}
-                                {% endif %}
-                            </div>
-                        {% endfor %}
-                    </div>
+
+{% for month, month_calendar in year_calendar.items %}
+    <h2>{{ month }}</h2>
+    <table>
+        <tr>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+            <th>Sun</th>
+        </tr>
+        {% for week in month_calendar %}
+            <tr>
+                {% for day in week %}
+                    <td class="{% if day.1 %}{{ day.1 }}{% endif %}">
+                        {% if day.0 %}
+                            {{ day.0 }}
+                        {% else %}
+                            &nbsp;
+                        {% endif %}
+                    </td>
                 {% endfor %}
-            </div>
+            </tr>
         {% endfor %}
-    </div>
+    </table>
+{% endfor %}
+
 {% endblock %}

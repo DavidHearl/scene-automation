@@ -18,6 +18,7 @@
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    align-items: center;
 }
 
 .month {
@@ -42,6 +43,7 @@
     justify-content: center;
     align-items: center;
     display: flex;
+    margin: 4px;
 }
 
 .day-headers {
@@ -59,4 +61,29 @@ h5 {
     color: white;
     font-weight: 600;
     font-size: 1rem;
+}
+
+.day-style {
+    margin: 0;
+    border-radius: 14px;
+    height: 28px;
+    width: 28px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.red {
+    background: rgb(227, 50, 50);
+    color: white;
+}
+
+.blue {
+    background: rgb(67, 116, 179);
+    color: white;
+}
+
+.both {
+    background-image: repeating-linear-gradient( 45deg, rgb(227, 50, 50), rgb(227, 50, 50) 10px, rgb(67, 116, 179) 10px, rgb(67, 116, 179) 20px );
 }

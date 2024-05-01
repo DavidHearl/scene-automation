@@ -121,3 +121,14 @@ class Machine(models.Model):
 
 	def __str__(self):
 		return self.name
+
+
+class Booking(models.Model):
+	SCANNER = [
+		("red", "red"),
+		("blue", "blue"),
+		("both", "both"),
+	]
+
+	date = models.DateField()
+	scanner = models.CharField(max_length=10, choices=SCANNER)
