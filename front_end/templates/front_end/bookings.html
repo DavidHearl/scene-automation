@@ -15,34 +15,47 @@
 
 
 {% block content %}
-    <div class="calendar-container">
-        <header class="calendar-header">
-            <p class="calendar-current-date"></p>
-            <div class="calendar-navigation">
-                <span id="calendar-prev"
-                    class="material-symbols-rounded">
-                    chevron_left
-                </span>
-                <span id="calendar-next"
-                    class="material-symbols-rounded">
-                    chevron_right
-                </span>
+    <div class="year">
+        {% for month_value, month_name in months %}
+            <div class="month">
+                <div class="title-block">
+                    <h2 class="title">{{ month_name }}</h2>
+                    <div class="week day-headers">
+                        <div class="day">
+                            M
+                        </div>
+                        <div class="day">
+                            T
+                        </div>
+                        <div class="day">
+                            W
+                        </div>
+                        <div class="day">
+                            T
+                        </div>
+                        <div class="day">
+                            F
+                        </div>
+                        <div class="day">
+                            S
+                        </div>
+                        <div class="day">
+                            S
+                        </div>
+                    </div>
+                </div>
+                {% for week in month_value %}
+                    <div class="week">
+                        {% for day in week %}
+                            <div class="day">
+                                {% if day != 0 %}
+                                    {{ day }}
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
-        </header>
-
-        <div class="calendar-body">
-            <ul class="calendar-weekdays">
-                <li>Sun</li>
-                <li>Mon</li>
-                <li>Tue</li>
-                <li>Wed</li>
-                <li>Thu</li>
-                <li>Fri</li>
-                <li>Sat</li>
-            </ul>
-            <ul class="calendar-dates"></ul>
-        </div>
+        {% endfor %}
     </div>
-
-    <script src="../../../static/js/index.js"></script>  
 {% endblock %}

@@ -7,6 +7,7 @@ from .models import Ship, Area, Machine, Statistics
 from .forms import ShipForm, AreaForm, MachineForm
 from functools import wraps
 import datetime
+import calendar
 
 
 # Constants to define the time taken for each process
@@ -15,7 +16,7 @@ time_per_area = 30
 
 # Error times
 error_codes = ["Minor Fail", "Major Fail", "Critical Fail"]
-error_times = [1.1, 1.25, 1.5]
+error_times = [2, 3.5, 5]
 
 # Constants to define the number of hours in a workday
 hours_per_workday = 8
@@ -274,14 +275,9 @@ def ship_detail(request, ship_id):
 
     return render(request, 'front_end/ship_details.html', context)
 
-
-def booking(request):
-    return render(request, 'front_end/bookings.html')
-
-
-# ----------------------------------------------------------------- #
-# ------------------------ CRUD Operations ------------------------ #
-# ----------------------------------------------------------------- #
+# --------------------------------------------------------------------------- #
+# ----------------------------- CRUD Operations ----------------------------- #
+# --------------------------------------------------------------------------- #
 
 def edit_area(request, area_id):
     area = get_object_or_404(Area, pk=area_id)
@@ -316,3 +312,25 @@ def delete_area(request, area_id):
     messages.success(request, 'Area deleted successfully.')
 
     return redirect('ships_and_areas')
+
+# --------------------------------------------------------------------------- #
+# -------------------------------- Calendar --------------------------------- #
+# --------------------------------------------------------------------------- #
+
+def booking(request):
+    year = 2024
+
+    month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    month_values = []
+
+    for i in range(len(month_names)):
+        dates = calendar.Calendar()
+        dates = dates.monthdayscalendar(year, i + 1)
+        month_values.append(dates)
+
+    context = {
+        'dates': dates,
+        'months': zip(month_values, month_names),
+    }
+
+    return render(request, 'front_end/bookings.html', context)
