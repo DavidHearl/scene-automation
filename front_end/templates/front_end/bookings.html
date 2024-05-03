@@ -15,32 +15,27 @@
 
 {% block content %}
 
-{% for month, month_calendar in year_calendar.items %}
-    <h2>{{ month }}</h2>
-    <table>
-        <tr>
-            <th>Mon</th>
-            <th>Tue</th>
-            <th>Wed</th>
-            <th>Thu</th>
-            <th>Fri</th>
-            <th>Sat</th>
-            <th>Sun</th>
-        </tr>
-        {% for week in month_calendar %}
-            <tr>
-                {% for day in week %}
-                    <td class="{% if day.1 %}{{ day.1 }}{% endif %}">
-                        {% if day.0 %}
-                            {{ day.0 }}
-                        {% else %}
-                            &nbsp;
-                        {% endif %}
-                    </td>
-                {% endfor %}
-            </tr>
-        {% endfor %}
-    </table>
-{% endfor %}
+<div class="year">
+    {% for month, month_calendar in year_calendar.items %}
+        <div class="month">
+            <h2>{{ month }}</h2>
+            {% for week in month_calendar %}
+                <div class="week">
+                    {% for day in week %}
+                        <div class="day {% if day.1 %}{{ day.1 }}{% endif %}">
+                            <p>
+                                {% if day.0 %}
+                                    {{ day.0 }}
+                                {% else %}
+                                    &nbsp;
+                                {% endif %}
+                            </p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
 
 {% endblock %}

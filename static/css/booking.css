@@ -25,8 +25,7 @@
     display: flex;
     flex-direction: column;
     background: var(--card-background);
-    width: 24%;
-    min-width: 300px;
+    width: 300px;
     border : 1px solid white;
     padding: 12px;
     border-radius: 12px;
@@ -36,10 +35,13 @@
 .week {
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .day {
-    width: calc(100%/7);
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
     justify-content: center;
     align-items: center;
     display: flex;
@@ -48,6 +50,11 @@
 
 .day-headers {
     padding-bottom: 12px;
+}
+
+.day > p {
+    margin: 0;
+    font-size: 0.8rem;
 }
 
 h2 {
@@ -85,5 +92,6 @@ h5 {
 }
 
 .both {
-    background-image: repeating-linear-gradient( 45deg, rgb(227, 50, 50), rgb(227, 50, 50) 10px, rgb(67, 116, 179) 10px, rgb(67, 116, 179) 20px );
+    background-image: repeating-linear-gradient( 45deg, rgb(227, 50, 50), rgb(227, 50, 50) 5px, rgb(67, 116, 179) 5px, rgb(67, 116, 179) 10px );
+    color: white;
 }

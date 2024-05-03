@@ -130,5 +130,11 @@ class Booking(models.Model):
 		("both", "both"),
 	]
 
-	date = models.DateField()
+	start_date = models.DateField(null=True)
+	end_date = models.DateField(null=True)
 	scanner = models.CharField(max_length=10, choices=SCANNER)
+
+	def clean(self):
+		super().clean()
+		if self.end_date < self.start_date:
+			raise ValidationError("End date cannot be earlier than start date.")

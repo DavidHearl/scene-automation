@@ -7,6 +7,7 @@ from .models import Ship, Area, Machine, Statistics, Booking
 from .forms import ShipForm, AreaForm, MachineForm
 from functools import wraps
 import datetime
+from datetime import timedelta
 import calendar
 
 
@@ -324,9 +325,13 @@ def booking(request):
     # Create a dictionary where the keys are the dates and the values are the classes
     booking_classes = {}
     for booking in bookings:
-        key = (booking.date.day, booking.date.month)
-        # Use the date and month as the key and the scanner as the value
-        booking_classes[key] = booking.scanner
+        delta = booking.end_date - booking.start_date  # as timedelta
+
+        for i in range(delta.days + 1):
+            day = booking.start_date + timedelta(days=i)
+            key = (day.day, day.month)
+            # Use the date and month as the key and the scanner as the value
+            booking_classes[key] = booking.scanner
 
     # Create a dictionary where the keys are the months and the values are the matrices representing the months' calendars
     year_calendar = {}
@@ -343,3 +348,4 @@ def booking(request):
     }
 
     return render(request, 'front_end/bookings.html', context)
+    

@@ -37,7 +37,8 @@ class StatisticsAdmin(admin.ModelAdmin):
 
 class BookingAdmin(admin.ModelAdmin):
     list_display = (
-        'date',
+        'start_date',
+        'end_date',
         'scanner',
     )
 
