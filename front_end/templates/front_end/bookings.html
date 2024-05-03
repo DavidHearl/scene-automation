@@ -14,13 +14,32 @@
 {% csrf_token %}
 
 {% block content %}
+<!-- Key -->
+<div class="keys">
+    <div class="key-container">
+        <div class="key status-box today"></div>
+        <h6 class="key-title">Today</h6>
+    </div>
+    <div class="key-container">
+        <div class="key status-box red"></div>
+        <h6 class="key-title">Red Scanner</h6>
+    </div>
+    <div class="key-container">
+        <div class="key status-box blue"></div>
+        <h6 class="key-title">Blue Scanner</h6>
+    </div>
+    <div class="key-container">
+        <div class="key status-box both"></div>
+        <h6 class="key-title">Both Scanners</h6>
+    </div>
+</div>
 
 <div class="year">
     {% for month, month_calendar in year_calendar.items %}
         <div class="month">
             <h2>{{ month }}</h2>
             {% for week in month_calendar %}
-                <div class="week">
+                <div class="week {% if month_calendar|length == 5 and forloop.first %}padding-top-week{% elif month_calendar|length == 5 and forloop.last %}padding-bottom-week{% endif %}">
                     {% for day in week %}
                         <div class="day {% if day.1 %}{{ day.1 }}{% endif %}">
                             <p>
