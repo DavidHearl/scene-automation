@@ -204,3 +204,13 @@ h5 {
 label {
     color: white;
 }
+
+.users-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.users-row {
+    display: flex;
+    flex-direction: row;
+}

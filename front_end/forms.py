@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from .models import Ship, Area, Machine, Booking
 
 
@@ -25,6 +26,8 @@ class MachineForm(forms.ModelForm):
 
 
 class BookingForm(forms.ModelForm):
+    users = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=forms.CheckboxSelectMultiple)
+
     class Meta:
         model = Booking
-        fields = '__all__'
+        fields = ['start_date', 'end_date', 'scanner', 'users']

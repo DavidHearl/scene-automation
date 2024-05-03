@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
 from .models import Ship, Area, Machine, Statistics, Booking
 from .forms import ShipForm, AreaForm, MachineForm, BookingForm
+from django.contrib.auth.models import User
 from functools import wraps
 import datetime
 from datetime import timedelta, date
@@ -321,6 +322,7 @@ def delete_area(request, area_id):
 def booking(request):
     # Get all bookings
     bookings = Booking.objects.all()
+    users = User.objects.all()
 
     # Create a dictionary where the keys are the dates and the values are the classes
     booking_classes = {}
@@ -367,13 +369,19 @@ def booking(request):
         'bookings': bookings,
         'year_calendar': year_calendar,
         'booking_form': BookingForm(),
+        'users': users,
     }
 
     return render(request, 'front_end/bookings.html', context)
 
 
 def edit_booking(request, booking_id):
-    bookings = get_object_or_404(Booking, pk=booking_id)
+    if request.user.is_superuser:
+        bookings = get_object_or_404(Booking, id=booking_id)
+    else:
+        bookings = get_object_or_404(Booking, id=booking_id, users=request.user)
+
+    users = User.objects.all() if request.user.is_superuser else User.objects.filter(id=request.user.id)
 
     if request.method == 'POST':
         print("POST request received")
@@ -391,6 +399,7 @@ def edit_booking(request, booking_id):
     context = {
         'bookings': bookings,
         'modify_form': modify_form,
+        'users': users,
     }
 
     return render(request, 'front_end/bookings.html', context)

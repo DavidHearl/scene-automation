@@ -90,12 +90,20 @@
         <input type="date" name="end_date" value="{{ booking_form.end_date }}">
         <label for="scanner_{{ booking.id }}">Scanner:</label>
         {{ booking_form.scanner }}
+        <div class="users-column">
+            {% for user in users %}
+                <div class="users-row">
+                    <input type="checkbox" name="users" value="{{ user.id }}" {% if user in booking.users.all %}checked{% endif %}>
+                    <label for="{{ user.id }}">{{ user.username }}</label><br>
+                </div>    
+            {% endfor %}
+        </div>
         <button class="submit-button" type="submit">Add</button>
     </form>
 {% endif %}
 
-{% if user.is_superuser %}
-    {% for booking in bookings %}
+{% for booking in bookings %}
+    {% if user in booking.users.all or user.is_superuser %}
         <form method="post" action="{% url 'edit_booking' booking.id %}">
             {% csrf_token %}
             <div class="modify-booking">
@@ -109,6 +117,16 @@
                     <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
                     <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
                 </select>
+                <label for="users_{{ booking.id }}">Users:</label>
+                <div class="users-column">
+                    {% for user in users %}
+                        <div class="users-row">
+                            <input type="checkbox" name="users" value="{{ user.id }}" {% if user in booking.users.all %}checked{% endif %}>
+                            <label for="{{ user.id }}">{{ user.username }}</label><br>
+                        </div>
+                    {% endfor %}
+                </div>
+                
                 {% if user.is_authenticated %}
                     <button class="submit-button" type="submit">Save</button>
                     <button class="delete-button">
@@ -117,7 +135,7 @@
                 {% endif %}
             </div>
         </form>
-    {% endfor %}
-{% endif %}
+    {% endif %}
+{% endfor %}
 
 {% endblock %}
