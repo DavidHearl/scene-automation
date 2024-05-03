@@ -48,13 +48,14 @@
     margin: 4px;
 }
 
-.day-headers {
-    padding-bottom: 12px;
-}
-
 .day > p {
     margin: 0;
     font-size: 0.8rem;
+}
+
+.weekday {
+    font-weight: 600;
+    font-size: 0.9rem !important;
 }
 
 h2 {
@@ -101,11 +102,11 @@ h5 {
 }
 
 .padding-top-week {
-    padding-top: 19px;
+    padding-top: 8px;
 }
 
 .padding-bottom-week {
-    padding-bottom: 19px;
+    padding-bottom: 30px;
 }
 
 /* Keys */
@@ -144,4 +145,62 @@ h5 {
     border-radius: 15px;
     height: 30px;
     width: 30px;
+}
+
+/* ------------------------------------------------------------------------------ */
+/* ------------------------------- Booking Form --------------------------------- */
+/* ------------------------------------------------------------------------------ */
+
+.booking-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.booking-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.3rem;
+    padding: 0;
+    margin: 0;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: white;
+}
+
+.submit-button {
+    background: linear-gradient(107deg, rgb(68, 172, 30) 11.1%, rgb(95, 166, 94) 95.3%);
+    border: 1px solid darkgreen;
+    padding: 4px 12px;
+    border-radius: 8px;
+    color: white;
+    width: 72px;
+}
+
+.delete-button {
+    background: linear-gradient(107deg, rgb(234, 58, 58) 11.1%, rgb(187, 31, 31) 95.3%);
+    border: 1px solid #500;
+    padding: 4px 12px;
+    border-radius: 8px;
+    color: white;
+    width: 72px;
+}
+
+.delete-button > a {
+    margin: 0;
+}
+
+.modify-booking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 4px 0;
+}
+
+label {
+    color: white;
 }

@@ -48,17 +48,17 @@
                 <a href="{% url 'ships_and_areas' %}">Home</a>
             </li>
             <li>
+                <a href="{% url 'booking' %}">Bookings</a>
+            </li>
+            <!-- <li>
                 <a href="{% url 'manual_page' %}">Manual</a>
             </li>
             <li>
                 <a href="{% url 'data_view' %}">Data</a>
             </li>
             <li>
-                <a href="{% url 'booking' %}">Bookings</a>
-            </li>
-            <li>
                 <a href="">Theory</a>
-            </li>
+            </li> -->
         </ul>
         <ul class="user-details">
             {% if user.is_authenticated %}

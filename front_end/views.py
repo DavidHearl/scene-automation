@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
 from .models import Ship, Area, Machine, Statistics, Booking
-from .forms import ShipForm, AreaForm, MachineForm
+from .forms import ShipForm, AreaForm, MachineForm, BookingForm
 from functools import wraps
 import datetime
 from datetime import timedelta, date
@@ -345,7 +345,7 @@ def booking(request):
                 if day != 0:
                     # Check if the current day and month match today's day and month
                     if day == today.day and month == today.month:
-                        week[i] = (day, 'today')
+                        week[i] = (day, f"{booking_classes.get((day, month), '')} today")
                     else:
                         week[i] = (day, booking_classes.get((day, month), ''))
         year_calendar[month] = month_calendar
@@ -353,8 +353,53 @@ def booking(request):
     # Convert the month numbers to their names
     year_calendar = {calendar.month_name[month]: month_calendar for month, month_calendar in year_calendar.items()}
 
+    if request.method == 'POST':
+        booking_form = BookingForm(request.POST)
+        if booking_form.is_valid():
+            booking = booking_form.save(commit=False)
+            booking.save()
+            messages.success(request, 'Booking added successfully.')
+            return redirect('booking')
+
+    bookings = Booking.objects.order_by('start_date')
+
     context = {
+        'bookings': bookings,
         'year_calendar': year_calendar,
+        'booking_form': BookingForm(),
     }
 
     return render(request, 'front_end/bookings.html', context)
+
+
+def edit_booking(request, booking_id):
+    bookings = get_object_or_404(Booking, pk=booking_id)
+
+    if request.method == 'POST':
+        print("POST request received")
+        modify_form = BookingForm(request.POST, instance=bookings)
+        if modify_form.is_valid():
+            bookings = modify_form.save()
+            messages.success(request, 'Booking edited successfully.')
+            return redirect('booking')
+        else:
+            print("Form is not valid")
+            print(modify_form.errors)
+    else:
+        modify_form = BookingForm(instance=bookings)
+
+    context = {
+        'bookings': bookings,
+        'modify_form': modify_form,
+    }
+
+    return render(request, 'front_end/bookings.html', context)
+
+def delete_booking(request, booking_id):
+    # Get the booking with the given ID
+    booking = get_object_or_404(Booking, pk=booking_id)
+    booking.delete()
+    messages.success(request, 'Booking deleted successfully.')
+
+
+    return redirect('booking')
