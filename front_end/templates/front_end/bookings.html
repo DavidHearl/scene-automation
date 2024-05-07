@@ -91,7 +91,7 @@
         <label for="scanner_{{ booking.id }}">Scanner:</label>
         {{ booking_form.scanner }}
         {% if user.is_superuser %}
-            <div class="users-column">
+            <div class="users-column overflow-box">
                 {% for user in users %}
                     <div class="users-row">
                         <input type="checkbox" name="users" value="{{ user.id }}" {% if user in booking.users.all %}checked{% endif %}>
@@ -122,7 +122,7 @@
                 <label for="users_{{ booking.id }}">Users:</label>
 
                 {% if user.is_superuser %}
-                    <div class="users-column">
+                    <div class="users-column overflow-box">
                         {% for user in users %}
                             <div class="users-row">
                                 <input type="checkbox" name="users" value="{{ user.id }}" {% if user in booking.users.all %}checked{% endif %}>

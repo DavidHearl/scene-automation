@@ -92,7 +92,7 @@
         {% for area in areas %}
             <div class="area-card">
                 <div class="process-title">
-                    <a href="#{{ area.area_name }}" class="area-title">{{ area.area_name }}</a>
+                    <a href="#{{ area.area_name }}" class="area-title" onclick="scrollToSection(event, '{{ area.area_name }}')">{{ area.area_name }}</a>
                 </div>
                 <div class="number-of-scans">
                     <p class="number-value">{{ area.scans }}</p>
@@ -303,5 +303,17 @@
             </div>
         </div>
     {% endif %}
+
+    <script>
+        function scrollToSection(event, areaName) {
+            event.preventDefault();
+            var section = document.getElementById(areaName);
+            var position = section.getBoundingClientRect().top + window.pageYOffset - 64;
+            window.scrollTo({ top: position, behavior: 'smooth' });
+
+            // Add border to navigated section
+            section.style.border = "3px solid red";
+        }
+    </script>
 
 {% endblock %}
