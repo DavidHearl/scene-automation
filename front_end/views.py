@@ -163,8 +163,6 @@ def calculate_overall_statistics():
     for ship in ships:
         if ship.time_remaining != 0:
             total_time += ship.time_remaining
-    
-    return round(total_time, 2)
 
     # Update the statistics
     statistics.total_time = total_time
@@ -182,6 +180,8 @@ def calculate_overall_statistics():
 
     # Save the statistics
     statistics.save()
+
+    return round(total_time, 2)
    
 
 """ Render the main page """

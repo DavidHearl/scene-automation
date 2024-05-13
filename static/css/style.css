@@ -74,9 +74,8 @@ a:hover {
 
 .summary-boxes {
     background: var(--card-background);
-    min-width: 200px;
+    width: 200px;
     border-radius: 4px;
-    width: 24%;
     margin-bottom: 8px;
 }
 

@@ -20,12 +20,22 @@
             <h4 class="summary-title">Completion Date:</h4>
             <h2 class="summary-content">{{ today }}</h2>
         </div>
-        
+
         <div class="summary-boxes">
-            <h4 class="summary-title">Ship and Areas</h4>
-            <h2 class="summary-content">{{ num_ships }}, {{ num_areas }}</h2>
+            <h4 class="summary-title">Total Scans</h4>
+            <h2 class="summary-content">{{ statistics.total_scans }}</h2>
         </div>
         
+        <div class="summary-boxes">
+            <h4 class="summary-title">Ships</h4>
+            <h2 class="summary-content">{{ num_ships }}</h2>
+        </div>
+        
+        <div class="summary-boxes">
+            <h4 class="summary-title">Areas</h4>
+            <h2 class="summary-content">{{ num_areas }}</h2>
+        </div>
+
         <div class="summary-boxes">
             <h4 class="summary-title">Processing Time / Ship:</h4>
             <h2 class="summary-content">TBE</h2>

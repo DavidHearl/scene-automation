@@ -14,18 +14,24 @@
 {% block content %}
 
     <div class="container">
-        <p>
-            Welcome to the scan processing calculator. Please enter the rough number of scans you are going to take.
-            The Calculator will then return some rough timings. Please note, the calculator uses a complicated algorithm and may vary drastically from the actual time required.
+        <h2 class="center">Please enter the number of scans you below</h2>
+        <p class="center">
+            <em>Please note: This is to be used as a guide. Real world values will differ based on many other factors.</em>
         </p>
+
         <div class="calculator-container">
             <input id="calculator-input" type="number">
             <button id="calculate-button">Calculate</button>
         </div>
 
-        <div id="result">
-
+        <div class="result-container">
+            <div id="result"></div>
+            <div id="date"></div>
         </div>
+        
+        <p class="center">
+            <em>The dates above assume processing will begin immediately, please factor in the current workload which can be found on the home page</em>
+        </p>
     </div>
 
     <script src="{% static 'js/calculator.js' %}"></script>

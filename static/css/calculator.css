@@ -34,3 +34,37 @@ input {
     justify-content: center;
     align-items: center;
 }
+
+#date {
+    margin: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-container {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    margin: 32px auto;
+    background: repeating-linear-gradient(
+        150deg,
+        rgb(251, 251, 251),
+        rgb(251, 251, 251) 30px,
+        rgb(246, 246, 246) 30px,
+        rgb(246, 246, 246) 60px
+    );
+    color: black;
+    border-radius: 24px;
+}
+
+.result-container > div > h2 {
+    font-size: 1.75rem;
+    margin: 0;
+}
