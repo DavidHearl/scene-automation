@@ -18,7 +18,7 @@ time_per_area = 30
 
 # Error times
 error_codes = ["Minor Fail", "Major Fail", "Critical Fail"]
-error_times = [2, 3.5, 5]
+error_times = [2, 2.5, 3]
 
 # Constants to define the number of hours in a workday
 hours_per_workday = 8
@@ -314,6 +314,14 @@ def delete_area(request, area_id):
     messages.success(request, 'Area deleted successfully.')
 
     return redirect('ships_and_areas')
+
+# --------------------------------------------------------------------------- #
+# ------------------------------- Calculator -------------------------------- #
+# --------------------------------------------------------------------------- #
+
+def calculator(request):
+    return render(request, 'front_end/calculator.html')
+
 
 # --------------------------------------------------------------------------- #
 # -------------------------------- Calendar --------------------------------- #

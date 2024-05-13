@@ -1,0 +1,36 @@
+.container {
+    padding-top: 64px;
+    color: white;
+}
+
+.calculator-container {
+    display: flex;
+    justify-content: center;
+}
+
+.calculator-container > * {
+    padding: 4px;
+}
+
+#calculate-button {
+    margin-left: 16px;
+    padding: 4px 16px;
+    background: linear-gradient(107deg, rgb(68, 172, 30) 11.1%, rgb(95, 166, 94) 95.3%);
+    border: 1px solid darkgreen;
+    border-radius: 8px;
+    color: white;
+}
+
+input {
+    border-radius: 6px;
+    border: 1px solid;
+    width: 124px;
+    text-align: center;
+}
+
+#result {
+    margin: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

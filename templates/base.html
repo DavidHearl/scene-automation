@@ -50,6 +50,9 @@
             <li>
                 <a href="{% url 'booking' %}">Bookings</a>
             </li>
+            <li>
+                <a href="{% url 'calculator' %}">Calculator</a>
+            </li>
             <!-- <li>
                 <a href="{% url 'manual_page' %}">Manual</a>
             </li>
@@ -122,6 +125,7 @@
     </nav>
 
     <div id="particles-js" style="height: 400%;"></div>
+    
     {% block content %}
 
     {% endblock %}
@@ -135,8 +139,8 @@
         });
     </script>
 
-    <!-- <script src="{% static 'particles/particles.js' %}"></script>
-    <script src="{% static 'particles/app.js' %}"></script> -->
+    <script src="{% static 'particles/particles.js' %}"></script>
+    <script src="{% static 'particles/app.js' %}"></script>
 
     <!-- <footer>
         <div class="container">

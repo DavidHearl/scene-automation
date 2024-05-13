@@ -64,28 +64,28 @@
     <div class="area-container">
         <div class="area-card area-card-titles">
             <div class="process-title">
-                <a class="area-title">Area Name</a>
+                <a class="area-title status-title">Area Name</a>
             </div>
             <div class="number-of-scans">
-                <p class="number-value rotate">Scans</p>
+                <p class="number-value">Scans</p>
             </div>
             <div class="process-status">
-                <p class="status-box rotate">Process</p>
+                <p class="status-box status-title">Process</p>
             </div>
             <div class="process-status">
-                <p class="status-box rotate">Register</p>
+                <p class="status-box status-title">Register</p>
             </div>
             <div class="process-status">
-                <p class="status-box rotate">Cleaned</p>
+                <p class="status-box status-title">Cleaned</p>
             </div>
             <div class="process-status">
-                <p class="status-box rotate">Point Cloud</p>
+                <p class="status-box status-title">Point Cloud</p>
             </div>
             <div class="process-status">
-                <p class="status-box rotate">Export</p>
+                <p class="status-box status-title">Export</p>
             </div>
             <div class="process-status">
-                <p class="status-box rotate">Upload</p>
+                <p class="status-box status-title">Upload</p>
             </div>
         </div>
 
@@ -308,7 +308,7 @@
         function scrollToSection(event, areaName) {
             event.preventDefault();
             var section = document.getElementById(areaName);
-            var position = section.getBoundingClientRect().top + window.pageYOffset - 64;
+            var position = section.getBoundingClientRect().top + window.pageYOffset - 72;
             window.scrollTo({ top: position, behavior: 'smooth' });
 
             // Add border to navigated section
