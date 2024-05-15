@@ -196,6 +196,7 @@ def ships_and_areas(request):
     ships = Ship.objects.all().order_by('completed_percentage')
     areas = Area.objects.all()
     statistics = Statistics.objects.get(id=8)
+    machines = Machine.objects.all()
 
     total_time = statistics.total_time
 
@@ -245,6 +246,7 @@ def ships_and_areas(request):
         'ships': ships,
         'areas': areas,
         'statistics': statistics,
+        'machines': machines,
         'num_ships': num_ships,
         'num_areas': num_areas,
         'today': today,
@@ -256,7 +258,7 @@ def ships_and_areas(request):
 
 def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
-    areas = Area.objects.filter(ship=ship)
+    areas = Area.objects.filter(ship=ship).order_by('area_name')
 
     if request.method == 'POST':
         area_form = AreaForm(request.POST)
@@ -417,6 +419,5 @@ def delete_booking(request, booking_id):
     booking = get_object_or_404(Booking, pk=booking_id)
     booking.delete()
     messages.success(request, 'Booking deleted successfully.')
-
 
     return redirect('booking')

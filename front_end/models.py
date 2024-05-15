@@ -134,7 +134,6 @@ class Booking(models.Model):
 	start_date = models.DateField(null=True)
 	end_date = models.DateField(null=True)
 	scanner = models.CharField(max_length=10, choices=SCANNER)
-	users = models.ManyToManyField(User)
 
 	def clean(self):
 		super().clean()

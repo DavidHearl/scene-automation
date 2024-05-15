@@ -11,35 +11,41 @@
 {% block content %}
     <!-- Summaries -->
     <div class="headlines">
-        <div class="summary-boxes">
+        <div class="summary-boxes small-shrink">
             <h4 class="summary-title">Time Remaining:</h4>
             <h2 class="summary-content">{{ statistics.total_time }} Days</h2>
         </div>
 
-        <div class="summary-boxes">
+        <div class="summary-boxes small-shrink">
             <h4 class="summary-title">Completion Date:</h4>
             <h2 class="summary-content">{{ today }}</h2>
         </div>
 
-        <div class="summary-boxes">
+        <div class="summary-boxes medium-shrink">
             <h4 class="summary-title">Total Scans</h4>
             <h2 class="summary-content">{{ statistics.total_scans }}</h2>
         </div>
         
-        <div class="summary-boxes">
+        <div class="summary-boxes large-shrink">
             <h4 class="summary-title">Ships</h4>
             <h2 class="summary-content">{{ num_ships }}</h2>
         </div>
         
-        <div class="summary-boxes">
+        <div class="summary-boxes large-shrink">
             <h4 class="summary-title">Areas</h4>
             <h2 class="summary-content">{{ num_areas }}</h2>
         </div>
+    </div>
 
-        <div class="summary-boxes">
-            <h4 class="summary-title">Processing Time / Ship:</h4>
-            <h2 class="summary-content">TBE</h2>
-        </div>
+    <div class="machines">
+        {% for machine in machines %}
+            {% if machine.status %}
+                <div class="machine-boxes">
+                    <h4 class="summary-title">{{ machine.name }}</h4>
+                    <div class="status-bar"></div>
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <!-- Ship and Area Details -->
