@@ -53,15 +53,9 @@
             <li>
                 <a href="{% url 'calculator' %}">Calculator</a>
             </li>
-            <!-- <li>
-                <a href="{% url 'manual_page' %}">Manual</a>
-            </li>
             <li>
-                <a href="{% url 'data_view' %}">Data</a>
+                <a href="{% url 'priority' %}">Priority</a>
             </li>
-            <li>
-                <a href="">Theory</a>
-            </li> -->
         </ul>
         <ul class="user-details">
             {% if user.is_authenticated %}
@@ -96,12 +90,9 @@
             <li>
                 <a href="{% url 'calculator' %}">Calculator</a>
             </li>
-            <!-- <li>
-                <a href="">Bookings</a>
-            </li>
             <li>
-                <a href="">Theory</a>
-            </li> -->
+                <a href="{% url 'priority' %}">Priority</a>
+            </li>
         </ul>
         <ul class="user-details">
             {% if user.is_authenticated %}

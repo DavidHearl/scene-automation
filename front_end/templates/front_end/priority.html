@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %} 
+    
+<table>
+    <thead>
+        <tr>
+            <th>Ship</th>
+            <th>Area Name</th>
+            <th>Ship Priority</th>
+            <th>Area Priority</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for area in areas %}
+            <tr>
+                <td>{{ area.ship.name }}</td>
+                <td>{{ area.area_name }}</td>
+                <td>{{ area.ship.priority }}</td>
+                <td>{{ area.priority }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

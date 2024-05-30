@@ -421,3 +421,17 @@ def delete_booking(request, booking_id):
     messages.success(request, 'Booking deleted successfully.')
 
     return redirect('booking')
+
+
+# --------------------------------------------------------------------------- #
+# -------------------------------- Priority --------------------------------- #
+# --------------------------------------------------------------------------- #
+
+def priority(request):
+    areas = Area.objects.select_related('ship').exclude(ship__completed_percentage=100).all()
+
+    context = {
+        'areas': areas,
+    }
+
+    return render(request, 'front_end/priority.html', context)
