@@ -1,26 +1,53 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/priority.css' %}">
+{% endblock %}
+
 {% block content %} 
-    
-<table>
-    <thead>
-        <tr>
-            <th>Ship</th>
-            <th>Area Name</th>
-            <th>Ship Priority</th>
-            <th>Area Priority</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for area in areas %}
+
+<div class="container">
+    <table>
+        <thead>
             <tr>
-                <td>{{ area.ship.name }}</td>
-                <td>{{ area.area_name }}</td>
-                <td>{{ area.ship.priority }}</td>
-                <td>{{ area.priority }}</td>
+                <th>P</th>
+                <th>Ship</th>
+                <th>Area Name</th>
+                <th>Ship Priority</th>
+                <th>Area Priority</th>
+                <th>Time</th>
+                <th>Completion</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for area in areas %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ area.ship.name }}</td>
+                    <td>{{ area.area_name }}</td>
+                    <td>{{ area.ship.priority }}</td>
+                    <td>{{ area.priority }}</td>
+                    <td></td>
+                    <td>
+                        <div class="complete-container">
+                            <div class="complete"></div>
+                            <div class="complete"></div>
+                            <div class="complete"></div>
+                            <div class="complete"></div>
+                            <div class="complete"></div>
+                            <div class="complete"></div>
+                            <div class="complete"></div>
+                            <div class="queued"></div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
 
 {% endblock %}

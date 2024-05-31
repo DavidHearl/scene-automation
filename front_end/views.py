@@ -429,6 +429,10 @@ def delete_booking(request, booking_id):
 
 def priority(request):
     areas = Area.objects.select_related('ship').exclude(ship__completed_percentage=100).all()
+    
+    for area in areas:
+        if area.uploaded == "Completed":
+            areas = areas.exclude(id=area.id)
 
     context = {
         'areas': areas,
