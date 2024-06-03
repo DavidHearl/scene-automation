@@ -16,31 +16,33 @@
                 <th>P</th>
                 <th>Ship</th>
                 <th>Area Name</th>
+                <th># Scans</th>
                 <th>Ship Priority</th>
                 <th>Area Priority</th>
-                <th>Time</th>
+                <th>Time (Days)</th>
                 <th>Completion</th>
             </tr>
         </thead>
         <tbody>
             {% for area in areas %}
-                <tr>
+                <tr class={% if area.registered == "Minor" %}Minor{% endif %}>
                     <td>{{ forloop.counter }}</td>
-                    <td>{{ area.ship.name }}</td>
-                    <td>{{ area.area_name }}</td>
+                    <td class="td-start">
+                        <a class="ship-link" href="{% url 'ship_detail' area.ship.id %}">{{ area.ship.name }}</a>
+                    </td>
+                    <td class="td-start">{{ area.area_name }}</td>
+                    <td>{{ area.scans }}</td>
                     <td>{{ area.ship.priority }}</td>
                     <td>{{ area.priority }}</td>
-                    <td></td>
+                    <td>{{ area.time_remaining }}</td>
                     <td>
                         <div class="complete-container">
-                            <div class="complete"></div>
-                            <div class="complete"></div>
-                            <div class="complete"></div>
-                            <div class="complete"></div>
-                            <div class="complete"></div>
-                            <div class="complete"></div>
-                            <div class="complete"></div>
-                            <div class="queued"></div>
+                            <div class="{{ area.processed|status_to_class }}"></div>
+                            <div class="{{ area.registered|status_to_class }}"></div>
+                            <div class="{{ area.cleaned|status_to_class }}"></div>
+                            <div class="{{ area.point_cloud|status_to_class }}"></div>
+                            <div class="{{ area.exported|status_to_class }}"></div>
+                            <div class="{{ area.uploaded|status_to_class }}"></div>
                         </div>
                     </td>
                 </tr>
@@ -48,6 +50,5 @@
         </tbody>
     </table>
 </div>
-
 
 {% endblock %}

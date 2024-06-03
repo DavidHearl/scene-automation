@@ -11,7 +11,6 @@ import datetime
 from datetime import timedelta, date
 import calendar
 
-
 # Constants to define the time taken for each process
 time_per_scan = 20
 time_per_area = 30
@@ -69,7 +68,7 @@ def calculate_area_time():
                 # print(f'{area.time_remaining} {area.area_name}')
 
                 # Don't iterate through the area if there is no time remaining
-                if area.uploaded != "Completed":
+                if area.time_remaining != 0:
                     # Increment the area count and set completion percentage to 0
                     complete_percentage = 0
                     area_count += 1
@@ -427,15 +426,44 @@ def delete_booking(request, booking_id):
 # -------------------------------- Priority --------------------------------- #
 # --------------------------------------------------------------------------- #
 
+@timing_decorator
 def priority(request):
-    areas = Area.objects.select_related('ship').exclude(ship__completed_percentage=100).all()
+    areas = list(Area.objects.select_related('ship').exclude(ship__completed_percentage=100).all())
     
+    priority_areas = []
+
+    tier_1_priority = []
+    tier_2_priority = []
+
+    # Filter out Completed areas
+    areas = [area for area in areas if area.uploaded != "Completed"]
+
+    # Sort areas into priority tiers
     for area in areas:
-        if area.uploaded == "Completed":
-            areas = areas.exclude(id=area.id)
+        # Calculate the priority
+        ship_priority = area.ship.priority * 1.4
+        area_priority = area.priority
+
+        overall_priority = ship_priority + area_priority
+
+        # Separate Queued and Minor Fail areas to the top
+        if area.uploaded == "Queued" or area.uploaded == "Minor Fail":
+            tier_1_priority.append((overall_priority, area.area_name, area))
+        else:
+            tier_2_priority.append((overall_priority, area.area_name, area))
+
+    # Sort areas by priority in ascending order and then by name in alphabetical order
+    tier_1_priority.sort(key=lambda x: (x[0], x[1]))
+    tier_2_priority.sort(key=lambda x: (x[0], x[1]))
+
+    # Combine the sorted priority tiers
+    priority_areas = tier_1_priority + tier_2_priority
+
+    # Extract sorted areas
+    sorted_areas = [area for _, _, area in priority_areas]
 
     context = {
-        'areas': areas,
+        'areas': sorted_areas,
     }
 
     return render(request, 'front_end/priority.html', context)
