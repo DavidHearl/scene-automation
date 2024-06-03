@@ -7,10 +7,16 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/priority.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+{% endblock %}
+
 {% block content %} 
 
 <div class="container">
-    <table>
+    <button id="pdfButton">Generate PDF</button>
+    <table id="priority-table">
         <thead>
             <tr>
                 <th>P</th>
@@ -49,6 +55,27 @@
             {% endfor %}
         </tbody>
     </table>
+
 </div>
+
+<script>
+    window.onload = function() {
+        document.getElementById("pdfButton").addEventListener("click", function() {
+            var element = document.getElementById('priority-table');
+    
+            html2canvas(element, {
+                onrendered: function(canvas) {
+                    var imgData = canvas.toDataURL('image/png');
+                    var doc = new jsPDF('p', 'mm', 'a4');
+                    var width = doc.internal.pageSize.getWidth();
+                    var height = doc.internal.pageSize.getHeight();
+                    height = height * 1.5;
+                    doc.addImage(imgData, 'PNG', 0, 0, width, height);
+                    doc.save('table.pdf');
+                }
+            });
+        });
+    }
+</script>
 
 {% endblock %}
