@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/logs.css' %}">
+{% endblock %}
+
+{% block content %} 
+    
+<div class="container">
+    <h1>User Logins</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>TimeStamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for login in user.userlogin_set.all %}
+                <tr>
+                    <td>{{ login.user }}</td>
+                    <td>{{ login.timestamp }}</td>
+                </tr>
+            {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

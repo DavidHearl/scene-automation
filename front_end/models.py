@@ -139,3 +139,12 @@ class Booking(models.Model):
 		super().clean()
 		if self.end_date < self.start_date:
 			raise ValidationError("End date cannot be earlier than start date.")
+
+
+# -----------------------------------------------------------------
+# ---------------------------- Logging ----------------------------
+# -----------------------------------------------------------------
+
+class UserLogin(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)

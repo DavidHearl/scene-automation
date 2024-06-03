@@ -3,13 +3,15 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
-from .models import Ship, Area, Machine, Statistics, Booking
+from .models import Ship, Area, Machine, Statistics, Booking, UserLogin
 from .forms import ShipForm, AreaForm, MachineForm, BookingForm
 from django.contrib.auth.models import User
 from functools import wraps
 import datetime
 from datetime import timedelta, date
+from django.dispatch import receiver
 import calendar
+from django.contrib.auth.signals import user_logged_in
 
 # Constants to define the time taken for each process
 time_per_scan = 20
@@ -467,3 +469,22 @@ def priority(request):
     }
 
     return render(request, 'front_end/priority.html', context)
+
+
+# --------------------------------------------------------------------------- #
+# ---------------------------------- Logs ----------------------------------- #
+# --------------------------------------------------------------------------- #
+
+@receiver(user_logged_in)
+def log_user_login(sender, user, request, **kwargs):
+    UserLogin.objects.create(user=user)
+
+
+def logs(request):
+    logs = UserLogin.objects.all().reverse()
+
+    context = {
+        'logs': logs,
+    }
+
+    return render(request, 'front_end/logs.html')

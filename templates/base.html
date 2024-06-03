@@ -53,15 +53,21 @@
             <li>
                 <a href="{% url 'calculator' %}">Calculator</a>
             </li>
-            <li>
-                <a href="{% url 'priority' %}">Priority</a>
-            </li>
+            <!-- remove after testing -->
+            {% if user.is_superuser %}
+                <li>
+                    <a href="{% url 'logs' %}">Logs</a>
+                </li>
+            {% endif %}
         </ul>
         <ul class="user-details">
             {% if user.is_authenticated %}
                 {% if user.is_superuser %}
                     <li>
                         <a href="{% url 'admin:index' %}">Admin</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logs' %}">Logs</a>
                     </li>
                 {% endif %}
                 <li>
@@ -99,6 +105,9 @@
                 {% if user.is_superuser %}
                     <li>
                         <a href="{% url 'admin:index' %}">Admin</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'logs' %}">Logs</a>
                     </li>
                 {% endif %}
                 <li>
