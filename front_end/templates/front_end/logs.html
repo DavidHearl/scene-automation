@@ -10,7 +10,7 @@
 {% block content %} 
     
 <div class="container">
-    <h1>User Logins</h1>
+    <h2>User Logins</h2>
     <table>
         <thead>
             <tr>
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for login in user.userlogin_set.all %}
+            {% for login in logins %}
                 <tr>
                     <td>{{ login.user }}</td>
                     <td>{{ login.timestamp }}</td>

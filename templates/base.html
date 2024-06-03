@@ -53,12 +53,9 @@
             <li>
                 <a href="{% url 'calculator' %}">Calculator</a>
             </li>
-            <!-- remove after testing -->
-            {% if user.is_superuser %}
-                <li>
-                    <a href="{% url 'logs' %}">Logs</a>
-                </li>
-            {% endif %}
+            <li>
+                <a href="{% url 'priority' %}">Priority</a>
+            </li>
         </ul>
         <ul class="user-details">
             {% if user.is_authenticated %}

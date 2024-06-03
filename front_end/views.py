@@ -481,10 +481,10 @@ def log_user_login(sender, user, request, **kwargs):
 
 
 def logs(request):
-    logs = UserLogin.objects.all().reverse()
+    logins = UserLogin.objects.all().order_by('-timestamp')
 
     context = {
-        'logs': logs,
+        'logins': logins,
     }
 
-    return render(request, 'front_end/logs.html')
+    return render(request, 'front_end/logs.html', context)
