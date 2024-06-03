@@ -3,7 +3,7 @@ from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.db.models import Sum, Count, F
-from .models import Ship, Area, Machine, Statistics, Booking, UserLogin
+from .models import Ship, Area, Machine, Statistics, Booking, UserLogin, PageVisit
 from .forms import ShipForm, AreaForm, MachineForm, BookingForm
 from django.contrib.auth.models import User
 from functools import wraps
@@ -481,7 +481,7 @@ def log_user_login(sender, user, request, **kwargs):
 
 
 def logs(request):
-    logins = UserLogin.objects.all().order_by('-timestamp')
+    logins = PageVisit.objects.all().order_by('-timestamp')
 
     context = {
         'logins': logins,
