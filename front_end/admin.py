@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ship, Area, Machine, Statistics, Booking, UserLogin
+from .models import Ship, Area, Machine, Statistics, Booking, UserLogin, PageVisit
 
 
 class ShipAdmin(admin.ModelAdmin):
@@ -42,9 +42,11 @@ class BookingAdmin(admin.ModelAdmin):
         'scanner',
     )
 
-class LoginAdmin(admin.ModelAdmin):
+
+class PageLoggingAdmin(admin.ModelAdmin):
     list_display = (
         'user',
+        'page',
         'timestamp',
     )
 
@@ -53,4 +55,4 @@ admin.site.register(Area, AreaAdmin)
 admin.site.register(Machine, MachineAdmin)
 admin.site.register(Statistics, StatisticsAdmin)
 admin.site.register(Booking, BookingAdmin)
-admin.site.register(UserLogin, LoginAdmin)
+admin.site.register(PageVisit, PageLoggingAdmin)

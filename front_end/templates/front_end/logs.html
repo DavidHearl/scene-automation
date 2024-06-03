@@ -21,11 +21,13 @@
         </thead>
         <tbody>
             {% for login in logins %}
-                <tr>
-                    <td>{{ login.user }}</td>
-                    <td>{{ login.timestamp }}</td>
-                    <td>{{ login.page }}</td>
-                </tr>
+                {% if login.user != 'admin' %}
+                    <tr>
+                        <td>{{ login.user }}</td>
+                        <td>{{ login.timestamp }}</td>
+                        <td>{{ login.page }}</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
     </table>
 </div>
