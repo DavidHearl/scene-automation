@@ -261,6 +261,12 @@ def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
     areas = Area.objects.filter(ship=ship).order_by('area_name')
 
+    queued_areas = [area for area in areas if area.uploaded == "Queued"]
+    not_required_areas = [area for area in areas if area.uploaded == "Not Required"]
+    other_areas = [area for area in areas if area.uploaded != "Not Required" and area.uploaded != "Queued"]
+
+    sorted_ship_areas = queued_areas + other_areas + not_required_areas
+
     if request.method == 'POST':
         area_form = AreaForm(request.POST)
         if area_form.is_valid():
@@ -274,7 +280,7 @@ def ship_detail(request, ship_id):
 
     context = {
         'ship': ship,
-        'areas': areas,
+        'areas': sorted_ship_areas,
         'area_form': area_form,
     }
 
