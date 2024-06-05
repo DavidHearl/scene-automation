@@ -483,6 +483,8 @@ def priority(request):
 
 @receiver(user_logged_in)
 def log_user_login(sender, user, request, **kwargs):
+    statistics = Statistics.objects.first()
+    time_remaining = statistics.total_time if statistics else None
     UserLogin.objects.create(user=user)
 
 

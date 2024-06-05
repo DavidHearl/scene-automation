@@ -42,7 +42,6 @@ class BookingAdmin(admin.ModelAdmin):
         'scanner',
     )
 
-
 class PageLoggingAdmin(admin.ModelAdmin):
     list_display = (
         'user',
