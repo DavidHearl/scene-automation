@@ -1,17 +1,23 @@
-import time
-from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
-from django.contrib import messages
-from django.http import HttpResponseRedirect
-from django.db.models import Sum, Count, F
-from .models import Ship, Area, Machine, Statistics, Booking, UserLogin, PageVisit
-from .forms import ShipForm, AreaForm, MachineForm, BookingForm
-from django.contrib.auth.models import User
-from functools import wraps
+# Standard library imports
+import calendar
 import datetime
 from datetime import timedelta, date
-from django.dispatch import receiver
-import calendar
+from functools import wraps
+import time
+
+# Related third party imports
+from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_in
+from django.db.models import Sum, Count, F
+from django.dispatch import receiver
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
+
+# Local application/library specific imports
+from .forms import ShipForm, AreaForm, MachineForm, BookingForm
+from .models import Ship, Area, Machine, Statistics, Booking, PageVisit
+
 
 # Constants to define the time taken for each process
 time_per_scan = 20
@@ -437,7 +443,7 @@ def delete_booking(request, booking_id):
 @timing_decorator
 def priority(request):
     areas = list(Area.objects.select_related('ship').exclude(ship__completed_percentage=100).all())
-    
+
     priority_areas = []
 
     tier_1_priority = []
@@ -480,13 +486,6 @@ def priority(request):
 # --------------------------------------------------------------------------- #
 # ---------------------------------- Logs ----------------------------------- #
 # --------------------------------------------------------------------------- #
-
-@receiver(user_logged_in)
-def log_user_login(sender, user, request, **kwargs):
-    statistics = Statistics.objects.first()
-    time_remaining = statistics.total_time if statistics else None
-    UserLogin.objects.create(user=user)
-
 
 def logs(request):
     logins = PageVisit.objects.all().order_by('-timestamp')

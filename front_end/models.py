@@ -145,14 +145,6 @@ class Booking(models.Model):
 # ---------------------------- Logging ----------------------------
 # -----------------------------------------------------------------
 
-class UserLogin(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	timestamp = models.DateTimeField(auto_now_add=True)
-
-	def __str__(self):
-		return self.user
-
-
 class PageVisit(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	page = models.CharField(max_length=200)

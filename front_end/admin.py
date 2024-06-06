@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ship, Area, Machine, Statistics, Booking, UserLogin, PageVisit
+from .models import Ship, Area, Machine, Statistics, Booking, PageVisit
 
 
 class ShipAdmin(admin.ModelAdmin):
