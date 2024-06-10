@@ -442,46 +442,75 @@ def delete_booking(request, booking_id):
 
 @timing_decorator
 def priority(request):
-    areas = list(Area.objects.select_related('ship').exclude(ship__completed_percentage=100).all())
-
-    priority_areas = []
-
-    tier_1_priority = []
-    tier_2_priority = []
+    # Order all areas in alphabetical order
+    areas = list(Area.objects.select_related('ship').order_by('area_name').all())
 
     # Filter out Completed areas
     areas = [area for area in areas if area.uploaded != "Completed"]
 
-    # Sort areas into priority tiers
+    # Move Areas not required to a new list and delete them from the main list
+    not_required_areas = [area for area in areas if area.uploaded == "Not Required"]
+    areas = [area for area in areas if area.uploaded != "Not Required"]
+
+    status_priority = {
+        "Completed": 0.01,
+        "WIP": 0.02,
+        "Queued": 0.03,
+        "Minor Fail": 0.04,
+        "Major Fail": 0.05,
+        "Hold": 0.06,
+        "Critical Fail": 0.07
+    }
+
+    attributes = ['uploaded', 'exported', 'point_cloud', 'cleaned', 'registered', 'processed']
+
+    # Calculate the priority of each area
     for area in areas:
-        # Calculate the priority
-        ship_priority = area.ship.priority * 1.4
+        ship_priority = area.ship.priority
         area_priority = area.priority
 
-        overall_priority = ship_priority + area_priority
+        ship_area_priority = (ship_priority * 1.1) + area_priority
 
-        # Separate Queued and Minor Fail areas to the top
-        if area.uploaded == "Queued" or area.uploaded == "Minor Fail":
-            tier_1_priority.append((overall_priority, area.area_name, area))
-        else:
-            tier_2_priority.append((overall_priority, area.area_name, area))
+        for i, attr in enumerate(attributes):
+            status = getattr(area, attr)
+            if status in status_priority:
+                ship_area_priority += status_priority[status] / (10 ** i)
+                # Round the ship_area_priority to 10 decimal places
+                ship_area_priority = round(ship_area_priority, 8)
 
-    # Sort areas by priority in ascending order and then by name in alphabetical order
-    tier_1_priority.sort(key=lambda x: (x[0], x[1]))
-    tier_2_priority.sort(key=lambda x: (x[0], x[1]))
+                area.calcualted_priority = ship_area_priority
+                area.save()
 
-    # Combine the sorted priority tiers
-    priority_areas = tier_1_priority + tier_2_priority
+    # Order the areas by priority
+    areas = sorted(areas, key=lambda x: x.calcualted_priority)
 
-    # Extract sorted areas
-    sorted_areas = [area for _, _, area in priority_areas]
+    for area in not_required_areas:
+        if area.processed == "Not Required":
+            area.calcualted_priority = 0.06
+        elif area.registered == "Not Required":
+            area.calcualted_priority = 0.05
+        elif area.cleaned == "Not Required":
+            area.calcualted_priority = 0.04
+        elif area.point_cloud == "Not Required":
+            area.calcualted_priority = 0.03
+        elif area.exported == "Not Required":
+            area.calcualted_priority = 0.02
+        elif area.uploaded == "Not Required":
+            area.calcualted_priority = 0.01
+
+        area.save()
+
+    # Order the areas by priority
+    not_required_areas = sorted(not_required_areas, key=lambda x: x.calcualted_priority)
+
+    # Add the not required areas back to the main list
+    areas += not_required_areas
 
     context = {
-        'areas': sorted_areas,
+        'areas': areas,
     }
 
     return render(request, 'front_end/priority.html', context)
-
 
 # --------------------------------------------------------------------------- #
 # ---------------------------------- Logs ----------------------------------- #

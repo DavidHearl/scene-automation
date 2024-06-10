@@ -17,6 +17,7 @@ class AreaAdmin(admin.ModelAdmin):
         'scans',
         'time_remaining',
         'point_cloud_size',
+        'priority',
     )
     list_filter = ('ship',)  # Add a filter for 'ship'
 

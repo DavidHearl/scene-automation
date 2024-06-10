@@ -11,6 +11,8 @@ def sort_with_zero_first(value, arg):
 def status_to_class(status):
     if status == "Queued":
         return "queued"
+    elif status == "WIP":
+        return "wip"
     elif status == "Not Required":
         return "not-required"
     elif status == "Hold":
@@ -18,8 +20,8 @@ def status_to_class(status):
     elif status == "Minor Fail":
         return "minor-fail"
     elif status == "Major Fail":
-        return "minor-fail"
+        return "major-fail"
     elif status == "Critical Fail":
-        return "minoir-fail"
+        return "critical-fail"
     else:
         return "complete"

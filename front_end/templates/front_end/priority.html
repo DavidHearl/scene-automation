@@ -27,6 +27,9 @@
                 <th>Area Priority</th>
                 <th>Time (Days)</th>
                 <th>Completion</th>
+                {% if user.is_superuser %}
+                    <th>Priority</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -51,6 +54,9 @@
                             <div class="{{ area.uploaded|status_to_class }}"></div>
                         </div>
                     </td>
+                    {% if user.is_superuser %}
+                        <td>{{ area.calcualted_priority }}</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

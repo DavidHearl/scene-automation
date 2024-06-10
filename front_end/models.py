@@ -69,6 +69,8 @@ class Area(models.Model):
 	priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, blank=False)
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
+	calcualted_priority = models.DecimalField(max_digits=10, decimal_places=8, default=0, null=True, blank=True)
+
 	# Processing Operations
 	processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 	registered = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
