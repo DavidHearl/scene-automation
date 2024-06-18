@@ -40,8 +40,21 @@ process_weighting = [15, 40, 15, 10, 15, 5]
 # Define the complete status'
 completed_statuses = ["Completed", "Legacy", "No Data", "Not Required"]
 
+# Assign Priority to each status
+status_priority = {
+    "Completed": 0.01,
+    "WIP": 0.02,
+    "Queued": 0.03,
+    "Minor Fail": 0.04,
+    "Major Fail": 0.05,
+    "Hold": 0.06,
+    "Critical Fail": 0.07
+}
 
-""" Decorator to measure the time taken by a function """
+attributes = ['uploaded', 'exported', 'point_cloud', 'cleaned', 'registered', 'processed']
+
+
+# Decorator to measure the time taken by a function
 def timing_decorator(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
@@ -427,6 +440,7 @@ def edit_booking(request, booking_id):
 
     return render(request, 'front_end/bookings.html', context)
 
+
 def delete_booking(request, booking_id):
     # Get the booking with the given ID
     booking = get_object_or_404(Booking, pk=booking_id)
@@ -442,27 +456,8 @@ def delete_booking(request, booking_id):
 
 @timing_decorator
 def priority(request):
-    # Order all areas in alphabetical order
-    areas = list(Area.objects.select_related('ship').order_by('area_name').all())
-
-    # Filter out Completed areas
-    areas = [area for area in areas if area.uploaded != "Completed"]
-
-    # Move Areas not required to a new list and delete them from the main list
-    not_required_areas = [area for area in areas if area.uploaded == "Not Required"]
-    areas = [area for area in areas if area.uploaded != "Not Required"]
-
-    status_priority = {
-        "Completed": 0.01,
-        "WIP": 0.02,
-        "Queued": 0.03,
-        "Minor Fail": 0.04,
-        "Major Fail": 0.05,
-        "Hold": 0.06,
-        "Critical Fail": 0.07
-    }
-
-    attributes = ['uploaded', 'exported', 'point_cloud', 'cleaned', 'registered', 'processed']
+    # Fetch areas that are not completed or not required
+    areas = list(Area.objects.select_related('ship').exclude(uploaded__in=["Completed", "Not Required"]).order_by('area_name'))
 
     # Calculate the priority of each area
     for area in areas:
@@ -479,7 +474,9 @@ def priority(request):
                 ship_area_priority = round(ship_area_priority, 8)
 
                 area.calcualted_priority = ship_area_priority
-                area.save()
+
+    # Update all areas in a single database query
+    Area.objects.bulk_update(areas, ['calcualted_priority'])
 
     # Order the areas by priority
     areas = sorted(areas, key=lambda x: x.calcualted_priority)
@@ -492,19 +489,6 @@ def priority(request):
         "exported": 0.02,
         "uploaded": 0.01
     }
-
-    for area in not_required_areas:
-        for attr, priority in attribute_priority.items():
-            if getattr(area, attr) == "Not Required":
-                area.calculated_priority = priority
-                break
-        area.save()
-
-    # Order the areas by priority
-    not_required_areas = sorted(not_required_areas, key=lambda x: x.calcualted_priority)
-
-    # Add the not required areas back to the main list
-    areas += not_required_areas
 
     context = {
         'areas': areas,

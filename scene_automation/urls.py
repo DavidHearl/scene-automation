@@ -7,7 +7,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', ships_and_areas, name='ships_and_areas'),
     path('front_end/', include('front_end.urls')),
-    path('accounts/', include('allauth.urls')),
-    path('scanning_manual/', include('scanning_manual.urls')),
-    path('data/', include('data.urls')),
+    path('accounts/', include('allauth.urls'))
 ]

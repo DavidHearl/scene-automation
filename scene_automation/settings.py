@@ -49,9 +49,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'cloudinary_storage',
     'cloudinary',
-    'front_end',    
-    'scanning_manual',
-    'data',
+    'front_end',
 ]
 
 MIDDLEWARE = [

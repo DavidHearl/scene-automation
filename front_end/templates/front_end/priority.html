@@ -49,7 +49,7 @@
                         {% if user.is_superuser %}
                             <!-- Ship Priority -->
                             <td>
-                                <select class="select-priorities" name="ship-priority">
+                                <select class="select-priorities {{ label }}" name="ship-priority">
                                     {% for status, label in area.PRIORITY_CHOICES %}
                                         <option value="{{ status }}" {% if status == area.ship.priority %}selected{% endif %}>{{ label }}</option>
                                     {% endfor %}
