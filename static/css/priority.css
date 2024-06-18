@@ -43,6 +43,13 @@ td {
     justify-content: space-around;
 }
 
+.save {
+    background: #1a9d1a;
+    border: 1px solid darkgreen;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
 .complete,
 .wip,
 .queued,

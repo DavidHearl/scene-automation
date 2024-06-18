@@ -31,3 +31,20 @@ class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['start_date', 'end_date', 'scanner', 'users']
+
+
+class AreaPriorityForm(forms.ModelForm):
+    class Meta:
+        model = Area
+        fields = ['priority']
+        widgets = {
+            'priority': forms.Select(choices=Area.PRIORITY_CHOICES),
+        }
+
+class ShipPriorityForm(forms.ModelForm):
+    class Meta:
+        model = Ship
+        fields = ['priority']
+        widgets = {
+            'priority': forms.Select(choices=Ship.PRIORITY_CHOICES),
+        }

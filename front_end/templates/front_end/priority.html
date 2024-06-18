@@ -30,34 +30,64 @@
                 {% if user.is_superuser %}
                     <th>Priority</th>
                 {% endif %}
+                <th>Save</th>
             </tr>
         </thead>
         <tbody>
             {% for area in areas %}
-                <tr class={% if area.registered == "Minor" %}Minor{% endif %}>
-                    <td>{{ forloop.counter }}</td>
-                    <td class="td-start">
-                        <a class="ship-link" href="{% url 'ship_detail' area.ship.id %}">{{ area.ship.name }}</a>
-                    </td>
-                    <td class="td-start">{{ area.area_name }}</td>
-                    <td>{{ area.scans }}</td>
-                    <td>{{ area.ship.priority }}</td>
-                    <td>{{ area.priority }}</td>
-                    <td>{{ area.time_remaining }}</td>
-                    <td>
-                        <div class="complete-container">
-                            <div class="{{ area.processed|status_to_class }}"></div>
-                            <div class="{{ area.registered|status_to_class }}"></div>
-                            <div class="{{ area.cleaned|status_to_class }}"></div>
-                            <div class="{{ area.point_cloud|status_to_class }}"></div>
-                            <div class="{{ area.exported|status_to_class }}"></div>
-                            <div class="{{ area.uploaded|status_to_class }}"></div>
-                        </div>
-                    </td>
-                    {% if user.is_superuser %}
-                        <td>{{ area.calcualted_priority }}</td>
-                    {% endif %}
-                </tr>
+                <form class="area-form" method="post" action="{% url 'edit_priority' area.id %}">
+                    {% csrf_token %}
+                    <tr class={% if area.registered == "Minor" %}Minor{% endif %}>
+                        <td>{{ forloop.counter }}</td>
+                        <td class="td-start">
+                            <a class="ship-link" href="{% url 'ship_detail' area.ship.id %}">{{ area.ship.name }}</a>
+                        </td>
+                        <td class="td-start">{{ area.area_name }}</td>
+                        <td>{{ area.scans }}</td>
+
+                        <!-- If user is superuser show selection boxes for the priorities -->
+                        {% if user.is_superuser %}
+                            <!-- Ship Priority -->
+                            <td>
+                                <select class="select-priorities" name="ship-priority">
+                                    {% for status, label in area.PRIORITY_CHOICES %}
+                                        <option value="{{ status }}" {% if status == area.ship.priority %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+
+                            <!-- Area Priority -->
+                            <td>
+                                <select class="select-priorities" name="area-priority">
+                                    {% for status, label in area.PRIORITY_CHOICES %}
+                                        <option value="{{ status }}" {% if status == area.priority %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                        {% else %}
+                            <td>{{ area.ship.priority }}</td>
+                            <td>{{ area.priority }}</td>  
+                        {% endif %}
+
+                        <td>{{ area.time_remaining }}</td>
+                        <td>
+                            <div class="complete-container">
+                                <div class="{{ area.processed|status_to_class }}"></div>
+                                <div class="{{ area.registered|status_to_class }}"></div>
+                                <div class="{{ area.cleaned|status_to_class }}"></div>
+                                <div class="{{ area.point_cloud|status_to_class }}"></div>
+                                <div class="{{ area.exported|status_to_class }}"></div>
+                                <div class="{{ area.uploaded|status_to_class }}"></div>
+                            </div>
+                        </td>
+                        {% if user.is_superuser %}
+                            <td>{{ area.calcualted_priority }}</td>
+                        {% endif %}
+                        <td>
+                            <button class="priority-save" type="submit">Save</button>
+                        </td>
+                    </tr>
+                </form>
             {% endfor %}
         </tbody>
     </table>

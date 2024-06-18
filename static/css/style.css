@@ -509,6 +509,20 @@ img {
     font-weight: 600;
 }
 
+.priority-save {
+    background: green;
+    border: 1px solid darkgreen;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.7rem;
+    height: 20px;
+    width: 40px;
+}
+
+.select-priorities {
+    font-size: 0.8rem;
+}
+
 .add {
     background: rgb(28, 155, 155);
     border: 1px solid rgb(6, 82, 145);
@@ -566,32 +580,42 @@ img {
     background: var(--card-background);
     padding: 16px;
     border-radius: 16px;
+    width: 360px;
 }
 
 .auth-primary {
     justify-content: center;
     display: flex;
-    color: #465b9b;
-    text-decoration: underline;
+    color: black;
+    font-weight: 600;
 }
 
 .auth-secondary {
     justify-content: center;
     display: flex;
+    margin-top: 16px;
 }
 
-.auth-link {
+.auth-link1 {
+    margin: 0;
+    margin-right: 6px;
+    font-size: 0.9rem;
+}
+
+.auth-link2 {
     margin: 0;
     color: #217e82;
+    font-size: 0.9rem;
 }
 
 .auth-button {
     width: 100%;
     color: white;
-    padding: 4px;
+    padding: 6px;
     background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
     border: none;
     border-radius: 8px;
+    margin-top: 16px;
 }
 
 .login > ul {
@@ -601,9 +625,26 @@ img {
     list-style: disc;
 }
 
-#id_login,
-#id_password {
-    min-width: 75%;
+.form-check {
+    margin: 12px 0;
+    float: right;
+}
+
+.form-label {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+.logout-message {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.return-home {
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    margin-top: 8px;
 }
 
 /* ------------------------------------------------------------------------------ */

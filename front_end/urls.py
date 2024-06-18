@@ -9,6 +9,7 @@ urlpatterns = [
     path('booking/', views.booking, name='booking'),
     path('calculator/', views.calculator, name='calculator'),
     path('priority/', views.priority, name='priority'),
+    path('edit_priority/<int:area_id>/', views.edit_priority, name='edit_priority'),
     path('logs/', views.logs, name='logs'),
     path('delete_booking/<int:booking_id>/', views.delete_booking, name='delete_booking'),
     path('edit_booking/<int:booking_id>/', views.edit_booking, name='edit_booking'),    

@@ -15,7 +15,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 
 # Local application/library specific imports
-from .forms import ShipForm, AreaForm, MachineForm, BookingForm
+from .forms import *
 from .models import Ship, Area, Machine, Statistics, Booking, PageVisit
 
 
@@ -484,20 +484,20 @@ def priority(request):
     # Order the areas by priority
     areas = sorted(areas, key=lambda x: x.calcualted_priority)
 
-    for area in not_required_areas:
-        if area.processed == "Not Required":
-            area.calcualted_priority = 0.06
-        elif area.registered == "Not Required":
-            area.calcualted_priority = 0.05
-        elif area.cleaned == "Not Required":
-            area.calcualted_priority = 0.04
-        elif area.point_cloud == "Not Required":
-            area.calcualted_priority = 0.03
-        elif area.exported == "Not Required":
-            area.calcualted_priority = 0.02
-        elif area.uploaded == "Not Required":
-            area.calcualted_priority = 0.01
+    attribute_priority = {
+        "processed": 0.06,
+        "registered": 0.05,
+        "cleaned": 0.04,
+        "point_cloud": 0.03,
+        "exported": 0.02,
+        "uploaded": 0.01
+    }
 
+    for area in not_required_areas:
+        for attr, priority in attribute_priority.items():
+            if getattr(area, attr) == "Not Required":
+                area.calculated_priority = priority
+                break
         area.save()
 
     # Order the areas by priority
@@ -508,6 +508,37 @@ def priority(request):
 
     context = {
         'areas': areas,
+    }
+
+    return render(request, 'front_end/priority.html', context)
+
+
+def edit_priority(request, area_id):
+    area = get_object_or_404(Area, id=area_id)
+    ship = area.ship
+
+    if request.method == 'POST':
+        ship_priority = request.POST.get('ship-priority')
+        area_priority = request.POST.get('area-priority')
+
+        area_form = AreaPriorityForm(request.POST, prefix='area', instance=area)
+        ship_form = ShipPriorityForm(request.POST, prefix='ship', instance=ship)
+        
+        if area_form.is_valid() and ship_form.is_valid():
+            area_form.save()
+            ship_form.save()
+            return redirect('priority')
+        else:
+            print(area_form.errors)
+            print(ship_form.errors)
+
+    else:
+        area_form = AreaPriorityForm(instance=area)
+        ship_form = ShipPriorityForm(instance=ship)
+
+    context = {
+        'area_form': area_form,
+        'ship_form': ship_form,
     }
 
     return render(request, 'front_end/priority.html', context)

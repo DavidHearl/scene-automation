@@ -8,8 +8,8 @@
 {% block content %}
     <div class="auth-container">
         <div class="auth-with-fields">
-            <h2 class="auth-secondary">You are attempting to log out of Scene Automation.</h2>
-            <p class="auth-secondary">Are you Sure ?</p>
+            <h2 class="auth-primary logout-message">Loggin out of Scene Automation</h2>
+            <!-- <p class="auth-secondary">Are you Sure ?</p> -->
 
             {% url 'account_logout' as action_url %}
 
@@ -18,7 +18,7 @@
                 {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
-                <a class="auth-link" href="{% url 'ships_and_areas' %}">Home</a>
+                <a class="auth-link2 return-home" href="{% url 'ships_and_areas' %}">Return Home</a>
                 <button class="auth-button" type="submit">{% trans 'Sign Out' %}</button>
             </form>
         </div>
