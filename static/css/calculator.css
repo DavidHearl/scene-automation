@@ -70,6 +70,15 @@ input {
     margin: 0;
 }
 
+.current-workload {
+    text-align: center;
+}
+
+#total-time {
+    color: #f1454a;
+    font-weight: 900;
+}
+
 @media (max-width: 600px) {
     /* Add your styles here for screens under 600px */
     .container {

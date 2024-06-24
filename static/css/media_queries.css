@@ -1,0 +1,128 @@
+/* ------------------------------------------------------------------------------ */
+/* -------------------------------- Media Quieres ------------------------------- */
+/* ------------------------------------------------------------------------------ */
+
+.mobile-nav {
+    display: none;
+}
+
+.hamburger {
+    display: none;
+}
+
+@media (max-width: 1500px) {
+    .small-shrink {
+        max-width: 250px;
+    }
+
+    .medium-shrink {
+        max-width: 200px;
+    }
+
+    .large-shrink {
+        max-width: 175px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .small-shrink {
+        max-width: 200px;
+    }
+
+    .medium-shrink {
+        max-width: 175px;
+    }
+
+    .large-shrink {
+        max-width: 125px;
+    }
+}
+
+@media (max-width: 950px) {
+    .summary-title,
+    .summary-content {
+        font-size: 0.9rem;
+    }
+
+    .small-shrink {
+        max-width: 160px;
+    }
+
+    .medium-shrink {
+        max-width: 140px;
+    }
+
+    .large-shrink {
+        max-width: 80px;
+    }
+}
+   
+
+@media (max-width: 760px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+        margin: 10px;
+        background: none;
+        color: white;
+        border: none;
+        font-size: 2rem;
+        position: absolute;
+        z-index: 9999;
+    }
+
+    .mobile-nav {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        transform: translateX(-100%);
+    }
+
+    .mobile-nav > .navigation,
+    .mobile-nav > .user-details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        margin-top: 64px;
+    }
+
+    .mobile-nav.open {
+        display: flex;
+        transform: translateX(0);
+    }
+
+    .navigation,
+    .user-details {
+        margin-top: 0 !important; 
+        margin: 20px !important;
+    }
+
+    .navigation > li,
+    .user-details > li {
+        margin: 8px;
+    }
+
+    .area-card-titles {
+        display: none;
+    }
+
+    .small-shrink {
+        max-width: 135px;
+    }
+
+    .medium-shrink {
+        max-width: 100px;
+    }
+
+    .large-shrink {
+        max-width: 60px;
+    }
+
+    .machine-boxes {
+        width: 170px;
+    }
+}

@@ -90,23 +90,30 @@
         {% endfor %}
 
         <!-- Add Ship -->
-        {% if user.is_superuser %}
-            <form class="area-form" method="post">
-                {% csrf_token %}
-                <div class="ship-card">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
+        <div class="ship-card">
+            {% if user.is_superuser %}
+                <form class="area-form" method="post">
+                    {% csrf_token %}
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                        <div class="form-div">
+                            <label for="">Ship:</label>
+                            <input class="card-form-input" id="id_name" type="text" value="{{ ship_form.ship }}">
+                        </div>
+                        <div class="form-div">
+                            <label for="">Contract Number:</label>
+                            <input class="card-form-input" id="id_contract_number" type="text" value="{{ ship_form.ship }}">
+                        </div>
+                        <div>{{ ship_form.image}}</div>
+                        <div>{{ ship_form.company}}</div>
+                        <div>{{ ship_form.priority}}</div>
+                        <div>
+                            <button class="crud-button add" type="submit">Add Area</button>
+                        </div>
                     </div>
-                    <h5 class="card-title">{{ ship_form.name}}</h5>
-                    <h5 class="card-secondary-title">Contract Number: {{ ship_form.contract_number}}</h5>
-                    {{ ship_form.image}}
-                    {{ ship_form.company}}
-                    {{ ship_form.priority}}
-                    <div>
-                        <button class="crud-button add" type="submit">Add Area</button>
-                    </div>
-                </div>
-            </form>
-        {% endif %}
+                </form>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}

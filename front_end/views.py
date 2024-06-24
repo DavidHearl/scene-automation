@@ -21,14 +21,14 @@ from .models import Ship, Area, Machine, Statistics, Booking, PageVisit
 
 # Constants to define the time taken for each process
 time_per_scan = 20
-time_per_area = 30
+time_per_area = 35
 
 # Error times
 error_codes = ["Minor Fail", "Major Fail", "Critical Fail"]
-error_times = [2, 2.5, 3]
+error_times = [2, 2.45, 2.9]
 
 # Constants to define the number of hours in a workday
-hours_per_workday = 8
+hours_per_workday = 7.5
 
 # Constant to define the time added for complexity of the area
 exponential_factor = 1.006 # 0.6% increase in time per scan
@@ -348,7 +348,13 @@ def delete_area(request, area_id):
 # --------------------------------------------------------------------------- #
 
 def calculator(request):
-    return render(request, 'front_end/calculator.html')
+    statistics = Statistics.objects.get(id=8)
+
+    context = {
+        'statistics': statistics,
+    }
+
+    return render(request, 'front_end/calculator.html', context)
 
 
 # --------------------------------------------------------------------------- #

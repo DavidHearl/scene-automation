@@ -19,45 +19,13 @@ body {
 
 #particles-js {
     background: linear-gradient(to bottom, rgb(46, 55, 74), rgb(77, 92, 142));
-    position: absolute;
+    min-height: 100vh;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     overflow: hidden;
     z-index: -1;
-}
-
-/* Navigtion */
-nav {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 5%;
-    background: rgb(25, 31, 44);
-    position: fixed;
-    width: 100%;
-    z-index: 1000;
-    border-bottom: 1px solid;
-}
-
-ul {
-    display: flex;
-    list-style: none;
-    align-items: center;
-    margin: 4px;
-    padding: 8px;
-}
-
-a {
-    font-size: 1rem;
-    font-weight: 600;
-    margin: 0 20px;
-    text-decoration: none;
-    color: rgb(240, 240, 240);
-}
-
-a:hover {
-    color: rgb(136, 192, 255);
-    text-decoration: underline;
 }
 
 /* Completion */
@@ -139,7 +107,6 @@ a:hover {
     gap: 24px;
 }
 
-/* Origional width was 265px */
 .ship-card {
     display: flex;
     flex-direction: column;
@@ -149,7 +116,6 @@ a:hover {
     background: var(--card-background);
     border-radius: 20px;
     box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
-    border: 1px solid #515151;
 }
 
 .ship-card::before {
@@ -205,6 +171,10 @@ img {
     display: flex;
     justify-content: center;
     margin: 0;
+}
+
+.form-div {
+    padding: 8px;
 }
 
 .done {
@@ -646,141 +616,6 @@ img {
     font-size: 1rem;
     margin-top: 8px;
 }
-
-/* ------------------------------------------------------------------------------ */
-/* -------------------------------- Media Quieres ------------------------------- */
-/* ------------------------------------------------------------------------------ */
-
-.mobile-nav {
-    display: none;
-}
-
-.hamburger {
-    display: none;
-}
-
-@media (max-width: 1500px) {
-    .small-shrink {
-        max-width: 250px;
-    }
-
-    .medium-shrink {
-        max-width: 200px;
-    }
-
-    .large-shrink {
-        max-width: 175px;
-    }
-}
-
-@media (max-width: 1200px) {
-    .small-shrink {
-        max-width: 200px;
-    }
-
-    .medium-shrink {
-        max-width: 175px;
-    }
-
-    .large-shrink {
-        max-width: 125px;
-    }
-}
-
-@media (max-width: 950px) {
-    .summary-title,
-    .summary-content {
-        font-size: 0.9rem;
-    }
-
-    .small-shrink {
-        max-width: 160px;
-    }
-
-    .medium-shrink {
-        max-width: 140px;
-    }
-
-    .large-shrink {
-        max-width: 80px;
-    }
-}
-   
-
-@media (max-width: 760px) {
-    .desktop-nav {
-        display: none;
-    }
-
-    .hamburger {
-        display: flex;
-        margin: 10px;
-        background: none;
-        color: white;
-        border: none;
-        font-size: 2rem;
-        position: absolute;
-        z-index: 9999;
-    }
-
-    .mobile-nav {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        transform: translateX(-100%);
-    }
-
-    .mobile-nav > .navigation,
-    .mobile-nav > .user-details {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        margin-top: 64px;
-    }
-
-    .mobile-nav.open {
-        display: flex;
-        transform: translateX(0);
-    }
-
-    .navigation,
-    .user-details {
-        margin-top: 0 !important; 
-        margin: 20px !important;
-    }
-
-    .navigation > li,
-    .user-details > li {
-        margin: 8px;
-    }
-
-    .area-card-titles {
-        display: none;
-    }
-
-    .small-shrink {
-        max-width: 135px;
-    }
-
-    .medium-shrink {
-        max-width: 100px;
-    }
-
-    .large-shrink {
-        max-width: 60px;
-    }
-
-    .machine-boxes {
-        width: 170px;
-    }
-}
-
-/* ------------------------------------------------------------------------------ */
-/* ----------------------------------- Booking ---------------------------------- */
-/* ------------------------------------------------------------------------------ */
-
-
 
 /* ------------------------------------------------------------------------------ */
 /* --------------------------------- Placeholder -------------------------------- */

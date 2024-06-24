@@ -1,10 +1,15 @@
-console.log("Calculator Loaded")
+// Check the JS file has loaded
+// console.log("Calculator Loaded")
 
 document.querySelector("#calculate-button").addEventListener("click", calculate);
 
 function calculate() {
     // Verify the function has been called correctly
-    // console.log("Calculate Function")
+    console.log("Calculate Function")
+
+    // Get the current time till completion
+    let currentTimeRemaining = document.querySelector("#total-time").innerHTML;
+    currentTimeRemaining = Number(currentTimeRemaining);
 
     // Get the value from the calculator input
     const input = document.querySelector("#calculator-input").value;
@@ -56,18 +61,23 @@ function calculate() {
 
     totalTime = Math.round(totalTime * 100) / 100;
 
-    let lowerBound = totalTime * 1.1
+    let lowerBound = totalTime * 1.25
     let upperBound = totalTime * 1.75
 
     lowerBound = Math.round(lowerBound * 100) / 100;
     upperBound = Math.round(upperBound * 100) / 100;
 
+    // Add the result to the HTML
     document.querySelector("#result").innerHTML = `<h2>${ lowerBound } Days - ${ upperBound } Days</h2>`;
+
+    // Create an upper and lower bound for the date
+    lowerBoundPlusCurrent = lowerBound + currentTimeRemaining
+    upperBoundPlusCurrent = upperBound + currentTimeRemaining
 
     const today = new Date();
     
-    let lowerBoundDate = addWeekdays(today, lowerBound);
-    let upperBoundDate = addWeekdays(today, upperBound);
+    let lowerBoundDate = addWeekdays(today, lowerBoundPlusCurrent);
+    let upperBoundDate = addWeekdays(today, upperBoundPlusCurrent);
     
     document.querySelector("#date").innerHTML = `<h2>${lowerBoundDate.toDateString()} - ${upperBoundDate.toDateString()}</h2>`;
 }

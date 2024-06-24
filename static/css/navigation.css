@@ -1,0 +1,32 @@
+/* Navigtion */
+nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5%;
+    background: rgb(25, 31, 44);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    border-bottom: 1px solid;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    margin: 4px;
+    padding: 8px;
+}
+
+a {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 20px;
+    text-decoration: none;
+    color: rgb(240, 240, 240);
+}
+
+a:hover {
+    color: rgb(136, 192, 255);
+    text-decoration: underline;
+}
