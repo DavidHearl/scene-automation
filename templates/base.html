@@ -58,6 +58,11 @@
             <li>
                 <a href="{% url 'priority' %}">Priority</a>
             </li>
+            {% if user.is_superuser %}
+                <li>
+                    <a href="{% url 'training' %}">Training</a>
+                </li>
+            {% endif %}
         </ul>
         <ul class="user-details">
             {% if user.is_authenticated %}
@@ -98,6 +103,11 @@
             <li>
                 <a href="{% url 'priority' %}">Priority</a>
             </li>
+            {% if user.is_superuser %}
+                <li>
+                    <a href="{% url 'training' %}">Training</a>
+                </li>
+            {% endif %}
         </ul>
         <ul class="user-details">
             {% if user.is_authenticated %}
