@@ -533,7 +533,7 @@
 
 .auth-with-fields {
     display: flex;
-    margin-top: 96px;
+    margin-top: 32px;
     flex-direction: column;
     border: 1px solid black;
     background: var(--card-background);
@@ -622,3 +622,28 @@
     font-weight: 600;
     color: rgb(0, 0, 0);
 }
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    #content-container {
+        width: calc(100% - 8px); /* 250 = Width of Navigation */
+        margin: 8px;
+        margin-top: 60px;
+        margin-left: 4px !important; /* 250 + 32px */
+        transition: margin-left 0.2s ease-in-out;
+        flex-grow: 1;
+    }
+
+    #navigation {
+        display: none;
+        z-index: 1;
+        opacity: 0.975;
+    }
+
+    .mobile-menu-icon {
+        z-index: 1000;
+        display: block !important;
+    }
+}
+
+

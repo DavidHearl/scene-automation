@@ -48,6 +48,12 @@
 
 <body>
     <div id="wrapper">
+        <div id="mobile-navigation">
+            <button class="mobile-menu-icon">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
         <nav id="navigation">
             <button class="menu-icon">
                 <i class="fa-solid fa-bars"></i>
@@ -104,26 +110,41 @@
 
             <h3 class="navigation-heading">User</h3>
             <ul class="navigation-list">
-            {% if user.is_superuser %}
-                <li>
-                    <a class="disabled" href="{% url 'admin:index' %}">
-                        <i class="fa-solid fa-lock"></i>
-                        <span class="navigation-text">Admin</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{% url 'logs' %}">
-                        <i class="fa-solid fa-file"></i>
-                        <span class="navigation-text">Logs</span>
-                    </a>
-                </li>
-            {% endif %}
-            <li>
-                <a href="{% url 'account_logout' %}">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                    <span class="navigation-text">Logout</span>
-                </a>
-            </li>
+                {% if user.is_authenticated %}
+                    {% if user.is_superuser %}
+                        <li>
+                            <a class="disabled" href="{% url 'admin:index' %}">
+                                <i class="fa-solid fa-lock"></i>
+                                <span class="navigation-text">Admin</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'logs' %}">
+                                <i class="fa-solid fa-file"></i>
+                                <span class="navigation-text">Logs</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="{% url 'account_logout' %}">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span class="navigation-text">Logout</span>
+                        </a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'account_login' %}">
+                            <i class="fa-solid fa-right-to-bracket"></i>
+                            <span class="navigation-text">Login</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'account_signup' %}">
+                            <i class="fa-solid fa-user-plus"></i>
+                            <span class="navigation-text">Signup</span>
+                        </a>
+                    </li>
+                {% endif %}
             </ul>
 
             <h3 class="navigation-heading">Support</h3>
