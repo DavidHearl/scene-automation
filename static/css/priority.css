@@ -31,13 +31,6 @@ td {
     text-align: start;
 }
 
-.container {
-    padding-top: 64px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-}
-
 .complete-container {
     display: flex;
     justify-content: space-around;
@@ -119,4 +112,5 @@ td {
     border-radius: 4px;
     padding: 4px 0px 2px 0px;
     background: linear-gradient(to right, #d97ba6cc, #bb487fde);
+    width: 100%;
 }

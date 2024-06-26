@@ -9,14 +9,14 @@
     );
 }
 
-/* Background */
-body {
+/* Remove Margins and Padding and Set Font */
+* {
     margin: 0;
     padding: 0;
-    height: 100vh;
     font-family: roboto;
 }
 
+/* Background */
 #particles-js {
     background: linear-gradient(to bottom, rgb(46, 55, 74), rgb(77, 92, 142));
     min-height: 100vh;
@@ -26,16 +26,42 @@ body {
     width: 100%;
     overflow: hidden;
     z-index: -1;
+    padding-top: 64px;
+}
+
+/* Global Content Wrapper */
+#wrapper {
+    display: flex;
+    min-height: 100vh;    
+}
+
+/* Navigation Sub Wrapper */
+#navigation {
+    width: 250px;
+    background: linear-gradient(to bottom, rgb(25, 31, 44), rgb(46, 55, 74));
+    opacity: 0.9;
+    padding: 12px 20px;
+    color: white;
+    position: fixed;
+    height: 100%;
+    transition: width 0.2s ease-in-out;
+}
+
+/* Content Content Wapper */
+#content-container {
+    width: calc(100% - 250px); /* 250 = Width of Navigation */
+    margin: 32px;
+    margin-left: 282px; /* 250 + 32px */
+    transition: margin-left 0.2s ease-in-out;
+    flex-grow: 1;
+    margin-top: 16px;
 }
 
 /* Completion */
 .headlines {
     display: flex;
-    padding-top: 64px;
-    width: 92%;
-    max-width: 1400px;
     margin: 0 auto;
-    gap: 12px;
+    gap: 8px;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -98,9 +124,6 @@ body {
 /* Ship Cards */
 .card-container {
     display: flex;
-    width: 92%;
-    max-width: 1400px;
-    margin: 0 auto;
     margin-top: 12px;
     flex-wrap: wrap;
     justify-content: center;
@@ -299,40 +322,6 @@ body {
     margin: 0;
     padding: 2px;
     border-radius: 2px;
-}
-/* Keys */
-.keys {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 92%;
-    max-width: 1400px;
-    margin: 8px auto;
-    gap: 4px;
-}
-
-.key-container {
-    width: 11.75%;
-    min-width: 105px;
-    background: var(--card-background);
-    padding: 4px;
-    border-radius: 8px;
-    justify-content: center;
-    display: fl;
-    display: flex;
-    flex-direction: column;
-}
-
-.key-title {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 4px;
-    font-size: 0.9rem;
-}
-
-.key {
-    border-radius: 6px;
-    height: 12px;
 }
 
 /* Status Boxes */

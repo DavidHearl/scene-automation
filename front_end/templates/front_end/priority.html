@@ -14,7 +14,6 @@
 
 {% block content %} 
 
-<div class="container">
     <button id="pdfButton">Generate PDF</button>
     <table id="priority-table">
         <thead>
@@ -92,26 +91,25 @@
         </tbody>
     </table>
 
-</div>
 
-<script>
-    window.onload = function() {
-        document.getElementById("pdfButton").addEventListener("click", function() {
-            var element = document.getElementById('priority-table');
-    
-            html2canvas(element, {
-                onrendered: function(canvas) {
-                    var imgData = canvas.toDataURL('image/png');
-                    var doc = new jsPDF('p', 'mm', 'a4');
-                    var width = doc.internal.pageSize.getWidth();
-                    var height = doc.internal.pageSize.getHeight();
-                    height = height * 1.5;
-                    doc.addImage(imgData, 'PNG', 0, 0, width, height);
-                    doc.save('table.pdf');
-                }
+    <script>
+        window.onload = function() {
+            document.getElementById("pdfButton").addEventListener("click", function() {
+                var element = document.getElementById('priority-table');
+        
+                html2canvas(element, {
+                    onrendered: function(canvas) {
+                        var imgData = canvas.toDataURL('image/png');
+                        var doc = new jsPDF('p', 'mm', 'a4');
+                        var width = doc.internal.pageSize.getWidth();
+                        var height = doc.internal.pageSize.getHeight();
+                        height = height * 1.5;
+                        doc.addImage(imgData, 'PNG', 0, 0, width, height);
+                        doc.save('table.pdf');
+                    }
+                });
             });
-        });
-    }
-</script>
+        }
+    </script>
 
 {% endblock %}
