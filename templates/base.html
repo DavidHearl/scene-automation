@@ -171,7 +171,14 @@
         </nav>
 
         <main id="content-container">
+            <div class="headlines">
+                {% block headlines %}
+
+                {% endblock %}
+            </div>
+
             <div id="particles-js"></div>
+
             {% block content %}
             
             {% endblock %} 

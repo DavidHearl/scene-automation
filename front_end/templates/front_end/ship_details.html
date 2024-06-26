@@ -1,70 +1,82 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load custom_filters %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/ship-detail.css' %}">
+{% endblock %}
+
+{% block headlines %}
+    <div class="headline-section">
+        <h4 class="headline-title">Ship:</h4>
+        <h2 class="headline-content">{{ ship.name }}</h2>
+    </div>
+
+    <div class="headline-section"">
+        <h4 class="headline-title">Completion Percentage</h4>
+        <h2 class="headline-content">{{ ship.completed_percentage }}%</h2>
+    </div>
+
+    <div class="headline-section"">
+        <h4 class="headline-title">Areas</h4>
+        <h2 class="headline-content">{{ ship.area_set.count }}</h2>
+    </div>
+
+    <div class="headline-section"">
+        <h4 class="headline-title">Scans</h4>
+        <h2 class="headline-content">{{ ship.total_scans }}</h2>
+    </div>
+{% endblock %}
+
 {% block content %}
-    <!-- Summaries -->
-    <div class="headlines">
-        <div class="summary-boxes">
-            <h4 class="summary-title">Ship:</h4>
-            <h2 class="summary-content">{{ ship.name }}</h2>
-        </div>
-
-        <div class="summary-boxes">
-            <h4 class="summary-title">Completion Percentage</h4>
-            <h2 class="summary-content">{{ ship.completed_percentage }}%</h2>
-        </div>
-        
-        <div class="summary-boxes large-shrink">
-            <h4 class="summary-title">Areas</h4>
-            <h2 class="summary-content">{{ areas.count }}</h2>
-        </div>
-        
-        <div class="summary-boxes large-shrink">
-            <h4 class="summary-title">Scans</h4>
-            <h2 class="summary-content">{{ ship.total_scans }}</h2>
-        </div>
-    </div>
-
-    <!-- Key -->
-    <div class="keys">
-        <div class="key-container">
-            <h6 class="key-title">Completed</h6>
-            <div class="key status-box Completed"></div>
-        </div>
-        <div class="key-container">
-            <h6 class="key-title">Queued</h6>
-            <div class="key status-box Queued"></div>
-        </div>
-        <div class="key-container">
-            <h6 class="key-title">On Hold</h6>
-            <div class="key status-box Hold"></div>
-        </div>
-        <div class="key-container">
-            <h6 class="key-title">Minor Fail</h6>
-            <div class="key status-box Minor"></div>
-        </div>
-        <div class="key-container">
-            <h6 class="key-title">Major Fail</h6>
-            <div class="key status-box Major"></div>
-        </div>
-        <div class="key-container">
-            <h6 class="key-title">Critical Fail</h6>
-            <div class="key status-box Critical"></div>
-        </div>
-        <div class="key-container">
-            <h6 class="key-title">WIP</h6>
-            <div class="key status-box WIP"></div>
-        </div>
-        <div class="key-container">
-            <h6 class="key-title">Not Required</h6>
-            <div class="key status-box Not"></div>
-        </div>
-    </div>
-
-    <!-- Ship Details -->
     <div class="area-container">
+        <div class="keys">
+            <div class="key-container">
+                <div class="key status-box Completed">
+                    <p class="key-title">Completed</p>
+                </div>
+            </div>
+            <div class="key-container">
+                <div class="key status-box Queued">
+                    <p class="key-title">Queued</p>
+                </div>
+            </div>
+            <div class="key-container">
+                <div class="key status-box Hold">
+                    <p class="key-title">On Hold</p>
+                </div>
+            </div>
+            <div class="key-container">
+                <div class="key status-box Minor">
+                    <p class="key-title">Minor Fail</p>
+                </div>
+            </div>
+            <div class="key-container">
+                <div class="key status-box Major">
+                    <p class="key-title">Major Fail</p>
+                </div>
+            </div>
+            <div class="key-container">
+                <div class="key status-box Critical">
+                    <p class="key-title">Critical Fail</p>
+                </div>
+            </div>
+            <div class="key-container">
+                <div class="key status-box WIP">
+                    <p class="key-title">WIP</p>
+                </div>
+            </div>
+            <div class="key-container">                
+                <div class="key status-box Not">
+                    <p class="key-title">Not Required</p>
+                </div>
+            </div>
+        </div>
+
         <div class="area-card area-card-titles">
             <div class="process-title">
-                <a class="area-title status-title">Area Name</a>
+                <p class="area-title status-title">Area Name</p>
             </div>
             <div class="number-of-scans">
                 <p class="number-value">Scans</p>
@@ -234,7 +246,7 @@
                         <div class="ship-detail-row">
                             <div class="crud-button-container">
                                 <button class="crud-button delete">
-                                    <a href="{% url 'delete_area' area.id %}">Delete</a>
+                                    <a class="delete-button" href="{% url 'delete_area' area.id %}">Delete</a>
                                 </button>
                             </div>
                             <div class="crud-button-container">

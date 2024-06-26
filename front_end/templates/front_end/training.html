@@ -12,262 +12,259 @@
 {% endblock %}
 
 {% block content %}
-    <!-- <div class="container">
-        <div class="main-content">
-            <div class="section-content">
-                <div class="section-title">
-                    <h3 id="day-1">Day 1</h3>
-                    <h3 class="sub">3 - 4 Hours</h3>
-                </div>
-                <hr>
-                <h4>Introduction</h4>
-                <h5>What is a Faro Focus Laser Scanner ?</h5>
-                <p>
-                    A laser scanner is a tool used to capture accurate and complete measurements of buildings,
-                    facilities and complex environments. It achieves this by 'shooting' millions of laser beams
-                    each second and recording the time it takes for each beam to return, from this the distance
-                    of each point can be calculated.
-                </p>
-                <h5>Why should we use a laser scanner ?</h5>
-                <p>
-                    Traditionally, capturing large environments relied on tools that produced single point measurements,
-                    such as tape measures, piano wire, plumb bobs, laser range finders and total stations.
-                    While they are familiar tools, they are often time-consuming, often taking days, 
-                    weeks or months depending on the space. Additionally, traditional tools often produce inconsistencies
-                    in measurements from user to user and ultimately data often get missed, leading to 
-                    potentially cascading inaccuracies.
-                </p>
-                <p>
-                    In contrast, Laser Scanners are non-contact devices that capture millions of discrete data points 
-                    to measure an object or space using laser infrared technology that produces detailed 3D images in minutes. 
-                    The images comprise millions of 3D data points, known as a point cloud.
-                </p>
-                <p>
-                    So, how do they accomplish all of that so quickly? The Laser Scanner emits a beam of infrared laser 
-                    light onto a rotating mirror that effectively paints the surrounding environment with light. 
-                    The scanner head rotates, sweeping the laser across the object or area. Objects in the path of the 
-                    laser reflect the beam back to the scanner, providing the geometry that is interpreted into 3D data. 
-                    In addition to the distance measurement, Laser Scanners also capture measurements on the horizontal 
-                    and vertical planes, providing a full scope of measurement data.  
-                </p>
-                <h5>What applications and industries are scanners used in ?</h5>
-                <ul class="training-ul">
-                    <li class="training-list">Law enforcement & fire safety</li>
-                    <li class="training-list">Safety & security</li>
-                    <li class="training-list">Insurance</li>
-                    <li class="training-list">Oil & gas</li>
-                    <li class="training-list">Heritage & historical preservation</li>
-                    <li class="training-list">Site surveying</li>
-                    <li class="training-list">Construction</li>
-                    <li class="training-list">Architectural & civil engineering</li>
-                    <li class="training-list">Facilities management & asset documentation</li>
-                </ul>
-
-                <div class="image-container">
-                    <img class="training-image" src="{% static 'assets/Understanding-Laser-Scanners-PSA.png' %}" alt="">
-                </div>
-
-                <h5>What Equipment does MJM use ?</h5>
-                <p>MJM has two scanners, the Focus Premium (2022) and the Focus S70 (2017).</p>
-                <p><em>For reference, the 70 indicates the range of the scanner at 70m</em></p>
-                
-                <table>
-                    <tr>
-                        <th>Metric</th>
-                        <th>Faro Focus Premium</th>
-                        <th>Faro Focus S70</th>
-                    </tr>
-                    <tr>
-                        <td>Onsite Registration Method</td>
-                        <td>Faro Stream</td>
-                        <td>Faro Scene</td>
-                    </tr>
-                    <tr>
-                        <td>Laser Wavelength</td>
-                        <td>1553.5 nm</td>
-                        <td>1550 nm</td>
-                    </tr>
-                    <tr>
-                        <td>Range - 90% Reflectivity</td>
-                        <td>0.5m - 150m</td>
-                        <td>0.6m - 70m</td>
-                    </tr>
-                    <tr>
-                        <td>Range - 2% Reflectivity</td>
-                        <td>0.5m - 50m</td>
-                        <td>0.6m - 50m</td>
-                    </tr>
-                    <tr>
-                        <td>Noise - 90% Reflectivity @ 10m</td>
-                        <td>0.1mm</td>
-                        <td>0.3mm</td>
-                    </tr>
-                    <tr>
-                        <td>Noise - 90% Reflectivity @ 25m</td>
-                        <td>0.2mm</td>
-                        <td>0.3mm</td>
-                    </tr>
-                    <tr>
-                        <td>Noise - 2% Reflectivity @ 10m</td>
-                        <td>0.7mm</td>
-                        <td>1.3mm</td>
-                    </tr>
-                    <tr>
-                        <td>Noise - 90% Reflectivity @ 25m</td>
-                        <td>1.2mm</td>
-                        <td>2.0mm</td>
-                    </tr>
-                    <tr>
-                        <td>Colour Resoultion</td>
-                        <td>266,000,000 px</td>
-                        <td>165,000,000 px</td>
-                    </tr>
-                    <tr>
-                        <td>Power Consumption</td>
-                        <td>32W</td>
-                        <td>25W</td>
-                    </tr>
-                    <tr>
-                        <td>Idle Power Consumption</td>
-                        <td>19W</td>
-                        <td>15W</td>
-                    </tr>
-                    <tr>
-                        <td>Battery Life</td>
-                        <td>4.5 Hours</td>
-                        <td>4.0 Hours</td>
-                    </tr>
-                </table>
-
-                <h4>Setup</h4>
-                <p>Each time the scanner is taken out, you should ensure that you have the correct items to accompany the scanner.</p>
-                <table>
-                    <tr>
-                        <th class="center">Faro Focus Premium</th>
-                        <th class="center">Faro Focus S70</th>
-                    </tr>
-                    <tr>
-                        <td>Red Tripod</td>
-                        <td>Blue Tripod</td>
-                    </tr>
-                    <tr>
-                        <td>Rioch Theta Panoramic Camera</td>
-                        <td>Rioch Theta Panoramic Camera</td>
-                    </tr>
-                    <tr>
-                        <td>2 x 512 GB SD Cards</td>
-                        <td>2 x 512 GB SD Cards</td>
-                    </tr>
-                    <tr>
-                        <td>1 x 1TB Red Portable SSD</td>
-                        <td>1 x 1TB Blue Portable SSD</td>
-                    </tr>
-                    <tr>
-                        <td>4 x Batteries</td>
-                        <td>4 x Batteries</td>
-                    </tr>
-                    <tr>
-                        <td>2 x Battery Charging Docs</td>
-                        <td>2 x Battery Charging Docs</td>
-                    </tr>
-                    <tr>
-                        <td>Apple iPad Pro 12.9 Inch</td>
-                        <td>Design Laptop</td>
-                    </tr>
-                    <tr>
-                        <td>Hard Pelican Case</td>
-                        <td>Hard Pelican Case</td>
-                    </tr>
-                    <tr>
-                        <td>4 x Rolls tape per 7 days</td>
-                        <td>4 x Rolls tape per 7 days</td>
-                    </tr>
-                </table>
-                <h5>Tripod</h5>
-                <ul class="training-ul">
-                    <li class="training-list">Extend the tripod as little as possible. Less height means more precision.</li>
-                    <li class="training-list">Extend the thicker segments of the legs before the thinner ones.</li>
-                    <li class="training-list">You can partially extend a leg segment if necessary to achieve a specific height, 
-                        but do not partially extend multiple segments of the same leg.</li>
-                    <li class="training-list">The tripod has four leg segments, three of which are extendable. Fully extend segment ②, 
-                        leaving segments ③ and ④ retracted. This will result in a working height of approximately 130 cm (51.2 in).</li>
-                    <li class="training-list">The tripod is equipped with large adjustable rubber feet. Whenever you move the tripod, check that the feet are placed correctly on the ground. If you need to place the tripod on an unstable surface (such as grass, gravel, mud) use the supplied pegs instead of the rubber feet. Press the points individually into the floor until it is stable and supports the weight of the equipment.</li>
-                    <li class="training-list">After installing the tripod on the ground, check the leg locks. If any of the latches are loose, open the legs slightly until the latches can no longer move. This ensures that the tripod is firmly on the ground and is unlikely to vibrate or wobble during scanning.</li>
-                    <li class="training-list">Using the center column significantly reduces tripod rigidity. We recommend that you avoid using the center column. If you require greater working heights, we recommend using a larger tripod. Make sure such a tripod is also stable.</li>
-                    <li class="training-list">For sweeps close to the floor, slide all leg segments into each other, before setting the leg angle to flat. The rubber feet have a recess that helps reach the entire contact surface, even with a flat leg angle. To do this, turn your feet individually by hand.</li>
-                    <li class="training-list">Make sure that the twist connectors for adjusting the length of the legs, the central wing nut of the tripod pivot and the tripod head are always screwed securely.</li>
-                    <li class="training-list">To get a better grip on hard surfaces, lightly tension the tripod legs before starting a scan. Tension the legs by holding two of the three legs of the tripod as close to the ground as possible with your hands, spreading them away from each other and away from the third leg, and then pressing them into the ground.</li>
-                </ul>
-
-                <div class="image-container">
-                    <img class="training-image max-50" src="{% static 'assets/FocusTripodExtension.png' %}" alt="">
-                    <img class="training-image max-50" src="{% static 'assets/TripodWindDirection.png' %}" alt="">
-                </div>
-                
-                <h5>Attaching the Panoramic Camera</h5>
-                <h5>Securing The Scanner</h5>
-                <ul class="training-ul">
-                    <li class="training-list">
-                        Make sure the screw is loose enough so that it does not interfere with mounting the scanner.
-                    </li>
-                    <li class="training-list">Holding the scanner above the tripod, lower the scanner onto the tripod onto the coupling</li>
-                    <li class="training-list">Rotate the scanner to orient it to the location you want to scan. </li>
-                    <li class="training-list">Tighten the thumbscrew until the scanner is securely attached to the tripod.</li>
-                </ul>
-                <div class="image-container">
-                    <img class="training-image" src="{% static 'assets/QRAssembleTighten.png' %}" alt="">
-                </div>
-
-                <h5>SD Card Installation</h5>
-                <h5>Battery Replacement</h5>
+    <div class="main-content">
+        <div class="section-content">
+            <div class="section-title">
+                <h3 id="day-1">Day 1</h3>
+                <h3 class="sub">3 - 4 Hours</h3>
             </div>
-
-            <div class="section-content">
-                <div class="section-title">
-                    <h3>Day 2</h3>
-                    <h3 class="sub">3 Hours</h3>
-                </div>
-            </div>
-
-            <div class="section-content">
-                <div class="section-title">
-                    <h3>Day 3</h3>
-                    <h3 class="sub">3 Hours</h3>
-                </div>
-            </div>
-
-        </div> -->
-
-        <!-- Navigation -->
-        <!-- <aside class="training-navigation">
-            <h4 class="navigation-heading">Week 1</h4>
-            <a class="navigation-title" href="#day-1">Day 1</a>
-            <a class="navigation-sub-title" href="">Introduction</a>
-            <a class="navigation-sub-title" href="">Scanner Setup</a>
-            <a class="navigation-sub-title" href="">Practical</a>
-
-            <a class="navigation-title" href="#">Day 2</a>
-            <a class="navigation-sub-title" href="">Onsite Registration : iPad</a>
-            <a class="navigation-sub-title" href="">Onsite Registration : Laptop </a>
-
-            <a class="navigation-title" href="#">Day 3</a>
-            <a class="navigation-sub-title" href="">Theory</a>
-            <a class="navigation-sub-title" href="">Practical</a>
-
             <hr>
-            <h4 class="navigation-heading">Week 2</h4>
-            <a class="navigation-title" href="#">Day 4</a>
-            <a class="navigation-sub-title" href="">Practical</a>
+            <h4 class="training-h4">Introduction</h4>
+            <h5>What is a Faro Focus Laser Scanner ?</h5>
+            <p>
+                A laser scanner is a tool used to capture accurate and complete measurements of buildings,
+                facilities and complex environments. It achieves this by 'shooting' millions of laser beams
+                each second and recording the time it takes for each beam to return, from this the distance
+                of each point can be calculated.
+            </p>
+            <h5>Why should we use a laser scanner ?</h5>
+            <p>
+                Traditionally, capturing large environments relied on tools that produced single point measurements,
+                such as tape measures, piano wire, plumb bobs, laser range finders and total stations.
+                While they are familiar tools, they are often time-consuming, often taking days, 
+                weeks or months depending on the space. Additionally, traditional tools often produce inconsistencies
+                in measurements from user to user and ultimately data often get missed, leading to 
+                potentially cascading inaccuracies.
+            </p>
+            <p>
+                In contrast, Laser Scanners are non-contact devices that capture millions of discrete data points 
+                to measure an object or space using laser infrared technology that produces detailed 3D images in minutes. 
+                The images comprise millions of 3D data points, known as a point cloud.
+            </p>
+            <p>
+                So, how do they accomplish all of that so quickly? The Laser Scanner emits a beam of infrared laser 
+                light onto a rotating mirror that effectively paints the surrounding environment with light. 
+                The scanner head rotates, sweeping the laser across the object or area. Objects in the path of the 
+                laser reflect the beam back to the scanner, providing the geometry that is interpreted into 3D data. 
+                In addition to the distance measurement, Laser Scanners also capture measurements on the horizontal 
+                and vertical planes, providing a full scope of measurement data.  
+            </p>
+            <h5>What applications and industries are scanners used in ?</h5>
+            <ul class="training-ul">
+                <li class="training-list">Law enforcement & fire safety</li>
+                <li class="training-list">Safety & security</li>
+                <li class="training-list">Insurance</li>
+                <li class="training-list">Oil & gas</li>
+                <li class="training-list">Heritage & historical preservation</li>
+                <li class="training-list">Site surveying</li>
+                <li class="training-list">Construction</li>
+                <li class="training-list">Architectural & civil engineering</li>
+                <li class="training-list">Facilities management & asset documentation</li>
+            </ul>
 
-            <a class="navigation-title" href="#">Day 5</a>
-            <a class="navigation-sub-title" href="">Processing</a>
+            <div class="image-container">
+                <img class="training-image" src="{% static 'assets/Understanding-Laser-Scanners-PSA.png' %}" alt="">
+            </div>
 
-            <a class="navigation-title" href="#">Day 6</a>
-            <a class="navigation-sub-title" href="">Troubleshooting</a>
-            <a class="navigation-sub-title" href="">Reporting an Issue</a>
-            <a class="navigation-sub-title" href="">Returning The Scanner</a>
-            <a class="navigation-sub-title" href="">Test</a>
+            <h5>What Equipment does MJM use ?</h5>
+            <p>MJM has two scanners, the Focus Premium (2022) and the Focus S70 (2017).</p>
+            <p><em>For reference, the 70 indicates the range of the scanner at 70m</em></p>
+            
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Faro Focus Premium</th>
+                    <th>Faro Focus S70</th>
+                </tr>
+                <tr>
+                    <td>Onsite Registration Method</td>
+                    <td>Faro Stream</td>
+                    <td>Faro Scene</td>
+                </tr>
+                <tr>
+                    <td>Laser Wavelength</td>
+                    <td>1553.5 nm</td>
+                    <td>1550 nm</td>
+                </tr>
+                <tr>
+                    <td>Range - 90% Reflectivity</td>
+                    <td>0.5m - 150m</td>
+                    <td>0.6m - 70m</td>
+                </tr>
+                <tr>
+                    <td>Range - 2% Reflectivity</td>
+                    <td>0.5m - 50m</td>
+                    <td>0.6m - 50m</td>
+                </tr>
+                <tr>
+                    <td>Noise - 90% Reflectivity @ 10m</td>
+                    <td>0.1mm</td>
+                    <td>0.3mm</td>
+                </tr>
+                <tr>
+                    <td>Noise - 90% Reflectivity @ 25m</td>
+                    <td>0.2mm</td>
+                    <td>0.3mm</td>
+                </tr>
+                <tr>
+                    <td>Noise - 2% Reflectivity @ 10m</td>
+                    <td>0.7mm</td>
+                    <td>1.3mm</td>
+                </tr>
+                <tr>
+                    <td>Noise - 90% Reflectivity @ 25m</td>
+                    <td>1.2mm</td>
+                    <td>2.0mm</td>
+                </tr>
+                <tr>
+                    <td>Colour Resoultion</td>
+                    <td>266,000,000 px</td>
+                    <td>165,000,000 px</td>
+                </tr>
+                <tr>
+                    <td>Power Consumption</td>
+                    <td>32W</td>
+                    <td>25W</td>
+                </tr>
+                <tr>
+                    <td>Idle Power Consumption</td>
+                    <td>19W</td>
+                    <td>15W</td>
+                </tr>
+                <tr>
+                    <td>Battery Life</td>
+                    <td>4.5 Hours</td>
+                    <td>4.0 Hours</td>
+                </tr>
+            </table>
 
-        </aside>
-    </div> -->
+            <h4>Setup</h4>
+            <p>Each time the scanner is taken out, you should ensure that you have the correct items to accompany the scanner.</p>
+            <table>
+                <tr>
+                    <th class="center">Faro Focus Premium</th>
+                    <th class="center">Faro Focus S70</th>
+                </tr>
+                <tr>
+                    <td>Red Tripod</td>
+                    <td>Blue Tripod</td>
+                </tr>
+                <tr>
+                    <td>Rioch Theta Panoramic Camera</td>
+                    <td>Rioch Theta Panoramic Camera</td>
+                </tr>
+                <tr>
+                    <td>2 x 512 GB SD Cards</td>
+                    <td>2 x 512 GB SD Cards</td>
+                </tr>
+                <tr>
+                    <td>1 x 1TB Red Portable SSD</td>
+                    <td>1 x 1TB Blue Portable SSD</td>
+                </tr>
+                <tr>
+                    <td>4 x Batteries</td>
+                    <td>4 x Batteries</td>
+                </tr>
+                <tr>
+                    <td>2 x Battery Charging Docs</td>
+                    <td>2 x Battery Charging Docs</td>
+                </tr>
+                <tr>
+                    <td>Apple iPad Pro 12.9 Inch</td>
+                    <td>Design Laptop</td>
+                </tr>
+                <tr>
+                    <td>Hard Pelican Case</td>
+                    <td>Hard Pelican Case</td>
+                </tr>
+                <tr>
+                    <td>4 x Rolls tape per 7 days</td>
+                    <td>4 x Rolls tape per 7 days</td>
+                </tr>
+            </table>
+            <h5>Tripod</h5>
+            <ul class="training-ul">
+                <li class="training-list">Extend the tripod as little as possible. Less height means more precision.</li>
+                <li class="training-list">Extend the thicker segments of the legs before the thinner ones.</li>
+                <li class="training-list">You can partially extend a leg segment if necessary to achieve a specific height, 
+                    but do not partially extend multiple segments of the same leg.</li>
+                <li class="training-list">The tripod has four leg segments, three of which are extendable. Fully extend segment ②, 
+                    leaving segments ③ and ④ retracted. This will result in a working height of approximately 130 cm (51.2 in).</li>
+                <li class="training-list">The tripod is equipped with large adjustable rubber feet. Whenever you move the tripod, check that the feet are placed correctly on the ground. If you need to place the tripod on an unstable surface (such as grass, gravel, mud) use the supplied pegs instead of the rubber feet. Press the points individually into the floor until it is stable and supports the weight of the equipment.</li>
+                <li class="training-list">After installing the tripod on the ground, check the leg locks. If any of the latches are loose, open the legs slightly until the latches can no longer move. This ensures that the tripod is firmly on the ground and is unlikely to vibrate or wobble during scanning.</li>
+                <li class="training-list">Using the center column significantly reduces tripod rigidity. We recommend that you avoid using the center column. If you require greater working heights, we recommend using a larger tripod. Make sure such a tripod is also stable.</li>
+                <li class="training-list">For sweeps close to the floor, slide all leg segments into each other, before setting the leg angle to flat. The rubber feet have a recess that helps reach the entire contact surface, even with a flat leg angle. To do this, turn your feet individually by hand.</li>
+                <li class="training-list">Make sure that the twist connectors for adjusting the length of the legs, the central wing nut of the tripod pivot and the tripod head are always screwed securely.</li>
+                <li class="training-list">To get a better grip on hard surfaces, lightly tension the tripod legs before starting a scan. Tension the legs by holding two of the three legs of the tripod as close to the ground as possible with your hands, spreading them away from each other and away from the third leg, and then pressing them into the ground.</li>
+            </ul>
+
+            <div class="image-container">
+                <img class="training-image max-50" src="{% static 'assets/FocusTripodExtension.png' %}" alt="">
+                <img class="training-image max-50" src="{% static 'assets/TripodWindDirection.png' %}" alt="">
+            </div>
+            
+            <h5>Attaching the Panoramic Camera</h5>
+            <h5>Securing The Scanner</h5>
+            <ul class="training-ul">
+                <li class="training-list">
+                    Make sure the screw is loose enough so that it does not interfere with mounting the scanner.
+                </li>
+                <li class="training-list">Holding the scanner above the tripod, lower the scanner onto the tripod onto the coupling</li>
+                <li class="training-list">Rotate the scanner to orient it to the location you want to scan. </li>
+                <li class="training-list">Tighten the thumbscrew until the scanner is securely attached to the tripod.</li>
+            </ul>
+            <div class="image-container">
+                <img class="training-image" src="{% static 'assets/QRAssembleTighten.png' %}" alt="">
+            </div>
+
+            <h5>SD Card Installation</h5>
+            <h5>Battery Replacement</h5>
+        </div>
+
+        <div class="section-content">
+            <div class="section-title">
+                <h3>Day 2</h3>
+                <h3 class="sub">3 Hours</h3>
+            </div>
+        </div>
+
+        <div class="section-content">
+            <div class="section-title">
+                <h3>Day 3</h3>
+                <h3 class="sub">3 Hours</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <aside class="training-navigation">
+        <h4 class="training-navigation-heading">Week 1</h4>
+        <a class="training-navigation-title" href="#day-1">Day 1</a>
+        <a class="training-navigation-sub-title" href="">Introduction</a>
+        <a class="training-navigation-sub-title" href="">Scanner Setup</a>
+        <a class="training-navigation-sub-title" href="">Practical</a>
+
+        <a class="training-navigation-title" href="#">Day 2</a>
+        <a class="training-navigation-sub-title" href="">Onsite Registration : iPad</a>
+        <a class="training-navigation-sub-title" href="">Onsite Registration : Laptop </a>
+
+        <a class="training-navigation-title" href="#">Day 3</a>
+        <a class="training-navigation-sub-title" href="">Theory</a>
+        <a class="training-navigation-sub-title" href="">Practical</a>
+
+        <hr id="navigation-training-separator">
+
+        <h4 class="training-navigation-heading">Week 2</h4>
+        <a class="training-navigation-title" href="#">Day 4</a>
+        <a class="training-navigation-sub-title" href="">Practical</a>
+
+        <a class="training-navigation-title" href="#">Day 5</a>
+        <a class="training-navigation-sub-title" href="">Processing</a>
+
+        <a class="training-navigation-title" href="#">Day 6</a>
+        <a class="training-navigation-sub-title" href="">Troubleshooting</a>
+        <a class="training-navigation-sub-title" href="">Reporting an Issue</a>
+        <a class="training-navigation-sub-title" href="">Returning The Scanner</a>
+        <a class="training-navigation-sub-title" href="">Test</a>
+    </aside>
 {% endblock %}
