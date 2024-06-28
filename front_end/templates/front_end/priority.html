@@ -22,14 +22,16 @@
                 <th>Ship</th>
                 <th>Area Name</th>
                 <th># Scans</th>
-                <th>Ship Priority</th>
-                <th>Area Priority</th>
+                {% if user.is_superuser %}
+                    <th>Ship Priority</th>
+                    <th>Area Priority</th>
+                {% endif %}
                 <th>Time (Days)</th>
                 <th>Completion</th>
                 {% if user.is_superuser %}
                     <th>Priority</th>
+                    <th>Save</th>
                 {% endif %}
-                <th>Save</th>
             </tr>
         </thead>
         <tbody>
@@ -62,10 +64,7 @@
                                         <option value="{{ status }}" {% if status == area.priority %}selected{% endif %}>{{ label }}</option>
                                     {% endfor %}
                                 </select>
-                            </td>
-                        {% else %}
-                            <td>{{ area.ship.priority }}</td>
-                            <td>{{ area.priority }}</td>  
+                            </td> 
                         {% endif %}
 
                         <td>{{ area.time_remaining }}</td>
@@ -81,10 +80,10 @@
                         </td>
                         {% if user.is_superuser %}
                             <td>{{ area.calcualted_priority }}</td>
+                            <td>
+                                <button class="priority-save" type="submit">Save</button>
+                            </td>
                         {% endif %}
-                        <td>
-                            <button class="priority-save" type="submit">Save</button>
-                        </td>
                     </tr>
                 </form>
             {% endfor %}

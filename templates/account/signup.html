@@ -1,10 +1,18 @@
 {% extends "base.html" %}
+
+{% load static %}
+{% load custom_filters %}
+
 {% load allauth i18n %}
 {% load allauth account socialaccount %}
 
 {% block head_title %}
     {% trans "Signup" %}
 {% endblock head_title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/authentication.css' %}">
+{% endblock %}
 
 {% block content %}
     <div class="auth-container">
@@ -53,7 +61,4 @@
 
     {% url 'account_signup' as action_url %}
 
-   
-
-    
 {% endblock content %}

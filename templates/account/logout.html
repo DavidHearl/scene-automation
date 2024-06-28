@@ -1,9 +1,17 @@
 {% extends "base.html" %}
+
+{% load static %}
+{% load custom_filters %}
+
 {% load allauth i18n %}
 
 {% block head_title %}
     {% trans "Sign Out" %}
 {% endblock head_title %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/authentication.css' %}">
+{% endblock %}
 
 {% block content %}
     <div class="auth-container">
