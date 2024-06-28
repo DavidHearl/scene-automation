@@ -9,6 +9,11 @@
     );
 }
 
+/* Turn Headlines off for this page */
+.headlines {
+    display: none;
+}
+
 .year {
     display: flex;
     padding-top: 20px;

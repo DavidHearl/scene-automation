@@ -16,6 +16,7 @@
     font-family: roboto;
 }
 
+
 /* Background */
 #particles-js {
     background: linear-gradient(to bottom, rgb(46, 55, 74), rgb(77, 92, 142));
@@ -61,10 +62,10 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 72px;
     width: 100%;
     background: var(--card-background);
     border-radius: 8px;
+    padding: 8px 0;
     margin-bottom: 16px;
 }
 
@@ -86,6 +87,7 @@
 .headline-content {
     font-size: 1.3rem;
     font-weight: 600;
+    margin-bottom: 0;
 }
 
 /* Active Machines */
@@ -130,7 +132,7 @@
     flex-direction: column;
     position: relative;
     width: 270px;
-    height: 365px;
+    height: 360px;
     background: var(--card-background);
     border-radius: 20px;
     box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
@@ -230,10 +232,11 @@
     height: 32px;
     background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
     border: none;
+    color: white;
 }
 
-.more-info > a {
-    padding: 28px 64px;
+.more-info:hover {
+    color: yellow;
 }
 
 /* Completed Opacity Effect */

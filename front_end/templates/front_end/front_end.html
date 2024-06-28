@@ -9,31 +9,29 @@
 {% load custom_filters %}
 
 {% block headlines %}
-    <div class="headlines">
-        <div class="headline-section small-shrink">
-            <h4 class="headline-title">Time Remaining:</h4>
-            <h2 class="headline-content">{{ statistics.total_time }} Days</h2>
-        </div>
+    <div class="headline-section small-shrink">
+        <h4 class="headline-title">Time Remaining:</h4>
+        <h2 class="headline-content">{{ statistics.total_time }} Days</h2>
+    </div>
 
-        <div class="headline-section small-shrink">
-            <h4 class="headline-title">Completion Date:</h4>
-            <h2 class="headline-content">{{ today }}</h2>
-        </div>
+    <div class="headline-section small-shrink">
+        <h4 class="headline-title">Completion Date:</h4>
+        <h2 class="headline-content">{{ today }}</h2>
+    </div>
 
-        <div class="headline-section medium-shrink">
-            <h4 class="headline-title">Total Scans</h4>
-            <h2 class="headline-content">{{ statistics.total_scans }}</h2>
-        </div>
-        
-        <div class="headline-section large-shrink">
-            <h4 class="headline-title">Ships</h4>
-            <h2 class="headline-content">{{ num_ships }}</h2>
-        </div>
-        
-        <div class="headline-section large-shrink">
-            <h4 class="headline-title">Areas</h4>
-            <h2 class="headline-content">{{ num_areas }}</h2>
-        </div>
+    <div class="headline-section medium-shrink">
+        <h4 class="headline-title">Total Scans</h4>
+        <h2 class="headline-content">{{ statistics.total_scans }}</h2>
+    </div>
+    
+    <div class="headline-section large-shrink">
+        <h4 class="headline-title">Ships</h4>
+        <h2 class="headline-content">{{ num_ships }}</h2>
+    </div>
+    
+    <div class="headline-section large-shrink">
+        <h4 class="headline-title">Areas</h4>
+        <h2 class="headline-content">{{ num_areas }}</h2>
     </div>
 {% endblock %}
 
@@ -84,9 +82,11 @@
                     </div>
                 </div>
                 <!-- <p class="card-text">Priority: {{ ship.priority }}</p> -->
-                <button class="more-info">
-                    <a href="{% url 'ship_detail' ship.id %}">More Info</a>
-                </button>
+                <a href="{% url 'ship_detail' ship.id %}">
+                    <button class="more-info">
+                        Ship Details
+                    </button>
+                </a> 
             </div>
         {% endfor %}
 

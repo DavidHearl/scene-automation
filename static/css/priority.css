@@ -9,6 +9,11 @@
     );
 }
 
+/* Turn Headlines off for this page */
+.headlines {
+    display: none;
+}
+
 th, td {
     border: 1px solid black;
 }
