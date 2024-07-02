@@ -9,29 +9,34 @@
 {% load custom_filters %}
 
 {% block headlines %}
-    <div class="headline-section small-shrink">
+    <div class="headline-section">
         <h4 class="headline-title">Time Remaining:</h4>
         <h2 class="headline-content">{{ statistics.total_time }} Days</h2>
     </div>
 
-    <div class="headline-section small-shrink">
+    <div class="headline-section">
         <h4 class="headline-title">Completion Date:</h4>
         <h2 class="headline-content">{{ today }}</h2>
     </div>
 
-    <div class="headline-section medium-shrink">
+    <div class="headline-section">
         <h4 class="headline-title">Total Scans</h4>
         <h2 class="headline-content">{{ statistics.total_scans }}</h2>
     </div>
     
-    <div class="headline-section large-shrink">
+    <div class="headline-section">
         <h4 class="headline-title">Ships</h4>
         <h2 class="headline-content">{{ num_ships }}</h2>
     </div>
     
-    <div class="headline-section large-shrink">
+    <div class="headline-section">
         <h4 class="headline-title">Areas</h4>
         <h2 class="headline-content">{{ num_areas }}</h2>
+    </div>
+
+    <div class="headline-section">
+        <h4 class="headline-title"><i class="star star-title fa-solid fa-star"></i></h4>
+        <h2 class="headline-content">{{ statistics.total_stars }}</h2>
     </div>
 {% endblock %}
 
@@ -80,11 +85,18 @@
                         <p class="card-text">Areas</p>
                         <p class="card-feature-text">{{ ship.area_set.all.count }}</p>
                     </div>
+                    {% if user.is_superuser %}
+                        <div class="stars">
+                            <p class="card-text"><i class="star star-card fa-solid fa-star"></i></p>
+                            <p class="card-feature-text">{{ ship.stars }}</p>
+                        </div>
+                    {% endif %}
                 </div>
                 <!-- <p class="card-text">Priority: {{ ship.priority }}</p> -->
                 <a href="{% url 'ship_detail' ship.id %}">
                     <button class="more-info">
-                        Ship Details
+                        <span>Ship Details</span>
+                        <span><i class="fa-solid fa-angles-right"></i></span>
                     </button>
                 </a> 
             </div>

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Statistics(models.Model):
 	total_time = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_scans = models.IntegerField(default=0)
+	total_stars = models.IntegerField(default=0)
 	
 	average_scans_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	average_scans_per_area = models.DecimalField(max_digits=5, decimal_places=2, default=0)
@@ -28,6 +29,7 @@ class Ship(models.Model):
 	image = models.ImageField(null=True, blank=True)
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
+	stars = models.IntegerField(default=0)
 	completed_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_scans = models.IntegerField(default=0)
 

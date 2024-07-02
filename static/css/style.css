@@ -231,12 +231,14 @@
     border-radius: 16px;
     height: 32px;
     background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
-    border: none;
+    border: 1px solid #6987d0;
     color: white;
 }
 
 .more-info:hover {
     color: yellow;
+    background: linear-gradient(to bottom, rgb(121, 153, 222), rgb(71, 107, 224));
+    transition: 1.2s ease-in-out;
 }
 
 /* Completed Opacity Effect */
@@ -333,6 +335,34 @@
     margin-top: 8px;
 }
 
+.star {
+    margin-right: 6px;
+    margin-bottom: 2px;
+    font-size: 0.7rem;
+    color: #ffe40a;
+    text-shadow: /* Add a border round the star */
+        1px 1px rgba(0, 0, 0, 0.7),   /* Top right */
+        -1px -1px rgba(0, 0, 0, 0.7), /* Bottom left */
+        1px -1px rgba(0, 0, 0, 0.7),  /* Top left */
+        -1px 1px rgba(0, 0, 0, 0.7),  /* Bottom right */
+        0px 1px rgba(0, 0, 0, 0.7),   /* Top */
+        1px 0px rgba(0, 0, 0, 0.7),   /* Right */
+        0px -1px rgba(0, 0, 0, 0.7),  /* Bottom */
+        -1px 0px rgba(0, 0, 0, 0.7);  /* Left */
+}
+
+.star-card {
+    width: 12px;
+    height: 12px;
+    margin: 6px 0;
+}
+
+.star-title {
+    width: 12px;
+    height: 12px;
+    margin: 4px 0;
+}
+
 /* ------------------------------------------------------------------------------ */
 /* --------------------------------- Placeholder -------------------------------- */
 /* ------------------------------------------------------------------------------ */
@@ -356,7 +386,8 @@
         width: calc(100% - 8px); /* 250 = Width of Navigation */
         margin: 8px;
         margin-top: 60px;
-        margin-left: 4px !important; /* 250 + 32px */
+        margin-left: 24px !important; /* 250 + 32px */
+        margin-right: 24px;
         transition: margin-left 0.2s ease-in-out;
         flex-grow: 1;
     }

@@ -53,7 +53,6 @@ status_priority = {
 
 attributes = ['uploaded', 'exported', 'point_cloud', 'cleaned', 'registered', 'processed']
 
-
 # Decorator to measure the time taken by a function
 def timing_decorator(func):
     @wraps(func)
@@ -234,7 +233,10 @@ def ships_and_areas(request):
     # Add 2 days to today's date
     today += datetime.timedelta(weeks=add_week, days=add_day)
 
-    # Calculate the complete percentage and total scans per ship
+    # Initialize total_stars to 0
+    total_stars = 0
+
+    # Calculate the complete percentage, total scans, and total stars per ship
     for ship in ships:
         total_scans_per_ship = 0
         completed_percentage = 0
@@ -251,6 +253,13 @@ def ships_and_areas(request):
             ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
             ship.total_scans = total_scans_per_ship
             ship.save()
+
+        # Add the stars count of the current ship to the total stars
+        total_stars += ship.stars  # Use ship.stars directly
+
+    # Update statistics.total_stars with the new total stars count
+    statistics.total_stars = total_stars
+    statistics.save()
 
     if request.method == 'POST':
         ship_form = ShipForm(request.POST)
@@ -286,6 +295,23 @@ def ship_detail(request, ship_id):
 
     sorted_ship_areas = queued_areas + other_areas + not_required_areas
 
+    # If all the fields have been filled in, give the area a star
+    areas_with_star = []
+    for area in sorted_ship_areas:
+        star = (
+            area.raw_size != 0.00 and 
+            area.processed_size != 0.00 and 
+            area.exported_size != 0.00 and 
+            area.point_cloud_size != 0)
+        areas_with_star.append((area, star))
+
+    # Calculate the number of areas with a star
+    num_areas_with_star = sum(1 for _, star in areas_with_star if star)
+    
+    # Save the count to the ship model
+    ship.stars = num_areas_with_star
+    ship.save()
+    
     if request.method == 'POST':
         area_form = AreaForm(request.POST)
         if area_form.is_valid():
@@ -301,6 +327,7 @@ def ship_detail(request, ship_id):
         'ship': ship,
         'areas': sorted_ship_areas,
         'area_form': area_form,
+        'areas_with_star': areas_with_star,
     }
 
     return render(request, 'front_end/ship_details.html', context)

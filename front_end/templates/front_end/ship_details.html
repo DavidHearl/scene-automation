@@ -101,10 +101,15 @@
             </div>
         </div>
 
-        {% for area in areas %}
+        {% for area, star in areas_with_star %}
             <div class="area-card">
                 <div class="process-title">
-                    <a href="#{{ area.area_name }}" class="area-title" onclick="scrollToSection(event, '{{ area.area_name }}')">{{ area.area_name }}</a>
+                    <a href="#{{ area.area_name }}" class="area-title" onclick="scrollToSection(event, '{{ area.area_name }}')">
+                        {% if star %}
+                            <i class="star fa-solid fa-star"></i>
+                        {% endif %}
+                        {{ area.area_name }}
+                    </a>
                 </div>
                 <div class="number-of-scans">
                     <p class="number-value">{{ area.scans }}</p>

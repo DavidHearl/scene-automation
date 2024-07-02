@@ -11,21 +11,38 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/calculator.css' %}">
 {% endblock %}
 
-{% block content %}
-    <h2 class="center">Please enter the number of scans you below</h2>
-    <h2 class="current-workload">Current Workload: <span id="total-time">{{ statistics.total_time }}</span></h2>
-    <p class="center">
-        <em>Please note: This is to be used as a guide. Real world values will differ based on many other factors.</em>
-    </p>
+{% block headlines %}
+    <div class="headline-section">
+        <h4 class="headline-title">Current Workload:</h4>
+        <h2 class="headline-content"><span id="total-time">{{ statistics.total_time }}</span> Days</h2>
+    </div>
+{% endblock %}
 
+{% block content %}
     <div class="calculator-container">
+        <h3 class="calculator-label center">Number of Scans</h3>
+        <i class="arrow fa-solid fa-arrow-right"></i>
         <input id="calculator-input" type="number">
+        <i class="arrow fa-solid fa-arrow-right"></i>
         <button id="calculate-button">Calculate</button>
     </div>
 
+    <p class="calculator-text center">
+        <em>Please note: This is to be used as a guide. Real world values will differ based on many other factors.</em>
+    </p>
+
     <div class="result-container">
-        <div id="result"></div>
-        <div id="date"></div>
+        <h3 class="est-completion">Estimated Completion:</h3>
+        <div class="value-container">
+            <div class="results">
+                <span id="result-lower"></span>
+                <span id="result-upper"></span>
+            </div>
+            <div class="results">
+                <span id="date-lower"></span>
+                <span id="date-upper"></span>
+            </div>
+        </div>
     </div>
 
     <script src="{% static 'js/calculator.js' %}"></script>

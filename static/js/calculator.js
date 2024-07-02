@@ -5,11 +5,12 @@ document.querySelector("#calculate-button").addEventListener("click", calculate)
 
 function calculate() {
     // Verify the function has been called correctly
-    console.log("Calculate Function")
+    // console.log("Calculate Function")
 
     // Get the current time till completion
     let currentTimeRemaining = document.querySelector("#total-time").innerHTML;
     currentTimeRemaining = Number(currentTimeRemaining);
+
 
     // Get the value from the calculator input
     const input = document.querySelector("#calculator-input").value;
@@ -68,18 +69,20 @@ function calculate() {
     upperBound = Math.round(upperBound * 100) / 100;
 
     // Add the result to the HTML
-    document.querySelector("#result").innerHTML = `<h2>${ lowerBound } Days - ${ upperBound } Days</h2>`;
+    document.querySelector("#result-lower").innerHTML = `<h2>${ lowerBound } <i class="fa-solid fa-left-right"></i> </h2>`;
+    document.querySelector("#result-upper").innerHTML = `<h2>${ upperBound }Days </h2>`;
 
     // Create an upper and lower bound for the date
     lowerBoundPlusCurrent = lowerBound + currentTimeRemaining
     upperBoundPlusCurrent = upperBound + currentTimeRemaining
 
     const today = new Date();
-    
+
     let lowerBoundDate = addWeekdays(today, lowerBoundPlusCurrent);
     let upperBoundDate = addWeekdays(today, upperBoundPlusCurrent);
     
-    document.querySelector("#date").innerHTML = `<h2>${lowerBoundDate.toDateString()} - ${upperBoundDate.toDateString()}</h2>`;
+    document.querySelector("#date-lower").innerHTML = `<h2>${lowerBoundDate.toDateString()} <i class="fa-solid fa-left-right"></i> </h2>`;
+    document.querySelector("#date-upper").innerHTML = `<h2>${upperBoundDate.toDateString()}</h2>`;
 }
 
 function addWeekdays(date, days) {
