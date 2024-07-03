@@ -96,13 +96,13 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{% url 'data' %}">
                             <i class="fa-solid fa-database"></i>
                             <span class="disabled navigation-text">Data</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="{% url 'manual' %}">
                             <i class="fa-solid fa-book"></i>
                             <span class="disabled navigation-text">Manuals</span>
                         </a>
@@ -153,8 +153,8 @@
                 <h3 class="navigation-heading">Support</h3>
                 <ul class="navigation-list">
                     <li>
-                        <a href="#">
-                            <i class="fa-solid fa-gear"></i>
+                        <a href="{% url 'settings' %}">
+                            <i class="disabled fa-solid fa-gear"></i>
                             <span class="disabled navigation-text">Settings</span>
                         </a>
                     </li>
@@ -189,8 +189,8 @@
         </main>
     </div>
 
-    <!-- <script src="{% static 'particles/particles.js' %}"></script>
-    <script src="{% static 'particles/app.js' %}"></script> -->
+    <script src="{% static 'particles/particles.js' %}"></script>
+    <script src="{% static 'particles/app.js' %}"></script>
 
     <!-- <footer>
         <div class="container">
