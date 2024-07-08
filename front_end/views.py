@@ -594,6 +594,7 @@ def logs(request):
 def data(request):
     statistics = Statistics.objects.get(id=8)
     areas = Area.objects.filter(star=True)
+    num_areas = len(areas)
 
     point_cloud_scans = []
     raw_size_scans = []
@@ -642,6 +643,7 @@ def data(request):
         'average_raw': average_raw,
         'average_processed': average_processed,
         'average_exported': average_exported,
+        'num_areas': num_areas,
     }
 
     return render(request, 'front_end/data.html', context)
