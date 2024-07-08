@@ -15,6 +15,10 @@ class Statistics(models.Model):
 	average_areas_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	average_completion_time_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
+	average_raw_storage_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	average_processed_storage_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	average_exported_storage_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
 
 class Ship(models.Model):
 	PRIORITY_CHOICES = (

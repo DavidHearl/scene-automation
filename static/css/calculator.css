@@ -68,6 +68,30 @@ input {
     padding: 4px;
 }
 
+.estimated-data-container {
+    display: flex;
+    justify-content: center;
+    color: black;
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.raw-size,
+.processed-size,
+.exported-size,
+.total-size {
+    background: repeating-linear-gradient(
+        150deg,
+        rgb(251, 251, 251),
+        rgb(251, 251, 251) 30px,
+        rgb(246, 246, 246) 30px,
+        rgb(246, 246, 246) 60px
+    );
+    margin: 8px;
+    border-radius: 8px;
+    padding: 4px;
+}
+
 .results {
     display: flex;
     flex-direction: row;

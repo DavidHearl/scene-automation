@@ -43,6 +43,12 @@
 {% endblock %}
 
 {% block content %} 
+    <div class="notes">
+        <p class="notes-text"><em>
+            Areas above 100 scans have been removed from the data till more data points have been added
+        </em></p>
+    </div>
+
     <canvas id="pointCloudSizeChart"></canvas>
     <canvas id="combinedSizeChart"></canvas>
 
@@ -59,8 +65,9 @@
             var processedContext = document.getElementById('processedDataSizeChart').getContext('2d');
             var exportedContext = document.getElementById('exportedDataSizeChart').getContext('2d');
 
-            
-            // Point Cloud Size Graph
+            // -----------------------------------------------------------
+            // ------------------ Point Cloud Size Chart -----------------
+            // -----------------------------------------------------------
             var pointScatterData = {
                 datasets: [{
                     label: 'Number of Points / Number of Scans',
@@ -75,40 +82,64 @@
                 options: {
                     scales: {
                         x: {
+                            ticks: {
+                                color: 'white',
+                            },
                             type: 'linear',
                             position: 'bottom',
                             title: {
                                 display: true,
                                 text: 'Number of Scans',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         },
                         y: {
+                            ticks: {
+                                color: 'white',
+                            },
                             title: {
                                 display: true,
-                                text: 'Points',
+                                text: 'Number of Scans',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         }
                     },
-                    plugins: { // This is the correct structure for Chart.js version 3+
+                    plugins: {
+                        legend:{
+                            labels: {
+                                color: 'white'
+                            }
+                        },
                         title: {
                             display: true,
                             text: 'Point Cloud Size vs. Number of Scans',
                             font: {
                                 size: 18
                             },
-                            position: 'top'
+                            position: 'top',
+                            color: 'white'
                         }
                     },
                 }
             });
 
-            // Combined Chart
+            // -----------------------------------------------------------
+            // ---------------------- Combined Chart ---------------------
+            // -----------------------------------------------------------
             var combinedScatterData = {
                 datasets: [{
                     label: 'Raw Data Size / Number of Scans',
@@ -137,40 +168,64 @@
                 options: {
                     scales: {
                         x: {
+                            ticks: {
+                                color: 'white',
+                            },
                             type: 'linear',
                             position: 'bottom',
                             title: {
                                 display: true,
                                 text: 'Number of Scans',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         },
                         y: {
+                            ticks: {
+                                color: 'white',
+                            },
                             title: {
                                 display: true,
                                 text: 'Data Size (GB)',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         }
                     },
                     plugins: {
+                        legend:{
+                            labels: {
+                                color: 'white'
+                            }
+                        },
                         title: {
                             display: true,
-                            text: 'Data Size vs. Number of Scans',
+                            text: 'Point Cloud Size vs. Number of Scans',
                             font: {
                                 size: 18
                             },
-                            position: 'top'
+                            position: 'top',
+                            color: 'white'
                         }
                     },
                 }
             });
 
-            // Raw Data Size Graph    
+            // -----------------------------------------------------------
+            // ------------------------ Raw Chart ------------------------
+            // -----------------------------------------------------------  
             var rawScatterData = {
                 datasets: [{
                     label: 'Raw Data Size / Number of Scans',
@@ -187,34 +242,56 @@
                 options: {
                     scales: {
                         x: {
+                            ticks: {
+                                color: 'white',
+                            },
                             type: 'linear',
                             position: 'bottom',
                             title: {
                                 display: true,
                                 text: 'Number of Scans',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         },
                         y: {
+                            ticks: {
+                                color: 'white',
+                            },
                             title: {
                                 display: true,
                                 text: 'Raw Data Size (GB)',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         }
                     },
                     plugins: {
+                        legend:{
+                            labels: {
+                                color: 'white'
+                            }
+                        },
                         title: {
                             display: true,
-                            text: 'Raw Data Size (GB) vs. Number of Scans',
+                            text: 'Point Cloud Size vs. Number of Scans',
                             font: {
                                 size: 18
                             },
-                            position: 'top'
+                            position: 'top',
+                            color: 'white'
                         }
                     },
                 }
@@ -237,34 +314,56 @@
                 options: {
                     scales: {
                         x: {
+                            ticks: {
+                                color: 'white',
+                            },
                             type: 'linear',
                             position: 'bottom',
                             title: {
                                 display: true,
                                 text: 'Number of Scans',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         },
                         y: {
+                            ticks: {
+                                color: 'white',
+                            },
                             title: {
                                 display: true,
                                 text: 'Processed Data Size (GB)',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         }
                     },
-                    plugins: { // This is the correct structure for Chart.js version 3+
+                    plugins: {
+                        legend:{
+                            labels: {
+                                color: 'white'
+                            }
+                        },
                         title: {
                             display: true,
-                            text: 'Processed Data Size (GB) vs. Number of Scans',
+                            text: 'Point Cloud Size vs. Number of Scans',
                             font: {
                                 size: 18
                             },
-                            position: 'top'
+                            position: 'top',
+                            color: 'white'
                         }
                     },
                 }
@@ -287,34 +386,56 @@
                 options: {
                     scales: {
                         x: {
+                            ticks: {
+                                color: 'white',
+                            },
                             type: 'linear',
                             position: 'bottom',
                             title: {
                                 display: true,
                                 text: 'Number of Scans',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         },
                         y: {
+                            ticks: {
+                                color: 'white',
+                            },
                             title: {
                                 display: true,
                                 text: 'Exported Data Size (GB)',
                                 font: {
-                                    size: 14
-                                }
-                            }
+                                    size: 14,
+                                },
+                                color: 'white'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.5)',
+                            },
+                            color: 'white'
                         }
                     },
                     plugins: {
+                        legend:{
+                            labels: {
+                                color: 'white'
+                            }
+                        },
                         title: {
                             display: true,
-                            text: 'Exported Data Size (GB) vs. Number of Scans',
+                            text: 'Point Cloud Size vs. Number of Scans',
                             font: {
                                 size: 18
                             },
-                            position: 'top'
+                            position: 'top',
+                            color: 'white'
                         }
                     },
                 }

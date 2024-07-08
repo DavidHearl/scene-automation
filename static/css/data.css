@@ -9,7 +9,16 @@
     width: 100%;
     border: 1px solid;
     border-radius: 8px;
-    background: white;
+    background: #131520;
     padding: 8px 12px;
     margin-bottom: 24px;
+}
+
+.notes {
+    display: flex;
+    justify-content: center;
+}
+
+.notes-text {
+    color: white;
 }

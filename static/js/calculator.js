@@ -11,7 +11,6 @@ function calculate() {
     let currentTimeRemaining = document.querySelector("#total-time").innerHTML;
     currentTimeRemaining = Number(currentTimeRemaining);
 
-
     // Get the value from the calculator input
     const input = document.querySelector("#calculator-input").value;
 
@@ -59,6 +58,52 @@ function calculate() {
 
         totalTime += daysLeft
     }
+
+    let averageRaw = document.querySelector("#averageRaw").innerHTML;
+    let averageProcessed = document.querySelector("#averageProcessed").innerHTML;
+    let averageExported = document.querySelector("#averageExported").innerHTML;
+
+    averageRaw = parseFloat((averageRaw * input).toFixed(2));
+    averageProcessed = parseFloat((averageProcessed * input).toFixed(2));
+    averageExported = parseFloat((averageExported * input).toFixed(2));
+    totalSize = parseFloat((averageRaw + averageProcessed + averageExported).toFixed(2));
+
+    if (averageRaw >= 1000) {
+        averageRaw = averageRaw / 1000;
+        averageRaw = parseFloat(averageRaw.toFixed(2));
+        rawExpression = "TB";
+    } else {
+        rawExpression = "GB"
+    };
+
+    if (averageProcessed >= 1000) {
+        averageProcessed = averageProcessed / 1000;
+        averageProcessed = parseFloat(averageProcessed.toFixed(2));
+        processedExpression = "TB";
+    } else {
+        processedExpression = "GB"
+    }
+
+    if (averageExported >= 1000) {
+        averageExported = averageExported / 1000;
+        averageExported = parseFloat(averageExported.toFixed(2));
+        exportedExpression = "TB";
+    } else {
+        exportedExpression = "GB"
+    }
+
+    if (totalSize >= 1000) {
+        totalSize = totalSize / 1000;
+        totalSize = parseFloat(totalSize.toFixed(2));
+        totalExpression = "TB";
+    } else {
+        totalExpression = "GB"
+    }
+
+    document.querySelector("#raw-data").innerHTML = `<h2>${averageRaw} ${rawExpression}</h2>`;
+    document.querySelector("#processed-data").innerHTML = `<h2>${averageProcessed} ${processedExpression}</h2>`;
+    document.querySelector("#exported-data").innerHTML = `<h2>${averageExported} ${exportedExpression}</h2>`;
+    document.querySelector("#total-data").innerHTML = `<h2>${totalSize} ${totalExpression}</h2>`;
 
     totalTime = Math.round(totalTime * 100) / 100;
 

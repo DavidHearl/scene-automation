@@ -593,7 +593,7 @@ def logs(request):
 
 def data(request):
     statistics = Statistics.objects.get(id=8)
-    areas = Area.objects.filter(star=True)
+    areas = Area.objects.filter(star=True, scans__lt=100)
     num_areas = len(areas)
 
     point_cloud_scans = []
@@ -631,6 +631,11 @@ def data(request):
     average_processed = round(average_processed, 2)
     average_exported = sum(exported_size_count) / total_scans
     average_exported = round(average_exported, 2)
+
+    statistics.average_raw_storage_per_ship = average_raw
+    statistics.average_processed_storage_per_ship = average_processed
+    statistics.average_exported_storage_per_ship = average_exported
+    statistics.save()
 
     context = {
         'statistics': statistics,
