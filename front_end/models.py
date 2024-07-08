@@ -6,6 +6,9 @@ class Statistics(models.Model):
 	total_time = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_scans = models.IntegerField(default=0)
 	total_stars = models.IntegerField(default=0)
+	total_raw_storage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	total_processed_storage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+	total_exported_storage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	
 	average_scans_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	average_scans_per_area = models.DecimalField(max_digits=5, decimal_places=2, default=0)
@@ -72,6 +75,7 @@ class Area(models.Model):
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
 	calcualted_priority = models.DecimalField(max_digits=10, decimal_places=8, default=0, null=True, blank=True)
+	star = models.BooleanField(default=False)
 
 	# Processing Operations
 	processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)

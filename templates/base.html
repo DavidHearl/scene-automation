@@ -84,6 +84,12 @@
                         <span class="navigation-text">Priority</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'data' %}">
+                        <i class="fa-solid fa-database"></i>
+                        <span class="navigation-text">Data</span>
+                    </a>
+                </li>
             </ul>
 
             {% if user.is_superuser %}
@@ -93,12 +99,6 @@
                         <a href="{% url 'training' %}">
                             <i class="fas fa-chalkboard-teacher"></i>
                             <span class="navigation-text">Training</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'data' %}">
-                            <i class="fa-solid fa-database"></i>
-                            <span class="disabled navigation-text">Data</span>
                         </a>
                     </li>
                     <li>

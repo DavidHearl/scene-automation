@@ -261,6 +261,9 @@ def ships_and_areas(request):
     statistics.total_stars = total_stars
     statistics.save()
 
+    # Star Percentage
+    star_percentage = round((total_stars / num_areas) * 100, 4)
+
     if request.method == 'POST':
         ship_form = ShipForm(request.POST)
         if ship_form.is_valid():
@@ -280,6 +283,7 @@ def ships_and_areas(request):
         'num_areas': num_areas,
         'today': today,
         'ship_form': ship_form,
+        'star_percentage': star_percentage,
     }
 
     return render(request, 'front_end/front_end.html', context)
@@ -295,19 +299,21 @@ def ship_detail(request, ship_id):
 
     sorted_ship_areas = queued_areas + other_areas + not_required_areas
 
-    # If all the fields have been filled in, give the area a star
-    areas_with_star = []
     for area in sorted_ship_areas:
-        star = (
+        area.star = (
             area.raw_size != 0.00 and 
             area.processed_size != 0.00 and 
             area.exported_size != 0.00 and 
             area.point_cloud_size != 0)
-        areas_with_star.append((area, star))
+        area.save()  # Save the area with the updated star field
+
+    # Since you're directly updating the areas, you might not need areas_with_star for the star calculation anymore
+    # But if you still need to pass areas with their star status to the context, you can recreate areas_with_star list:
+    areas_with_star = [(area, area.star) for area in sorted_ship_areas]
 
     # Calculate the number of areas with a star
-    num_areas_with_star = sum(1 for _, star in areas_with_star if star)
-    
+    num_areas_with_star = sum(1 for area in sorted_ship_areas if area.star)
+
     # Save the count to the ship model
     ship.stars = num_areas_with_star
     ship.save()
@@ -586,7 +592,59 @@ def logs(request):
 # --------------------------------------------------------------------------- #
 
 def data(request):
-    return render(request, 'front_end/data.html')
+    statistics = Statistics.objects.get(id=8)
+    areas = Area.objects.filter(star=True)
+
+    point_cloud_scans = []
+    raw_size_scans = []
+    processed_size_scans = []
+    exported_size_scans = []
+
+    # Setup the Graphs
+    for area in areas:
+        scans = area.scans
+        point_cloud_size = area.point_cloud_size
+        raw_size = float(area.raw_size)
+        processed_size = float(area.processed_size)
+        exported_size = float(area.exported_size)
+
+        point_cloud_scans.append({'x': scans, 'y': point_cloud_size})
+        raw_size_scans.append({'x': scans, 'y': raw_size})
+        processed_size_scans.append({'x': scans, 'y': processed_size})
+        exported_size_scans.append({'x': scans, 'y': exported_size})
+
+    scan_count = [area.scans for area in areas]
+    point_cloud_count = [area.point_cloud_size for area in areas]
+    raw_size_count = [area.raw_size for area in areas]
+    processed_size_count = [area.processed_size for area in areas]
+    exported_size_count = [area.exported_size for area in areas]
+
+    total_scans = sum(scan_count)
+
+    average_point = sum(point_cloud_count) / total_scans
+    average_point = round(average_point)
+
+    average_raw = sum(raw_size_count) / total_scans
+    average_raw = round(average_raw, 2)
+    average_processed = sum(processed_size_count) / total_scans
+    average_processed = round(average_processed, 2)
+    average_exported = sum(exported_size_count) / total_scans
+    average_exported = round(average_exported, 2)
+
+    context = {
+        'statistics': statistics,
+        'areas': areas,
+        'point_cloud_scans': point_cloud_scans,
+        'raw_size_scans': raw_size_scans,
+        'processed_size_scans': processed_size_scans,
+        'exported_size_scans': exported_size_scans,
+        'average_point': average_point,
+        'average_raw': average_raw,
+        'average_processed': average_processed,
+        'average_exported': average_exported,
+    }
+
+    return render(request, 'front_end/data.html', context)
 
 # --------------------------------------------------------------------------- #
 # --------------------------------- Manual ---------------------------------- #

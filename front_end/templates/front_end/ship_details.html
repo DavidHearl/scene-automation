@@ -105,8 +105,10 @@
             <div class="area-card">
                 <div class="process-title">
                     <a href="#{{ area.area_name }}" class="area-title" onclick="scrollToSection(event, '{{ area.area_name }}')">
-                        {% if star %}
-                            <i class="star fa-solid fa-star"></i>
+                        {% if user.is_superuser %}
+                            {% if star %}
+                                <i class="star fa-solid fa-star"></i>
+                            {% endif %}
                         {% endif %}
                         {{ area.area_name }}
                     </a>
@@ -139,7 +141,7 @@
     <!-- Modify Ship Values -->
     {% if user.is_superuser %}
         <div class="area-details">
-            {% for area in areas %}
+            {% for area, star in areas_with_star %}
                 <div id="{{ area.area_name }}" class="area-detail-card">
                     <form class="area-form" method="post" action="{% url 'edit_area' area.id %}">
                         {% csrf_token %}
@@ -149,12 +151,19 @@
                         <!-- Area Name -->
                         <div class="area-form inline">
                             <div class="status-symbol {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}"></div>
+                            
                             <input class="area-margin" type="text" name="area_name" value="{{ area.area_name }}">
                         </div>
 
                         <!-- Processing Machine -->
                         <div class="area-form">
-                            <p class="data-label">Time: {{ area.time_remaining }}</p>
+                            
+                            <p class="data-label">
+                                {% if star %}
+                                    <i class="star time-star fa-solid fa-star"></i>
+                                {% endif %}
+                                Time: {{ area.time_remaining }}
+                            </p>
                         </div>
 
                         <!-- Area Priority -->

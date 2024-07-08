@@ -464,4 +464,9 @@
     }
 }
 
+#scatterChart {
+    height: 400 !important;
+    width: 400 !important;
+}
+
 
