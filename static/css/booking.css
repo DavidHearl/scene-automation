@@ -1,12 +1,6 @@
 /* Global Variables */
 :root {
-    --card-background: repeating-linear-gradient(
-        150deg,
-        rgb(251, 251, 251),
-        rgb(251, 251, 251) 30px,
-        rgb(246, 246, 246) 30px,
-        rgb(246, 246, 246) 60px
-    );
+    --card-background: linear-gradient(315deg, rgb(28, 28, 52), rgb(23, 23, 47));
 }
 
 /* Turn Headlines off for this page */
@@ -30,7 +24,7 @@
     flex-direction: column;
     background: var(--card-background);
     width: 335px;
-    border : 1px solid white;
+    border: 1px solid #5e5e5e;
     padding: 12px;
     border-radius: 12px;
     box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
@@ -50,6 +44,7 @@
     align-items: center;
     display: flex;
     margin: 4px;
+    color: #bfbfbf;
 }
 
 .day > p {
@@ -66,6 +61,7 @@ h2 {
     display: flex;
     justify-content: center;
     font-size: 1.5rem;
+    color: #e6e6e6;
 }
 
 h5 {
@@ -87,7 +83,7 @@ h5 {
 }
 
 .red {
-    background: rgb(227, 50, 50);
+    background: rgb(183, 44, 44);
     color: white;
 }
 
@@ -102,7 +98,7 @@ h5 {
 }
 
 .today {
-    border: 2px solid black
+    border: 2px solid white
 }
 
 .padding-top-week {
@@ -142,6 +138,7 @@ h5 {
     align-items: center;
     padding: 8px;
     margin: 0;
+    color: #bbb;
 }
 
 .key {

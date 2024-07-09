@@ -151,8 +151,7 @@
                         <!-- Area Name -->
                         <div class="area-form inline">
                             <div class="status-symbol {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}"></div>
-                            
-                            <input class="area-margin" type="text" name="area_name" value="{{ area.area_name }}">
+                            <input class="area-margin data-field" type="text" name="area_name" value="{{ area.area_name }}">
                         </div>
 
                         <!-- Processing Machine -->
@@ -168,7 +167,7 @@
 
                         <!-- Area Priority -->
                         <div class="area-form">
-                            <select class="text-center" name="priority">
+                            <select class="text-center data-field" name="priority">
                                 {% for choice_value, choice_label in area.PRIORITY_CHOICES %}
                                     <option value="{{ choice_value }}" {% if choice_value == area.priority %}selected{% endif %}>
                                         {{ choice_label }}
@@ -233,7 +232,7 @@
                                 <p class="data-label">Point Cloud:</p>
                             </div>
                             <div class="area-form">
-                                <input class="text-center" type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
+                                <input class="text-center data-field" type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
                             </div>
                         </div>
 
@@ -244,15 +243,15 @@
                         <div class="ship-detail-row">
                             <!-- Raw File Size -->
                             <div class="area-form">
-                                <input class="text-center" type="text" name="raw_size" value="{{ area.raw_size }}">
+                                <input class="text-center data-field" type="text" name="raw_size" value="{{ area.raw_size }}">
                             </div>
                             <!-- Processed File Fize -->
                             <div class="area-form">
-                                <input class="text-center" type="text" name="processed_size" value="{{ area.processed_size }}">
+                                <input class="text-center data-field" type="text" name="processed_size" value="{{ area.processed_size }}">
                             </div>
                             <!-- Exported File Size -->
                             <div class="area-form">
-                                <input class="text-center" type="text" name="exported_size" value="{{ area.exported_size }}">
+                                <input class="text-center data-field" type="text" name="exported_size" value="{{ area.exported_size }}">
                             </div>
                         </div>
                     

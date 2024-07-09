@@ -11,6 +11,10 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/calculator.css' %}">
 {% endblock %}
 
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
 {% block headlines %}
     <div class="headline-section">
         <h4 class="headline-title">Current Workload:</h4>
@@ -47,38 +51,7 @@
         <em>Please note: This is to be used as a guide. Real world values will differ based on many other factors.</em>
     </p>
 
-    <div class="result-container">
-        <h3 class="est-completion">Estimated Completion:</h3>
-        <div class="value-container">
-            <div class="results">
-                <span id="result-lower"></span>
-                <span id="result-upper"></span>
-            </div>
-            <div class="results">
-                <span id="date-lower"></span>
-                <span id="date-upper"></span>
-            </div>
-        </div>
-    </div>
-
-    <div class="estimated-data-container">
-        <div class="raw-size">
-            <h3 class="est-completion">Raw Data Size:</h3>
-            <span id="raw-data"></span>
-        </div>
-        <div class="processed-size">
-            <h3 class="est-completion">Processed Data Size:</h3>
-            <span id="processed-data"></span>
-        </div>
-        <div class="exported-size">
-            <h3 class="est-completion">Exported Data Size:</h3>
-            <span id="exported-data"></span>
-        </div>
-        <div class="total-size">
-            <h3 class="est-completion">Exported Data Size:</h3>
-            <span id="total-data"></span>
-        </div>
-    </div>
+    <div id="dashboard-container"></div>
 
     <script src="{% static 'js/calculator.js' %}"></script>
 {% endblock %}

@@ -3,7 +3,68 @@
 
 document.querySelector("#calculate-button").addEventListener("click", calculate);
 
+function displayHTML() {
+    const contentContainer = document.getElementById('dashboard-container');
+    const htmlContent = `
+        <div class="result-container">
+            <canvas id="estimated-completion"></canvas>
+        </div>
+
+        <div class="dates">
+            <div class="lower-date">
+                <h3 class="est-completion">Earliest Completion</h3>
+                <div class="data-container">
+                    <span id="date-lower"></span>
+                </div>
+            </div>
+            <div class="upper-date">
+                <h3 class="est-completion">Estimated Completion</h3>
+                <div class="data-container">
+                    <span id="date-upper"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="storage-summary">
+            <div class="storage-column">
+                <div class="data-box">
+                    <h3 class="est-completion">Raw Data Size:</h3>
+                    <div class="data-container">
+                        <span id="raw-data"></span>
+                    </div>
+                </div>
+                <div class="data-box">
+                    <h3 class="est-completion">Exported Data Size:</h3>
+                    <div class="data-container">
+                        <span id="exported-data"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="storage-column">
+                <div class="data-box">            
+                    <h3 class="est-completion">Processed Data Size:</h3>
+                    <div class="data-container">
+                        <span id="processed-data"></span>
+                    </div>
+                </div>
+                <div class="data-box special">
+                    <h3 class="est-completion">Total Data Size:</h3>
+                    <div class="data-container">
+                        <span id="total-data"></span>
+                    </div>
+                </div>
+            </div>
+            <canvas id="totalDataPieChart"></canvas>
+        </div>
+    `;
+
+    contentContainer.innerHTML = htmlContent;
+}
+
+
 function calculate() {
+    displayHTML();
+
     // Verify the function has been called correctly
     // console.log("Calculate Function")
 
@@ -107,15 +168,11 @@ function calculate() {
 
     totalTime = Math.round(totalTime * 100) / 100;
 
-    let lowerBound = totalTime * 1.25
-    let upperBound = totalTime * 1.75
+    let lowerBound = totalTime * 1.2
+    let upperBound = totalTime * 1.9
 
     lowerBound = Math.round(lowerBound * 100) / 100;
     upperBound = Math.round(upperBound * 100) / 100;
-
-    // Add the result to the HTML
-    document.querySelector("#result-lower").innerHTML = `<h2>${ lowerBound } <i class="fa-solid fa-left-right"></i> </h2>`;
-    document.querySelector("#result-upper").innerHTML = `<h2>${ upperBound }Days </h2>`;
 
     // Create an upper and lower bound for the date
     lowerBoundPlusCurrent = lowerBound + currentTimeRemaining
@@ -126,8 +183,136 @@ function calculate() {
     let lowerBoundDate = addWeekdays(today, lowerBoundPlusCurrent);
     let upperBoundDate = addWeekdays(today, upperBoundPlusCurrent);
     
-    document.querySelector("#date-lower").innerHTML = `<h2>${lowerBoundDate.toDateString()} <i class="fa-solid fa-left-right"></i> </h2>`;
+    document.querySelector("#date-lower").innerHTML = `<h2>${lowerBoundDate.toDateString()}</h2>`;
     document.querySelector("#date-upper").innerHTML = `<h2>${upperBoundDate.toDateString()}</h2>`;
+
+    // Estimated Time Chart
+    // Calculate the difference between the upper and lower bounds
+    let duration = upperBound - lowerBound;
+
+    // Chart.js configuration
+    const estconfig = {
+        type: 'bar',
+        data: {
+            labels: ['Estimated Completion'], // Single category
+            datasets: [{
+                label: 'Minimum Days',
+                data: [lowerBound], // Lower bound value
+                backgroundColor: 'rgb(54, 162, 235)', // Example color
+                stack: 'Stack 0', // Specify the stack
+            }, {
+                label: 'Estimated Additional Days',
+                data: [duration], // Difference (upper - lower bound)
+                backgroundColor: 'rgb(255, 99, 132)', // Example color
+                stack: 'Stack 0', // Same stack to ensure they are stacked together
+            }]
+        },
+        options: {
+            indexAxis: 'y', // Horizontal bar chart
+            scales: {
+                x: {
+                    stacked: true, // Enable stacking on the x-axis
+                    ticks: {
+                        color: 'white', // Change x-axis labels to white
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)', // Optional: change grid line colors
+                    },
+                },
+                y: {
+                    stacked: true, // Enable stacking on the y-axis
+                    ticks: {
+                        color: 'white', // Change y-axis labels to white
+                    },
+                    grid: {
+                        color: 'rgba(255, 255, 255, 0.1)', // Optional: change grid line colors
+                    },
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true, // Display legend (optional)
+                    labels: {
+                        color: 'white', // Change legend text to white
+                    },
+                },
+                title: {
+                    display: true,
+                    text: 'Estimated Completion Time',
+                    color: 'white', // Change title text to white
+                },
+            },
+        },
+    };
+
+    // Assuming you have a <canvas> element with id="myChart"
+    const ctx = document.getElementById('estimated-completion').getContext('2d');
+    const myChart = new Chart(ctx, estconfig);
+
+
+
+    // Pie Chart
+    const data = {
+        labels: [
+            'Raw Data',
+            'Processed Data',
+            'Exported Data'
+        ],
+        datasets: [{
+            label: 'Total Data Distribution',
+            data: [averageRaw, averageProcessed, averageExported], // Use your calculated values here
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+    
+    const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white' // Change legend text color
+                    }
+                },
+                tooltip: {
+                    titleFont: {
+                        size: 14,
+                        weight: 'bold',
+                        color: 'yellow' // Change tooltip title text color
+                    },
+                    bodyFont: {
+                        size: 12,
+                        color: 'lightblue' // Change tooltip body text color
+                    }
+                },
+                title: { // Add this section to include a title
+                    display: true,
+                    text: 'Total Data Distribution', // Title text
+                    color: 'white', // Title text color
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    },
+                    padding: {
+                        top: 4,
+                        bottom: 4
+                    }
+                }
+            }
+        }
+    };
+    
+    // Render the pie chart
+    const totalDataPieChart = new Chart(
+        document.getElementById('totalDataPieChart'),
+        config
+    );
 }
 
 function addWeekdays(date, days) {

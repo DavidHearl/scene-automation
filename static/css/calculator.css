@@ -1,3 +1,8 @@
+/* Global Variables */
+:root {
+    --card-background: linear-gradient(315deg, rgb(28, 28, 52), rgb(23, 23, 47));
+}
+
 .calculator-container {
     display: flex;
     justify-content: center;
@@ -53,41 +58,13 @@ input {
 
 .result-container {
     display: flex;
-    flex-direction: column;
-    width: 600px;
-    margin: 32px auto;
-    background: repeating-linear-gradient(
-        150deg,
-        rgb(251, 251, 251),
-        rgb(251, 251, 251) 30px,
-        rgb(246, 246, 246) 30px,
-        rgb(246, 246, 246) 60px
-    );
-    color: black;
-    border-radius: 8px;
-    padding: 4px;
+    justify-content: center
 }
 
 .estimated-data-container {
     display: flex;
     justify-content: center;
     color: black;
-    border-radius: 8px;
-    padding: 4px;
-}
-
-.raw-size,
-.processed-size,
-.exported-size,
-.total-size {
-    background: repeating-linear-gradient(
-        150deg,
-        rgb(251, 251, 251),
-        rgb(251, 251, 251) 30px,
-        rgb(246, 246, 246) 30px,
-        rgb(246, 246, 246) 60px
-    );
-    margin: 8px;
     border-radius: 8px;
     padding: 4px;
 }
@@ -116,7 +93,10 @@ input {
 }
 
 .est-completion {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    margin: 0;
+    color: #bbb;
+    margin-left: 4px;
 }
 
 #result-lower > h2,
@@ -129,6 +109,95 @@ input {
 #result-upper h2,
 #date-upper h2 {
     margin-left: 4px;
+}
+
+#totalDataPieChart {
+    max-width: 400px;
+    max-height: 400px;
+    aspect-ratio: 1 / 1;
+    display: block;
+    box-sizing: border-box;
+    background: var(--card-background);
+    padding: 12px;
+    border-radius: 20px;
+}
+
+/* NEW STYLE TRIAL */
+.storage-summary {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.storage-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 400px;
+    gap: 20px;
+}
+
+.data-box {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 120px;
+    background: var(--card-background);
+    border-radius: 20px;
+    color: white;
+    padding: 12px;
+}
+
+.data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 16px;
+}
+
+.special {
+    box-shadow: 0 0 4px white;
+}
+
+#raw-data h2,
+#processed-data h2,
+#exported-data h2,
+#total-data h2 {
+    margin: 0;
+}
+
+#estimated-completion {
+    max-width: 932px;
+    max-height: 200px;
+    background: var(--card-background);
+    padding: 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
+
+.dates {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.lower-date,
+.upper-date {
+    display: flex;
+    flex-direction: column;
+    width: 458px;
+    background: var(--card-background);
+    padding: 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+#date-upper h2,
+#date-lower h2 {
+    margin: 0;
 }
 
 @media (max-width: 600px) {

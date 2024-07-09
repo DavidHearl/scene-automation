@@ -1,12 +1,7 @@
 /* Global Variables */
 :root {
-    --card-background: repeating-linear-gradient(
-        150deg,
-        rgb(251, 251, 251),
-        rgb(251, 251, 251) 30px,
-        rgb(246, 246, 246) 30px,
-        rgb(246, 246, 246) 60px
-    );
+    /* --card-background: linear-gradient(315deg, rgb(28, 28, 52), rgb(23, 23, 47)); */
+    --card-background: linear-gradient(315deg, rgb(28, 28, 42), rgb(28, 28, 46));
 }
 
 /* Remove Margins and Padding and Set Font */
@@ -39,7 +34,7 @@
 /* Navigation Sub Wrapper */
 #navigation {
     width: 250px;
-    background: linear-gradient(to bottom, rgb(25, 31, 44), rgb(46, 55, 74));
+    background: linear-gradient(to bottom, rgb(25, 31, 44), rgb(43, 52, 71));
     opacity: 0.9;
     padding: 12px 20px;
     color: white;
@@ -81,13 +76,14 @@
     font-weight: 600;
     padding: 4px;
     margin: 0;
-    color: rgb(39, 68, 131);
+    color: #bbb;
 }
 
 .headline-content {
     font-size: 1.3rem;
     font-weight: 600;
     margin-bottom: 0;
+    color: white;
 }
 
 /* Active Machines */
@@ -135,7 +131,7 @@
     height: 360px;
     background: var(--card-background);
     border-radius: 20px;
-    box-shadow: 0 8px 8px rgba(0, 0, 0, .4);
+    box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
 }
 
 .ship-card::before {
@@ -163,7 +159,7 @@
 }
 
 .progress-bar {
-    background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
+    background: linear-gradient(to bottom, rgb(120, 147, 204), rgb(64, 85, 149));
 }
 
 .card-body {
@@ -176,6 +172,7 @@
     font-size: 1.4rem;
     font-weight: 600;
     padding: 8px 8px 2px 8px;
+    color: #d5d5d5;
 }
 
 .card-secondary-title {
@@ -184,13 +181,14 @@
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 0;
-    color: rgb(39, 68, 131)
+    color: rgb(113, 144, 210);
 }
 
 .card-text {
     display: flex;
     justify-content: center;
     margin: 0;
+    color: white;
 }
 
 .form-div {
@@ -202,7 +200,7 @@
 }
 
 .to-be-completed {
-    color: rgb(181, 12, 0);
+    color: rgb(215, 92, 83);
 }
 
 .card-feature-text {
@@ -223,9 +221,6 @@
     padding: 0;
 }
 
-
-
-
 .more-info {
     position: absolute;
     bottom: 8px;
@@ -233,7 +228,7 @@
     margin-left: 3%;
     border-radius: 16px;
     height: 32px;
-    background: linear-gradient(to bottom, rgb(101, 133, 202), rgb(51, 87, 204));
+    background: linear-gradient(to bottom, rgb(120, 147, 204), rgb(64, 85, 149));
     color: white;
     border: none;
     overflow: hidden;
