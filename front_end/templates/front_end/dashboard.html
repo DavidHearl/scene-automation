@@ -22,6 +22,30 @@
 
 {% block content %}
     <div class="dashboard-container">
+        <div class="data-box">
+            <h3 class="data-box-title">Total Scans</h3>
+            <div class="data-container">
+                <h2 class="data-span">{{ statistics.total_scans }}</h2>
+            </div>
+        </div>
+
+        <div class="data-box">
+            <h3 class="data-box-title">Total Areas</h3>
+            <div class="data-container">
+                <h2 class="data-span">481</h2>
+            </div>
+        </div>
+
+        <div class="data-box">
+            <h3 class="data-box-title">Active Scans</h3>
+            <div class="data-container">
+                <h2 class="mini-data-span">1168 - Majestic Princess</h2>
+                <h2 class="mini-data-span">XXXX - Lorum Ipsum</h2>
+                <h2 class="mini-data-span">1092 - Neiuw Statendam</h2>
+            </div>
+        </div>
+
+        <!-- Charts -->
         <canvas class="charts" id="timeRemaining"></canvas>
         <canvas class="pie-charts" id="liveScanningDataChart"></canvas>
         <canvas class="pie-charts" id="scanningNasChart"></canvas>

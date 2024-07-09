@@ -20,6 +20,25 @@ from .forms import *
 from .models import *
 
 
+# --------------------------------------------------------------------------- #
+# ------------------------------- Decorators -------------------------------- #
+# --------------------------------------------------------------------------- #
+
+# Decorator to measure the time taken by a function
+def timing_decorator(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"{func.__name__} took {end_time - start_time} seconds")
+        return result
+    return wrapper
+
+# --------------------------------------------------------------------------- #
+# ------------------------------- Constants --------------------------------- #
+# --------------------------------------------------------------------------- #
+
 # Constants to define the time taken for each process
 time_per_scan = 20
 time_per_area = 35
@@ -54,39 +73,9 @@ status_priority = {
 
 attributes = ['uploaded', 'exported', 'point_cloud', 'cleaned', 'registered', 'processed']
 
-# Decorator to measure the time taken by a function
-def timing_decorator(func):
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        start_time = time.time()
-        result = func(*args, **kwargs)
-        end_time = time.time()
-        print(f"{func.__name__} took {end_time - start_time} seconds")
-        return result
-    return wrapper
-
-
-@timing_decorator
-def dashboard(request):
-    statistics = Statistics.objects.get(id=8)
-
-    total_time = float(statistics.total_time)
-    lower_bound = total_time
-    upper_bound = (total_time * 1.3) - lower_bound
-
-    live_scanning_data = Storage.objects.get(id=1)
-    scanning_nas = Storage.objects.get(id=2)
-
-    context = {
-        'live_scanning_data': live_scanning_data,
-        'scanning_nas': scanning_nas,
-        'statistics': statistics,
-        'lower_bound': lower_bound,
-        'upper_bound': upper_bound,
-    }
-
-    return render(request, 'front_end/dashboard.html', context)
-
+# --------------------------------------------------------------------------- #
+# ------------------------------- Functions --------------------------------- #
+# --------------------------------------------------------------------------- #
 
 """ Calculate the time to complete an area """
 @timing_decorator
@@ -224,7 +213,31 @@ def calculate_overall_statistics():
     statistics.save()
 
     return round(total_time, 2)
-   
+
+# --------------------------------------------------------------------------- #
+# --------------------------------- Views ----------------------------------- #
+# --------------------------------------------------------------------------- #
+
+@timing_decorator
+def dashboard(request):
+    statistics = Statistics.objects.get(id=8)
+
+    total_time = float(statistics.total_time)
+    lower_bound = total_time
+    upper_bound = (total_time * 1.3) - lower_bound
+
+    live_scanning_data = Storage.objects.get(id=1)
+    scanning_nas = Storage.objects.get(id=2)
+
+    context = {
+        'live_scanning_data': live_scanning_data,
+        'scanning_nas': scanning_nas,
+        'statistics': statistics,
+        'lower_bound': lower_bound,
+        'upper_bound': upper_bound,
+    }
+
+    return render(request, 'front_end/dashboard.html', context)   
 
 """ Render the main page """
 @timing_decorator
@@ -361,69 +374,6 @@ def ship_detail(request, ship_id):
 
     return render(request, 'front_end/ship_details.html', context)
 
-# --------------------------------------------------------------------------- #
-# ----------------------------- CRUD Operations ----------------------------- #
-# --------------------------------------------------------------------------- #
-
-def edit_area(request, area_id):
-    area = get_object_or_404(Area, pk=area_id)
-    ships = Ship.objects.all()
-    areas = Area.objects.all()
-
-    if request.method == 'POST':
-        print("POST request received")
-        modify_form = AreaForm(request.POST, instance=area)
-        if modify_form.is_valid():
-            area = modify_form.save()
-            messages.success(request, 'Area edited successfully.')
-            return redirect('ship_detail', area.ship.id)
-        else:
-            print("Form is not valid")
-            print(modify_form.errors)
-    else:
-        modify_form = AreaForm(instance=area)
-
-    context = {
-        'ships': ships,
-        'areas': areas,
-        'modify_form': modify_form,
-    }
-
-    return render(request, 'front_end/ship_details.html', context)
-
-
-def delete_area(request, area_id):
-    area = get_object_or_404(Area, pk=area_id)
-    area.delete()
-    messages.success(request, 'Area deleted successfully.')
-
-    return redirect('ships_and_areas')
-
-# --------------------------------------------------------------------------- #
-# ------------------------------- Calculator -------------------------------- #
-# --------------------------------------------------------------------------- #
-
-def calculator(request):
-    statistics = Statistics.objects.get(id=8)
-
-    context = {
-        'statistics': statistics,
-    }
-
-    return render(request, 'front_end/calculator.html', context)
-
-
-# --------------------------------------------------------------------------- #
-# -------------------------------- Training --------------------------------- #
-# --------------------------------------------------------------------------- #
-
-def training(request):
-    return render(request, 'front_end/training.html')
-
-
-# --------------------------------------------------------------------------- #
-# -------------------------------- Calendar --------------------------------- #
-# --------------------------------------------------------------------------- #
 
 def booking(request):
     # Get all bookings
@@ -481,49 +431,6 @@ def booking(request):
     return render(request, 'front_end/bookings.html', context)
 
 
-def edit_booking(request, booking_id):
-    if request.user.is_superuser:
-        bookings = get_object_or_404(Booking, id=booking_id)
-    else:
-        bookings = get_object_or_404(Booking, id=booking_id, users=request.user)
-
-    users = User.objects.all() if request.user.is_superuser else User.objects.filter(id=request.user.id)
-
-    if request.method == 'POST':
-        print("POST request received")
-        modify_form = BookingForm(request.POST, instance=bookings)
-        if modify_form.is_valid():
-            bookings = modify_form.save()
-            messages.success(request, 'Booking edited successfully.')
-            return redirect('booking')
-        else:
-            print("Form is not valid")
-            print(modify_form.errors)
-    else:
-        modify_form = BookingForm(instance=bookings)
-
-    context = {
-        'bookings': bookings,
-        'modify_form': modify_form,
-        'users': users,
-    }
-
-    return render(request, 'front_end/bookings.html', context)
-
-
-def delete_booking(request, booking_id):
-    # Get the booking with the given ID
-    booking = get_object_or_404(Booking, pk=booking_id)
-    booking.delete()
-    messages.success(request, 'Booking deleted successfully.')
-
-    return redirect('booking')
-
-
-# --------------------------------------------------------------------------- #
-# -------------------------------- Priority --------------------------------- #
-# --------------------------------------------------------------------------- #
-
 @timing_decorator
 def priority(request):
     # Fetch areas that are not completed or not required
@@ -567,39 +474,19 @@ def priority(request):
     return render(request, 'front_end/priority.html', context)
 
 
-def edit_priority(request, area_id):
-    area = get_object_or_404(Area, id=area_id)
-    ship = area.ship
-
-    if request.method == 'POST':
-        ship_priority = request.POST.get('ship-priority')
-        area_priority = request.POST.get('area-priority')
-
-        area_form = AreaPriorityForm(request.POST, prefix='area', instance=area)
-        ship_form = ShipPriorityForm(request.POST, prefix='ship', instance=ship)
-        
-        if area_form.is_valid() and ship_form.is_valid():
-            area_form.save()
-            ship_form.save()
-            return redirect('priority')
-        else:
-            print(area_form.errors)
-            print(ship_form.errors)
-
-    else:
-        area_form = AreaPriorityForm(instance=area)
-        ship_form = ShipPriorityForm(instance=ship)
+def calculator(request):
+    statistics = Statistics.objects.get(id=8)
 
     context = {
-        'area_form': area_form,
-        'ship_form': ship_form,
+        'statistics': statistics,
     }
 
-    return render(request, 'front_end/priority.html', context)
+    return render(request, 'front_end/calculator.html', context)
 
-# --------------------------------------------------------------------------- #
-# ---------------------------------- Logs ----------------------------------- #
-# --------------------------------------------------------------------------- #
+
+def training(request):
+    return render(request, 'front_end/training.html')
+
 
 def logs(request):
     logins = PageVisit.objects.all().order_by('-timestamp')
@@ -610,9 +497,6 @@ def logs(request):
 
     return render(request, 'front_end/logs.html', context)
 
-# --------------------------------------------------------------------------- #
-# ---------------------------------- Data ----------------------------------- #
-# --------------------------------------------------------------------------- #
 
 def data(request):
     statistics = Statistics.objects.get(id=8)
@@ -676,17 +560,120 @@ def data(request):
 
     return render(request, 'front_end/data.html', context)
 
-# --------------------------------------------------------------------------- #
-# --------------------------------- Manual ---------------------------------- #
-# --------------------------------------------------------------------------- #
 
 def manual(request):
     return render(request, 'front_end/manual.html')
 
-# --------------------------------------------------------------------------- #
-# -------------------------------- Settings --------------------------------- #
-# --------------------------------------------------------------------------- #
 
 def settings(request):
     return render(request, 'front_end/settings.html')
 
+
+
+# --------------------------------------------------------------------------- #
+# ----------------------------- CRUD Operations ----------------------------- #
+# --------------------------------------------------------------------------- #
+
+def edit_area(request, area_id):
+    area = get_object_or_404(Area, pk=area_id)
+    ships = Ship.objects.all()
+    areas = Area.objects.all()
+
+    if request.method == 'POST':
+        print("POST request received")
+        modify_form = AreaForm(request.POST, instance=area)
+        if modify_form.is_valid():
+            area = modify_form.save()
+            messages.success(request, 'Area edited successfully.')
+            return redirect('ship_detail', area.ship.id)
+        else:
+            print("Form is not valid")
+            print(modify_form.errors)
+    else:
+        modify_form = AreaForm(instance=area)
+
+    context = {
+        'ships': ships,
+        'areas': areas,
+        'modify_form': modify_form,
+    }
+
+    return render(request, 'front_end/ship_details.html', context)
+
+
+def delete_area(request, area_id):
+    area = get_object_or_404(Area, pk=area_id)
+    area.delete()
+    messages.success(request, 'Area deleted successfully.')
+
+    return redirect('ships_and_areas')
+
+
+def edit_booking(request, booking_id):
+    if request.user.is_superuser:
+        bookings = get_object_or_404(Booking, id=booking_id)
+    else:
+        bookings = get_object_or_404(Booking, id=booking_id, users=request.user)
+
+    users = User.objects.all() if request.user.is_superuser else User.objects.filter(id=request.user.id)
+
+    if request.method == 'POST':
+        print("POST request received")
+        modify_form = BookingForm(request.POST, instance=bookings)
+        if modify_form.is_valid():
+            bookings = modify_form.save()
+            messages.success(request, 'Booking edited successfully.')
+            return redirect('booking')
+        else:
+            print("Form is not valid")
+            print(modify_form.errors)
+    else:
+        modify_form = BookingForm(instance=bookings)
+
+    context = {
+        'bookings': bookings,
+        'modify_form': modify_form,
+        'users': users,
+    }
+
+    return render(request, 'front_end/bookings.html', context)
+
+
+def delete_booking(request, booking_id):
+    # Get the booking with the given ID
+    booking = get_object_or_404(Booking, pk=booking_id)
+    booking.delete()
+    messages.success(request, 'Booking deleted successfully.')
+
+    return redirect('booking')
+
+
+def edit_priority(request, area_id):
+    area = get_object_or_404(Area, id=area_id)
+    ship = area.ship
+
+    if request.method == 'POST':
+        ship_priority = request.POST.get('ship-priority')
+        area_priority = request.POST.get('area-priority')
+
+        area_form = AreaPriorityForm(request.POST, prefix='area', instance=area)
+        ship_form = ShipPriorityForm(request.POST, prefix='ship', instance=ship)
+        
+        if area_form.is_valid() and ship_form.is_valid():
+            area_form.save()
+            ship_form.save()
+            return redirect('priority')
+        else:
+            print(area_form.errors)
+            print(ship_form.errors)
+
+    else:
+        area_form = AreaPriorityForm(instance=area)
+        ship_form = ShipPriorityForm(instance=ship)
+
+    context = {
+        'area_form': area_form,
+        'ship_form': ship_form,
+    }
+
+    return render(request, 'front_end/priority.html', context)

@@ -28,3 +28,38 @@
     padding: 12px;
     border-radius: 20px;
 }
+
+.data-box {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 120px;
+    background: var(--card-background);
+    border-radius: 20px;
+    color: white;
+    padding: 12px;
+}
+
+.data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    padding: 16px;
+}
+
+.data-box-title {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #bbb;
+    margin-left: 4px;
+}
+
+.data-span {
+    margin: 0;
+}
+
+.mini-data-span {
+    font-size: 1rem;
+}
