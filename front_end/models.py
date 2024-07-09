@@ -20,6 +20,14 @@ class Statistics(models.Model):
 	average_exported_storage_per_ship = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
 
+class Storage(models.Model):
+	server_name = models.CharField(max_length=200)
+	storage_capacity = models.DecimalField(max_digits=5, decimal_places=2)
+
+	storage_used = models.DecimalField(max_digits=5, decimal_places=2)
+	storage_available = models.DecimalField(max_digits=5, decimal_places=2)
+
+
 class Ship(models.Model):
 	PRIORITY_CHOICES = (
 		(0, 'Priority 0'),

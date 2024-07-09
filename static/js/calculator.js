@@ -28,13 +28,13 @@ function displayHTML() {
         <div class="storage-summary">
             <div class="storage-column">
                 <div class="data-box">
-                    <h3 class="est-completion">Raw Data Size:</h3>
+                    <h3 class="est-completion">Raw Data Size</h3>
                     <div class="data-container">
                         <span id="raw-data"></span>
                     </div>
                 </div>
                 <div class="data-box">
-                    <h3 class="est-completion">Exported Data Size:</h3>
+                    <h3 class="est-completion">Exported Data Size</h3>
                     <div class="data-container">
                         <span id="exported-data"></span>
                     </div>
@@ -42,13 +42,13 @@ function displayHTML() {
             </div>
             <div class="storage-column">
                 <div class="data-box">            
-                    <h3 class="est-completion">Processed Data Size:</h3>
+                    <h3 class="est-completion">Processed Data Size</h3>
                     <div class="data-container">
                         <span id="processed-data"></span>
                     </div>
                 </div>
                 <div class="data-box special">
-                    <h3 class="est-completion">Total Data Size:</h3>
+                    <h3 class="est-completion">Total Data Size</h3>
                     <div class="data-container">
                         <span id="total-data"></span>
                     </div>

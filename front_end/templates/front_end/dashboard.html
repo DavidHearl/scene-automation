@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% load humanize %}
+{% load static %}
+
+{% block title %} 
+    Ship Areas & Details 
+{% endblock %}
+
+{% csrf_token %}
+{% load custom_filters %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}
+
+
+{% block content %}
+    <div class="dashboard-container">
+        <canvas class="charts" id="timeRemaining"></canvas>
+        <canvas class="pie-charts" id="liveScanningDataChart"></canvas>
+        <canvas class="pie-charts" id="scanningNasChart"></canvas>
+    </div>
+    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var liveScanningDataContext = document.getElementById('liveScanningDataChart').getContext('2d');
+            var scanningNasContext = document.getElementById('scanningNasChart').getContext('2d');
+
+            let lowerBound = {{ lower_bound|safe }};
+            let upperBound = {{ upper_bound|safe }};
+
+            // Time Remaining Stacked chart
+            const estconfig = {
+                type: 'bar',
+                data: {
+                    labels: ['Estimated Completion'], // Single category
+                    datasets: [{
+                        label: 'Minimum Days',
+                        data: [lowerBound], // Lower bound value
+                        backgroundColor: 'rgb(54, 162, 235)', // Example color
+                        stack: 'Stack 0', // Specify the stack
+                    }, {
+                        label: 'Estimated Additional Days',
+                        data: [upperBound], // Difference (upper - lower bound)
+                        backgroundColor: 'rgb(255, 99, 132)', // Example color
+                        stack: 'Stack 0', // Same stack to ensure they are stacked together
+                    }]
+                },
+                options: {
+                    indexAxis: 'y', // Horizontal bar chart
+                    scales: {
+                        x: {
+                            stacked: true, // Enable stacking on the x-axis
+                            ticks: {
+                                color: 'white', // Change x-axis labels to white
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)', // Optional: change grid line colors
+                            },
+                        },
+                        y: {
+                            stacked: true, // Enable stacking on the y-axis
+                            ticks: {
+                                color: 'white', // Change y-axis labels to white
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)', // Optional: change grid line colors
+                            },
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true, // Display legend (optional)
+                            labels: {
+                                color: 'white', // Change legend text to white
+                            },
+                        },
+                        title: {
+                            display: true,
+                            text: 'Estimated Completion Time',
+                            color: 'white', // Change title text to white
+                            padding: {
+                                top: 0, // Reduce top padding
+                                bottom: 4 // Reduce bottom padding
+                            }
+                        },
+                    },
+                },
+            };
+
+            // Assuming you have a <canvas> element with id="myChart"
+            const ctx = document.getElementById('timeRemaining').getContext('2d');
+            const myChart = new Chart(ctx, estconfig);
+
+            // Live Scanning Data Doughnut Chart
+            var liveScanningDataChart = new Chart(liveScanningDataContext, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Used', 'Available'],
+                    datasets: [{
+                        label: 'Live Scanning Data',
+                        data: [{{ live_scanning_data.storage_used|safe }}, {{ live_scanning_data.storage_available|safe }}],
+                        backgroundColor: [
+                            'rgb(255, 109, 145)',
+                            'rgb(54, 162, 235',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Live Scanning Data Usage', // Main title
+                            font: {
+                                size: 18
+                            },
+                            color: 'white',
+                            padding: {
+                                bottom: 4 // Adjust padding between title and subtitle
+                            }
+                        },
+                        subtitle: { // Custom plugin for subtitle
+                            display: true,
+                            text: 'Capacity {{ live_scanning_data.storage_capacity|safe }} TB', // Secondary title
+                            font: {
+                                size: 14 // Smaller font size for the secondary title
+                            },
+                            color: 'white',
+                            padding: {
+                                bottom: 4 // Adjust padding between subtitle and chart
+                            }
+                        }
+                    }
+                },
+            });
+
+            // Scanning NAS Data Pie Chart
+            var scanningNasChart = new Chart(scanningNasContext, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Used', 'Available'],
+                    datasets: [{
+                        label: 'Scanning NAS Data',
+                        data: [{{ scanning_nas.storage_used|safe }}, {{ scanning_nas.storage_available|safe }}],
+                        backgroundColor: [
+                            'rgb(102, 194, 165)',
+                            'rgb(252, 141, 98)',
+                        ]
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Scanning NAS Data Usage', // Main title
+                            font: {
+                                size: 18
+                            },
+                            color: 'white',
+                            padding: {
+                                bottom: 4 // Adjust padding between title and subtitle
+                            }
+                        },
+                        subtitle: { // Custom plugin for subtitle
+                            display: true,
+                            text: 'Capacity {{ scanning_nas.storage_capacity|safe }} TB', // Secondary title
+                            font: {
+                                size: 14 // Smaller font size for the secondary title
+                            },
+                            color: 'white',
+                            padding: {
+                                bottom: 4 // Adjust padding between subtitle and chart
+                            }
+                        }
+                    }
+                },
+            });
+        });
+    </script>
+
+{% endblock %}

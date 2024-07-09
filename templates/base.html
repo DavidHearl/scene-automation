@@ -102,9 +102,15 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{% url 'dashboard' %}">
+                            <i class="fa-solid fa-chart-simple"></i>
+                            <span class="navigation-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{% url 'manual' %}">
                             <i class="fa-solid fa-book"></i>
-                            <span class="disabled navigation-text">Manuals</span>
+                            <span class="navigation-text">Manuals</span>
                         </a>
                     </li>
                 </ul>
@@ -155,7 +161,7 @@
                     <li>
                         <a href="{% url 'settings' %}">
                             <i class="disabled fa-solid fa-gear"></i>
-                            <span class="disabled navigation-text">Settings</span>
+                            <span class="navigation-text">Settings</span>
                         </a>
                     </li>
                     <li>

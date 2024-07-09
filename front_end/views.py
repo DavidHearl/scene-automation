@@ -12,11 +12,12 @@ from django.contrib.auth.signals import user_logged_in
 from django.db.models import Sum, Count, F
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect
+from django.core.serializers import serialize
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 
 # Local application/library specific imports
 from .forms import *
-from .models import Ship, Area, Machine, Statistics, Booking, PageVisit
+from .models import *
 
 
 # Constants to define the time taken for each process
@@ -63,6 +64,28 @@ def timing_decorator(func):
         print(f"{func.__name__} took {end_time - start_time} seconds")
         return result
     return wrapper
+
+
+@timing_decorator
+def dashboard(request):
+    statistics = Statistics.objects.get(id=8)
+
+    total_time = float(statistics.total_time)
+    lower_bound = total_time
+    upper_bound = (total_time * 1.3) - lower_bound
+
+    live_scanning_data = Storage.objects.get(id=1)
+    scanning_nas = Storage.objects.get(id=2)
+
+    context = {
+        'live_scanning_data': live_scanning_data,
+        'scanning_nas': scanning_nas,
+        'statistics': statistics,
+        'lower_bound': lower_bound,
+        'upper_bound': upper_bound,
+    }
+
+    return render(request, 'front_end/dashboard.html', context)
 
 
 """ Calculate the time to complete an area """

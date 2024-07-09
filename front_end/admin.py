@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Ship, Area, Machine, Statistics, Booking, PageVisit
+from .models import *
 
 
 class ShipAdmin(admin.ModelAdmin):
@@ -50,9 +50,18 @@ class PageLoggingAdmin(admin.ModelAdmin):
         'timestamp',
     )
 
+class StorageAdmin(admin.ModelAdmin):
+    list_display = (
+        'server_name',
+        'storage_capacity',
+        'storage_used',
+        'storage_available',
+    )
+
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Machine, MachineAdmin)
 admin.site.register(Statistics, StatisticsAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(PageVisit, PageLoggingAdmin)
+admin.site.register(Storage, StorageAdmin)
