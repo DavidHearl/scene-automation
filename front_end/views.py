@@ -12,6 +12,7 @@ from django.contrib.auth.signals import user_logged_in
 from django.db.models import Sum, Count, F
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect
+from django.core.cache import cache
 from django.core.serializers import serialize
 from django.shortcuts import render, HttpResponse, redirect, get_object_or_404
 
@@ -34,6 +35,36 @@ def timing_decorator(func):
         print(f"{func.__name__} took {end_time - start_time} seconds")
         return result
     return wrapper
+
+# --------------------------------------------------------------------------- #
+# ------------------------------ Get Models --------------------------------- #
+# --------------------------------------------------------------------------- #
+
+@timing_decorator
+def get_ships():
+    # Check if the ships are in the cache
+    ships = cache.get('all_ships')
+    
+    # If not, query the database and cache the result
+    if not ships:
+        ships = Ship.objects.all()
+        cache.set('all_ships', ships, 3600)  # Cache for 1 hour (3600 seconds)
+    
+    return ships
+
+
+@timing_decorator
+def get_areas():
+    # Check if the ships are in the cache
+    areas = cache.get('all_areas')
+    
+    # If not, query the database and cache the result
+    if not areas:
+        areas = Area.objects.all()
+        cache.set('all_areas', areas, 3600)  # Cache for 1 hour (3600 seconds)
+    
+    return areas
+
 
 # --------------------------------------------------------------------------- #
 # ------------------------------- Constants --------------------------------- #
@@ -81,7 +112,7 @@ attributes = ['uploaded', 'exported', 'point_cloud', 'cleaned', 'registered', 'p
 @timing_decorator
 def calculate_area_time():
     # Define the ships and statistics
-    ships = Ship.objects.all()
+    ships = get_ships()
     statistics = Statistics.objects.get(id=8)
 
     # Declare time and count variables
@@ -152,14 +183,12 @@ def calculate_area_time():
             statistics.total_time = total_time
             statistics.save()
 
-            print(f'total time remaining: {total_time} days for {area_count} areas')
-
 
 """ Calculate the time required to complete the processing per ship """
 @timing_decorator
 def calculate_ship_time():
     # Define the ships
-    ships = Ship.objects.all()
+    ships = get_ships()
 
     # Iterate through each ship
     for ship in ships:
@@ -176,15 +205,13 @@ def calculate_ship_time():
             ship.time_remaining = ship_time_remaining
             ship.save()
 
-            print(f'total time remaining: {ship.time_remaining} days for {ship.name}')
-
 
 """ Calculate the total completion time for all ships """
 @timing_decorator
 def calculate_overall_statistics():
     # Get all the ships, areas and statistics
-    ships = Ship.objects.all()
-    areas = Area.objects.all()
+    ships = get_ships()
+    areas = get_areas()
     statistics = Statistics.objects.get(id=8)
     
     # Set the total time to 0
@@ -247,9 +274,12 @@ def ships_and_areas(request):
     calculate_ship_time()
     calculate_overall_statistics()
 
+    ships = get_ships()
+    areas = get_areas()
+
+    ships = ships.order_by('completed_percentage')
+
     # Fetch ships and areas
-    ships = Ship.objects.all().order_by('completed_percentage')
-    areas = Area.objects.all()
     statistics = Statistics.objects.get(id=8)
     machines = Machine.objects.all()
 
@@ -285,7 +315,6 @@ def ships_and_areas(request):
                     if getattr(area, status) in completed_statuses:
                         completed_percentage += process_weighting[i]
 
-            print(round(completed_percentage / ship.area_set.all().count(), 1))
             ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
             ship.total_scans = total_scans_per_ship
             ship.save()
@@ -569,15 +598,14 @@ def settings(request):
     return render(request, 'front_end/settings.html')
 
 
-
 # --------------------------------------------------------------------------- #
 # ----------------------------- CRUD Operations ----------------------------- #
 # --------------------------------------------------------------------------- #
 
 def edit_area(request, area_id):
     area = get_object_or_404(Area, pk=area_id)
-    ships = Ship.objects.all()
-    areas = Area.objects.all()
+    ships = get_ships()
+    areas = get_areas()
 
     if request.method == 'POST':
         print("POST request received")
