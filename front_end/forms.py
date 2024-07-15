@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Ship, Area, Machine, Booking
+from .models import *
 
 
 class ShipForm(forms.ModelForm):
     class Meta:
         model = Ship
-        fields = '__all__'
+        fields = ['name', 'contract_number', 'company', 'priority', 'image']
 
 
 class AreaForm(forms.ModelForm):

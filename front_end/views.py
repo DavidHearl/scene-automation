@@ -148,7 +148,7 @@ def calculations():
             # FOR DEBUGGING
             # print(f'{area.time_remaining} : {area.area_name}')
 
-            # Don't iterate through the area if there is no time remaining
+            # Don't iterate through the area if they are complete
             if area.processed != 'Completed':
                 # Increment the area count
                 area_count += 1                
@@ -193,6 +193,9 @@ def calculations():
                 area.save()
 
                 # Add a running total
+                print(type(time_remaining))
+                print(type(total_time))
+
                 total_time += time_remaining
 
         # Update the statistics
@@ -205,7 +208,6 @@ def calculations():
 # --------------------------------------------------------------------------- #
 # --------------------------------- Views ----------------------------------- #
 # --------------------------------------------------------------------------- #
-
 @timing_decorator
 def dashboard(request):
     ships = get_ships()
@@ -240,7 +242,7 @@ def ships_and_areas(request):
     ships = get_ships()
     areas = get_areas()
 
-    ships = ships.order_by('completed_percentage')
+    ships = ships.order_by('completed_percentage', '-contract_number')
 
     # Fetch ships and areas
     statistics = Statistics.objects.get(id=8)
@@ -300,12 +302,14 @@ def ships_and_areas(request):
     star_percentage = round((total_stars / num_areas) * 100, 4)
 
     if request.method == 'POST':
-        ship_form = ShipForm(request.POST)
+        ship_form = ShipForm(request.POST, request.FILES)
         if ship_form.is_valid():
-            ship = ship_form.save(commit=False)
-            ship.save()
-            messages.success(request, 'Ship added successfully.')
+            ship_form.save()
             return redirect('ships_and_areas')
+        else:
+            print(ship_form.errors)
+    else:
+        ship_form = ShipForm()
 
     ship_form = ShipForm()
 
