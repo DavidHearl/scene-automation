@@ -37,11 +37,11 @@
         </div>
 
         <div class="data-box">
-            <h3 class="data-box-title">Active Scans</h3>
+            <h3 class="data-box-title">Active Ships</h3>
             <div class="data-container">
-                <h2 class="mini-data-span">1168 - Majestic Princess</h2>
-                <h2 class="mini-data-span">XXXX - Lorum Ipsum</h2>
-                <h2 class="mini-data-span">1092 - Neiuw Statendam</h2>
+                {% for ship in active_ships %}
+                    <h2 class="mini-data-span">{{ ship.contract_number }} - {{ ship.name }}</h2>
+                {% endfor %}
             </div>
         </div>
 

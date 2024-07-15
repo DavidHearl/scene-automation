@@ -275,22 +275,16 @@
     margin-bottom: 4px;
     padding: 0;
     font-size: 0.65rem;
+    color: #e3e3e3;
 }
 
 .above-process-description {
-    margin-bottom: 4px !important;
     background: #3b4353;
     color: white;
 }
 
 #add-area {
-    background: repeating-linear-gradient(
-        150deg,
-        rgb(220, 251, 251),
-        rgb(220, 251, 251) 30px,
-        rgb(215, 246, 246) 30px,
-        rgb(215, 246, 246) 60px
-    );
+    background: linear-gradient(315deg, rgb(45, 14, 14), rgb(115, 49, 113));
 }
 
 .status-title {

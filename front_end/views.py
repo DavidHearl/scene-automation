@@ -1,9 +1,9 @@
 # Standard library imports
 import calendar
 import datetime
+import time
 from datetime import timedelta, date
 from functools import wraps
-import time
 
 # Related third party imports
 from django.contrib import messages
@@ -37,9 +37,8 @@ def timing_decorator(func):
     return wrapper
 
 # --------------------------------------------------------------------------- #
-# ------------------------------ Get Models --------------------------------- #
+# ----------------------------- Cache Models -------------------------------- #
 # --------------------------------------------------------------------------- #
-
 @timing_decorator
 def get_ships():
     # Check if the ships are in the cache
@@ -102,95 +101,31 @@ status_priority = {
     "Critical Fail": 0.07
 }
 
-attributes = ['uploaded', 'exported', 'point_cloud', 'cleaned', 'registered', 'processed']
-
 # --------------------------------------------------------------------------- #
 # ------------------------------- Functions --------------------------------- #
 # --------------------------------------------------------------------------- #
 
 """ Calculate the time to complete an area """
 @timing_decorator
-def calculate_area_time():
-    # Define the ships and statistics
+def calculations():
+    # Get the ships, areas and statistics
     ships = get_ships()
+    areas = get_areas()
     statistics = Statistics.objects.get(id=8)
 
-    # Declare time and count variables
+    # Get the total number of scans
+    total_scans = 0
+    for area in areas:
+        total_scans += area.scans
+
+    # Iterate through each ship
     total_time = 0
+    for ship in ships:
+        total_time += ship.time_remaining
+
     area_count = 0
 
     # Iterate over all ships
-    for ship in ships:
-        # Don't iterate through the ship if there is no time remaining
-        if ship.completed_percentage != 100:
-            # Get all the areas of the ship
-            areas = ship.area_set.all()
-            # Iterate through each area
-            for area in areas:
-                # FOR DEBUGGING
-                # print(f'{area.time_remaining} {area.area_name}')
-
-                # Don't iterate through the area if there is no time remaining
-                if area.time_remaining != 0:
-                    # Increment the area count and set completion percentage to 0
-                    complete_percentage = 0
-                    area_count += 1
-
-                    # Set the base time required to process an area
-                    time_remaining = time_per_area
-
-                    # Get the number of scans
-                    number_of_scans = area.scans
-
-                    # Calculate the base time
-                    base_time = number_of_scans * time_per_scan
-
-                    # Calculate the exponential
-                    exponential = exponential_factor ** number_of_scans
-
-                    # Calculate the exponential time
-                    exponential_time = base_time * exponential
-
-                    # Add the exponential time to the time remaining
-                    time_remaining += exponential_time
-
-                    # Add time to allow for failures
-                    for error in error_codes:
-                        # Check if the area has a registered error
-                        if area.registered == error:
-                            # Multiply the time remaining by the error time
-                            time_remaining *= error_times[error_codes.index(error)]
-
-                    # Define the current percentage
-                    for i, status in enumerate(process_stage):
-                        if getattr(area, status) in completed_statuses:
-                            complete_percentage += process_weighting[i]
-
-                    # Calculate the time remaining based on the completion percentage
-                    time_remaining *= 1 - (complete_percentage / 100)
-
-                    # Set time remaining based on a workday
-                    time_remaining = time_remaining / (60 * hours_per_workday)
-
-                    # Add the time to the area
-                    area.time_remaining = time_remaining
-                    area.save()
-
-                    # Add a running total
-                    total_time += time_remaining
-
-            # Update the statistics
-            statistics.total_time = total_time
-            statistics.save()
-
-
-""" Calculate the time required to complete the processing per ship """
-@timing_decorator
-def calculate_ship_time():
-    # Define the ships
-    ships = get_ships()
-
-    # Iterate through each ship
     for ship in ships:
         if ship.completed_percentage != 100:
             # Get all the areas of the ship
@@ -205,41 +140,67 @@ def calculate_ship_time():
             ship.time_remaining = ship_time_remaining
             ship.save()
 
+        # Get all the areas of the ship
+        area_set = ship.area_set.all()
 
-""" Calculate the total completion time for all ships """
-@timing_decorator
-def calculate_overall_statistics():
-    # Get all the ships, areas and statistics
-    ships = get_ships()
-    areas = get_areas()
-    statistics = Statistics.objects.get(id=8)
-    
-    # Set the total time to 0
-    total_time = 0
-    
-    # Iterate through each ship
-    for ship in ships:
-        if ship.time_remaining != 0:
-            total_time += ship.time_remaining
+        # Iterate through each area
+        for area in area_set:
+            # FOR DEBUGGING
+            # print(f'{area.time_remaining} : {area.area_name}')
 
-    # Update the statistics
-    statistics.total_time = total_time
+            # Don't iterate through the area if there is no time remaining
+            if area.processed != 'Completed':
+                # Increment the area count
+                area_count += 1                
 
-    # Set total scans to 0
-    total_scans = 0
+                # Get the number of scans
+                number_of_scans = area.scans
 
-    # Iterate through each area and add the scans to the scan total
-    for area in areas:
-        if area.scans != 0:
-            total_scans += area.scans
+                # Calculate the base time
+                base_time = number_of_scans * time_per_scan
 
-    # Update the statistics
-    statistics.total_scans = total_scans
+                # Calculate the exponential
+                exponential = exponential_factor ** number_of_scans
 
-    # Save the statistics
-    statistics.save()
+                # Calculate the exponential time
+                exponential_time = base_time * exponential
 
-    return round(total_time, 2)
+                # Add the times to the time remaining
+                time_remaining = time_per_area
+                time_remaining += exponential_time
+
+                # Add time to allow for failures
+                for error in error_codes:
+                    # Check if the area has a registered error
+                    if area.registered == error:
+                        # Multiply the time remaining by the error time
+                        time_remaining *= error_times[error_codes.index(error)]
+
+                # Define the current percentage
+                complete_percentage = 0
+                for i, status in enumerate(process_stage):
+                    if getattr(area, status) in completed_statuses:
+                        complete_percentage += process_weighting[i]
+
+                # Calculate the time remaining based on the completion percentage
+                time_remaining *= 1 - (complete_percentage / 100)
+
+                # Set time remaining based on a workday
+                time_remaining = time_remaining / (60 * hours_per_workday)
+
+                # Add the time to the area
+                area.time_remaining = time_remaining
+                area.save()
+
+                # Add a running total
+                total_time += time_remaining
+
+        # Update the statistics
+        statistics.total_time = total_time
+        statistics.total_scans = total_scans
+        statistics.save()
+
+        return round(total_time, 2)
 
 # --------------------------------------------------------------------------- #
 # --------------------------------- Views ----------------------------------- #
@@ -247,7 +208,11 @@ def calculate_overall_statistics():
 
 @timing_decorator
 def dashboard(request):
+    ships = get_ships()
+    areas = get_areas()
     statistics = Statistics.objects.get(id=8)
+    
+    active_ships = ships.filter(completed_percentage__lt=100)
 
     total_time = float(statistics.total_time)
     lower_bound = total_time
@@ -262,6 +227,7 @@ def dashboard(request):
         'statistics': statistics,
         'lower_bound': lower_bound,
         'upper_bound': upper_bound,
+        'active_ships': active_ships,
     }
 
     return render(request, 'front_end/dashboard.html', context)   
@@ -269,10 +235,7 @@ def dashboard(request):
 """ Render the main page """
 @timing_decorator
 def ships_and_areas(request):
-    # Use the other functions
-    calculate_area_time()
-    calculate_ship_time()
-    calculate_overall_statistics()
+    calculations()
 
     ships = get_ships()
     areas = get_areas()
@@ -302,20 +265,27 @@ def ships_and_areas(request):
     # Initialize total_stars to 0
     total_stars = 0
 
-    # Calculate the complete percentage, total scans, and total stars per ship
+    # Calculate the complete percentage, total scans and total stars per ship
     for ship in ships:
         total_scans_per_ship = 0
         completed_percentage = 0
 
-        if ship.completed_percentage != 100:
+        if ship.total_scans != 0:
+            if ship.completed_percentage != 100:
+                for area in ship.area_set.all():
+                    total_scans_per_ship += area.scans
+
+                    for i, status in enumerate(process_stage):
+                        if getattr(area, status) in completed_statuses:
+                            completed_percentage += process_weighting[i]
+
+                ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
+                ship.total_scans = total_scans_per_ship
+                ship.save()
+        else:
             for area in ship.area_set.all():
                 total_scans_per_ship += area.scans
 
-                for i, status in enumerate(process_stage):
-                    if getattr(area, status) in completed_statuses:
-                        completed_percentage += process_weighting[i]
-
-            ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
             ship.total_scans = total_scans_per_ship
             ship.save()
 
@@ -472,7 +442,7 @@ def priority(request):
 
         ship_area_priority = (ship_priority * 1.1) + area_priority
 
-        for i, attr in enumerate(attributes):
+        for i, attr in enumerate(reversed(process_stage)):
             status = getattr(area, attr)
             if status in status_priority:
                 ship_area_priority += status_priority[status] / (10 ** i)
@@ -601,7 +571,6 @@ def settings(request):
 # --------------------------------------------------------------------------- #
 # ----------------------------- CRUD Operations ----------------------------- #
 # --------------------------------------------------------------------------- #
-
 def edit_area(request, area_id):
     area = get_object_or_404(Area, pk=area_id)
     ships = get_ships()

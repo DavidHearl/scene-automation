@@ -151,7 +151,7 @@
 }
 
 .progress {
-    border-radius: 8px;
+    border-radius: 20px;
     height: 20px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -188,10 +188,6 @@
     justify-content: center;
     margin: 0;
     color: white;
-}
-
-.form-div {
-    padding: 8px;
 }
 
 .done {
@@ -416,6 +412,50 @@
     height: 12px;
     margin: 4px 0;
 }
+
+/* ------------------------------------------------------------------------------ */
+/* -------------------------------- New Ship Card ------------------------------- */
+/* ------------------------------------------------------------------------------ */
+
+.new-ship-label {
+    color: white;
+}
+
+#id_name,
+#id_contract_number,
+#id_company {
+    width: 100%;
+    padding-bottom: 0;
+}
+
+/* #id_priority {
+    width: 94%;
+    margin: 8px;
+    box-sizing: border-box;
+    padding: 4px;
+} */
+
+.form-div {
+    padding: 8px;
+    padding-bottom: 0;
+}
+
+.add-new-ship {
+    margin: 8px;
+    position: absolute;
+    width: 94%;
+    bottom: 0;
+    padding: 4px;
+    border-radius: 16px;
+    border: 1px solid;
+    background: linear-gradient(315deg, #34a234, #34a234);
+}
+
+#id_image {
+    margin: 0 8px;
+    width: 94%;
+}
+
 
 /* ------------------------------------------------------------------------------ */
 /* --------------------------------- Placeholder -------------------------------- */
