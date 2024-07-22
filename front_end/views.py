@@ -421,6 +421,10 @@ def booking(request):
             booking.save()
             messages.success(request, 'Booking added successfully.')
             return redirect('booking')
+        else:
+            print(booking_form.errors)
+    else:
+        booking_form = BookingForm()
 
     bookings = Booking.objects.order_by('start_date')
 

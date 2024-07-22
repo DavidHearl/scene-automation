@@ -26,11 +26,9 @@ class MachineForm(forms.ModelForm):
 
 
 class BookingForm(forms.ModelForm):
-    users = forms.ModelMultipleChoiceField(queryset=User.objects.all(), widget=forms.CheckboxSelectMultiple)
-
     class Meta:
         model = Booking
-        fields = ['start_date', 'end_date', 'scanner', 'users']
+        fields = ['ship', 'start_date', 'end_date', 'scanner']
 
 
 class AreaPriorityForm(forms.ModelForm):

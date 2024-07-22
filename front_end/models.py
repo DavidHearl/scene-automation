@@ -151,9 +151,16 @@ class Booking(models.Model):
 		("both", "both"),
 	]
 
+	ship = models.ForeignKey(Ship, on_delete=models.CASCADE, null=True, blank=True)
 	start_date = models.DateField(null=True)
 	end_date = models.DateField(null=True)
 	scanner = models.CharField(max_length=10, choices=SCANNER)
+
+	def __str__(self):
+		if self.ship:
+			return f"{self.ship.name} - {self.start_date} to {self.end_date}"
+		else:
+			return f"{self.start_date} to {self.end_date}"
 
 	def clean(self):
 		super().clean()

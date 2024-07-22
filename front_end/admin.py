@@ -38,6 +38,7 @@ class StatisticsAdmin(admin.ModelAdmin):
 
 class BookingAdmin(admin.ModelAdmin):
     list_display = (
+        'ship',
         'start_date',
         'end_date',
         'scanner',
