@@ -9,7 +9,7 @@ from functools import wraps
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_in
-from django.db.models import Sum, Count, F
+from django.db.models import Sum, Count, F, Case, When, Value, IntegerField
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.core.cache import cache
@@ -242,7 +242,13 @@ def ships_and_areas(request):
     ships = get_ships()
     areas = get_areas()
 
-    ships = ships.order_by('completed_percentage', '-contract_number')
+    ships = ships.annotate(
+        custom_order=Case(
+            When(contract_number=0, then=Value(0)),  # 0 comes first
+            default=Value(1),  # All other values come after 0
+            output_field=IntegerField()
+        )
+    ).order_by('completed_percentage', 'custom_order', '-contract_number')
 
     # Fetch ships and areas
     statistics = Statistics.objects.get(id=8)
@@ -271,6 +277,15 @@ def ships_and_areas(request):
     for ship in ships:
         total_scans_per_ship = 0
         completed_percentage = 0
+        contains_not_required = False
+
+        # Check to see if there are any areas not required or on hold
+        for area in ship.area_set.all():
+            if area.uploaded == "Not Required" or area.uploaded == "On Hold":
+                contains_not_required = True
+                ship.contains_not_required = contains_not_required
+                ship.save()
+                break
 
         if ship.total_scans != 0:
             if ship.completed_percentage != 100:

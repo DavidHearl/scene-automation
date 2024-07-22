@@ -47,6 +47,7 @@ class Ship(models.Model):
 	stars = models.IntegerField(default=0)
 	completed_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_scans = models.IntegerField(default=0)
+	contains_not_required = models.BooleanField(default=False)
 
 	def __str__(self):
 		return self.name

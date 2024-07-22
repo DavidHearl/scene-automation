@@ -66,7 +66,11 @@
                  <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
                 </div>
-                <h5 class="card-title">{{ ship.name }} <span class="nreq"></span> </h5>
+                <h5 class="card-title">{{ ship.name }} 
+                    {% if ship.contains_not_required %}
+                        <span class="nreq"></span>
+                    {% endif %}
+                </h5>
                 <h5 class="card-secondary-title">Contract Number: {{ ship.contract_number }}</h5>
                 {% if user.is_authenticated %}
                     <style>
@@ -80,6 +84,7 @@
                         <p class="card-text to-be-completed">Completion in {{ ship.time_remaining }} days</p>
                     {% endif %}
                 {% endif %}
+
                 {% if ship.image %}
                     <img class="ship-image" src="{{ ship.image.url }}" class="ship-image" alt="...">
                 {% else %}
