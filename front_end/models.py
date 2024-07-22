@@ -45,6 +45,7 @@ class Ship(models.Model):
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
 	stars = models.IntegerField(default=0)
+	max_stars = models.BooleanField(default=False)
 	completed_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_scans = models.IntegerField(default=0)
 	contains_not_required = models.BooleanField(default=False)

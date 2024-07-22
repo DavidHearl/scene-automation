@@ -138,6 +138,10 @@
     z-index: 1;
 }
 
+.max-stars {
+    background: linear-gradient(315deg, rgb(79, 67, 41), rgb(28, 28, 46));
+}
+
 .ship-image {
     position: relative;
     width: 92%;

@@ -287,6 +287,11 @@ def ships_and_areas(request):
                 ship.save()
                 break
 
+        # Check if the ship has reached the maximum number of stars
+        if ship.stars == ship.area_set.all().count():
+            ship.max_stars = True
+            ship.save()    
+
         if ship.total_scans != 0:
             if ship.completed_percentage != 100:
                 for area in ship.area_set.all():
@@ -307,7 +312,7 @@ def ships_and_areas(request):
             ship.save()
 
         # Add the stars count of the current ship to the total stars
-        total_stars += ship.stars  # Use ship.stars directly
+        total_stars += ship.stars
 
     # Update statistics.total_stars with the new total stars count
     statistics.total_stars = total_stars
