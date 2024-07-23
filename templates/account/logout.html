@@ -27,7 +27,13 @@
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
                 <a class="auth-link2 return-home" href="{% url 'ships_and_areas' %}">Return Home</a>
-                <button class="auth-button" type="submit">{% trans 'Sign Out' %}</button>
+                <button type="submit" class="auth-button login-button">
+                    <span class="button-text">Ship Details</span>
+                    <span class="arrows">
+                        <span class="popup-text">Logout</span>
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </span>
+                </button>
             </form>
         </div>
     </div>

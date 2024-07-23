@@ -48,17 +48,6 @@
 {% endblock %}
 
 {% block content %}
-    <!-- <div class="machines">
-        {% for machine in machines %}
-            {% if machine.status %}
-                <div class="machine-boxes">
-                    <h4 class="summary-title">{{ machine.name }}</h4>
-                    <div class="status-bar"></div>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div> -->
-
     <!-- Ship and Area Details -->
     <div class="card-container">
         {% for ship in ships %}
@@ -108,7 +97,6 @@
                         </div>
                     {% endif %}
                 </div>
-                <!-- <p class="card-text">Priority: {{ ship.priority }}</p> -->
                 <a href="{% url 'ship_detail' ship.id %}">
                     <button class="more-info">
                         <span class="button-text">Ship Details</span>

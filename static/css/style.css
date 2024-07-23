@@ -328,7 +328,7 @@
 .auth-primary {
     justify-content: center;
     display: flex;
-    color: black;
+    color: white;
     font-weight: 600;
 }
 
@@ -342,11 +342,13 @@
     margin: 0;
     margin-right: 6px;
     font-size: 0.9rem;
+    color: white;
 }
 
 .auth-link2 {
     margin: 0;
     color: #217e82;
+    text-decoration: none;
     font-size: 0.9rem;
 }
 
@@ -375,6 +377,7 @@
 .form-label {
     font-size: 0.9rem;
     margin-bottom: 0;
+    color: white;
 }
 
 .logout-message {
@@ -388,6 +391,31 @@
     font-size: 1rem;
     margin-top: 8px;
 }
+
+.login-button {
+    height: 36px;
+}
+
+/* Authentication Button Animation */
+.login-button:hover .button-text {
+    display: none;
+}
+
+.login-button:hover .arrows {
+    display: inline-block;
+}
+
+.popup-text {
+    position: relative;
+    bottom: 1px;
+    margin-right: 2px;
+}
+
+.arrows .fa-solid {
+    animation: none;
+}
+
+/* Stars */
 
 .star {
     margin-right: 6px;
@@ -497,6 +525,7 @@
     align-items: center;
     color: #888;
     font-size: 2.75rem;
+    background: rgba(255, 255, 255, 0.15);
 }
 
 /* ------------------------------------------------------------------------------ */
