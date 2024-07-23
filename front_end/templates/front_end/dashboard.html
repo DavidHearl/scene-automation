@@ -30,13 +30,6 @@
         </div>
 
         <div class="data-box">
-            <h3 class="data-box-title">Total Areas</h3>
-            <div class="data-container">
-                <h2 class="data-span">481</h2>
-            </div>
-        </div>
-
-        <div class="data-box">
             <h3 class="data-box-title">Active Ships</h3>
             <div class="data-container">
                 {% for ship in active_ships %}
@@ -45,10 +38,33 @@
             </div>
         </div>
 
+        <div class="data-box">
+            <h3 class="data-box-title">Ships Scanned</h3>
+            <div class="data-container">
+                <h2 class="data-span">{{ num_ships }}</h2>
+            </div>
+        </div>
+
+        <div class="data-box">
+            <h3 class="data-box-title">Areas Scanned</h3>
+            <div class="data-container">
+                <h2 class="data-span">{{ num_areas }}</h2>
+            </div>
+        </div>
+
+        <div class="data-box">
+            <h3 class="data-box-title">Star Count</h3>
+            <div class="data-container">
+                <i class="star star-title fa-solid fa-star"></i>
+                <h2 class="data-span">{{ statistics.total_stars }}</h2>
+            </div>
+        </div>
+
         <!-- Charts -->
         <canvas class="charts" id="timeRemaining"></canvas>
         <canvas class="pie-charts" id="liveScanningDataChart"></canvas>
         <canvas class="pie-charts" id="scanningNasChart"></canvas>
+        <canvas class="bar-charts" id="shipAreasChart"></canvas>
     </div>
     
 
@@ -56,6 +72,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             var liveScanningDataContext = document.getElementById('liveScanningDataChart').getContext('2d');
             var scanningNasContext = document.getElementById('scanningNasChart').getContext('2d');
+            var areaPerShipContext = document.getElementById('shipAreasChart').getContext('2d');
 
             let lowerBound = {{ lower_bound|safe }};
             let upperBound = {{ upper_bound|safe }};
@@ -214,6 +231,33 @@
                                 bottom: 4 // Adjust padding between subtitle and chart
                             }
                         }
+                    }
+                },
+            });
+
+            // Areas Per Ship Bar Chart
+            var areaPerShipChart = new Chart(areaPerShipContext, {
+                type: 'bar',
+                data: {
+                    datasets: [{
+                        data: {{ scannedAreas|safe }},
+                    }],
+                    labels: {{ shipNames|safe }},
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Chart.js Bar Chart'
+                    }
                     }
                 },
             });

@@ -216,6 +216,20 @@ def dashboard(request):
     
     active_ships = ships.filter(completed_percentage__lt=100)
 
+    # Calculate the number of ships and areas
+    num_ships = ships.count()
+    num_areas = areas.count()
+
+    # Query ships and annotate each with the count of related areas
+    ships_with_area_count = ships.annotate(area_count=Count('area'))
+
+    # Prepare shipNames and scannedAreas for the template
+    shipNames = [ship.name for ship in ships_with_area_count]
+    scannedAreas = [ship.area_count for ship in ships_with_area_count]
+
+    print(shipNames, len(shipNames))
+    print(scannedAreas, len(scannedAreas))
+
     total_time = float(statistics.total_time)
     lower_bound = total_time
     upper_bound = (total_time * 1.3) - lower_bound
@@ -230,6 +244,10 @@ def dashboard(request):
         'lower_bound': lower_bound,
         'upper_bound': upper_bound,
         'active_ships': active_ships,
+        'num_ships': num_ships,
+        'num_areas': num_areas,
+        'shipNames': shipNames,
+        'scannedAreas': scannedAreas
     }
 
     return render(request, 'front_end/dashboard.html', context)   

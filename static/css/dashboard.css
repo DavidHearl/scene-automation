@@ -21,6 +21,14 @@
     border-radius: 20px;
 }
 
+.bar-charts {
+    max-width: 100%;
+    max-height: 1000px;
+    background: var(--card-background);
+    padding: 12px;
+    border-radius: 20px;
+}
+
 .pie-charts {
     max-width: 300px;
     max-height: 300px;

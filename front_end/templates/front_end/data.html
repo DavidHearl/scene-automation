@@ -69,7 +69,7 @@
                 datasets: [{
                     label: 'Number of Points / Number of Scans',
                     data: {{ point_cloud_scans|safe }},
-                    pointRadius: 5
+                    pointRadius: 4
                 }]
             };
 
@@ -141,19 +141,19 @@
                 datasets: [{
                     label: 'Raw Data Size / Number of Scans',
                     data: {{ raw_size_scans|safe }},
-                    pointRadius: 5,
+                    pointRadius: 4,
                     backgroundColor: 'rgba(255, 99, 132, 0.6)',
                     borderColor: 'rgba(255, 99, 132, 1)'
                 }, {
                     label: 'Processed Data Size / Number of Scans',
                     data: {{ processed_size_scans|safe }},
-                    pointRadius: 5,
+                    pointRadius: 4,
                     backgroundColor: 'rgba(54, 162, 235, 0.6)',
                     borderColor: 'rgba(54, 162, 235, 1)'
                 }, {
                     label: 'Exported Data Size / Number of Scans',
                     data: {{ exported_size_scans|safe }},
-                    pointRadius: 5,
+                    pointRadius: 4,
                     backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     borderColor: 'rgba(75, 192, 192, 1)'
                 }]
@@ -227,7 +227,7 @@
                 datasets: [{
                     label: 'Raw Data Size / Number of Scans',
                     data: {{ raw_size_scans|safe }},
-                    pointRadius: 5,
+                    pointRadius: 4,
                     backgroundColor: 'rgba(255, 99, 132, 0.6)',
                     borderColor: 'rgba(255, 99, 132, 1)'
                 }]
@@ -299,7 +299,7 @@
                 datasets: [{
                     label: 'Processed Data Size / Number of Scans',
                     data: {{ processed_size_scans|safe }},
-                    pointRadius: 5,
+                    pointRadius: 4,
                     backgroundColor: 'rgba(54, 162, 235, 0.6)',
                     borderColor: 'rgba(54, 162, 235, 1)'
                 }]
@@ -371,7 +371,7 @@
                 datasets: [{
                     label: 'Exported Data Size / Number of Scans',
                     data: {{ exported_size_scans|safe }},
-                    pointRadius: 5,
+                    pointRadius: 4,
                     backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     borderColor: 'rgba(75, 192, 192, 1)'
                 }]
