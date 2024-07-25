@@ -4,6 +4,7 @@ import datetime
 import time
 from datetime import timedelta, date
 from functools import wraps
+from decimal import Decimal
 
 # Related third party imports
 from django.contrib import messages
@@ -127,29 +128,17 @@ def calculations():
 
     # Iterate over all ships
     for ship in ships:
-        if ship.completed_percentage != 100:
-            # Get all the areas of the ship
-            areas = ship.area_set.all() # Get all related parameters using the _set method
-            ship_time_remaining = 0
-
-            for area in areas:
-                if area.uploaded != "Completed" or "Not Required" or "On Hold":
-                    # Add the time remaining for each area to the ship
-                    ship_time_remaining += area.time_remaining
-
-            ship.time_remaining = ship_time_remaining
-            ship.save()
+        # Get all the areas of the ship
+        areas = ship.area_set.all() # Get all related parameters using the _set method
+        ship_time_remaining = 0
 
         # Get all the areas of the ship
         area_set = ship.area_set.all()
 
         # Iterate through each area
         for area in area_set:
-            # FOR DEBUGGING
-            # print(f'{area.time_remaining} : {area.area_name}')
-
             # Don't iterate through the area if they are complete
-            if area.processed != 'Completed':
+            if area.uploaded != 'Completed':
                 # Increment the area count
                 area_count += 1                
 
@@ -196,12 +185,16 @@ def calculations():
                 print(type(time_remaining))
                 print(type(total_time))
 
-                total_time += time_remaining
+                total_time += Decimal(time_remaining)
 
         # Update the statistics
         statistics.total_time = total_time
         statistics.total_scans = total_scans
         statistics.save()
+
+        print("")
+        print("")
+        print("")
 
         return round(total_time, 2)
 
@@ -265,8 +258,14 @@ def ships_and_areas(request):
             When(contract_number=0, then=Value(0)),  # 0 comes first
             default=Value(1),  # All other values come after 0
             output_field=IntegerField()
+        ),
+        completed_order=Case(
+            When(completed_percentage=0, then=Value(1)),  # 0% at the bottom
+            When(completed_percentage=100, then=Value(1)),  # 100% at the bottom
+            default=Value(0),  # All other values come before 0% and 100%
+            output_field=IntegerField()
         )
-    ).order_by('completed_percentage', 'custom_order', '-contract_number')
+    ).order_by('completed_order', 'completed_percentage', 'custom_order', '-contract_number', 'name')
 
     # Fetch ships and areas
     statistics = Statistics.objects.get(id=8)
@@ -321,7 +320,7 @@ def ships_and_areas(request):
 
                 if ship.area_set.all().count() != 0:
                     ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
-                    
+
                 ship.total_scans = total_scans_per_ship
                 ship.save()
         else:
