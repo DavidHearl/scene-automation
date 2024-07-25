@@ -39,6 +39,23 @@ pip install django-allauth
 pip freeze --local > requirements.txt
 ```
 
+## Heroku CLI Login
+```
+# Login
+heroku login 
+
+# Search for the list of apps
+heroku apps
+
+# 
+heroku config:get DATABASE_URL -a scene-automation
+
+psql DATABASE_URL
+
+```
+
+
+
 ## Django Allauth
 Copy the templates from the correct directory
 ```

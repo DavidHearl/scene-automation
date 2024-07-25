@@ -1,11 +1,9 @@
 #pointCloudSizeChart,
-#combinedSizeChart,
-#rawDataSizeChart,
-#processedDataSizeChart,
-#exportedDataSizeChart {
+#combinedSizeChart {
     display: block;
     box-sizing: border-box;
-    max-height: 600px;
+    min-height: 700px;
+    max-height: 700px;
     width: 100%;
     border: 1px solid;
     border-radius: 8px;

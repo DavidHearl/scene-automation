@@ -263,12 +263,10 @@
                         <!-- Delete and Save -->
                         <div class="ship-detail-row">
                             <div class="crud-button-container">
-                                <button class="crud-button delete">
-                                    <a class="delete-button" href="{% url 'delete_area' area.id %}">Delete</a>
-                                </button>
+                                <a class="crud-button delete-button" href="{% url 'delete_area' area.id %}">Delete</a>
                             </div>
                             <div class="crud-button-container">
-                                <button class="crud-button save" type="submit">
+                                <button class="crud-button save-button" type="submit">
                                     Save
                                 </button>
                             </div>

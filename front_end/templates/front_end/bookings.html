@@ -102,7 +102,7 @@
                     <label class="new-booking-label"  for="scanner_{{ booking.id }}">Scanner:</label>
                     {{ booking_form.scanner }}
                 </div>
-                <div class="form-div">
+                <div class="crud-button-container">
                     <button class="add-button" type="submit">Add</button>
                 </div>
             </form>
@@ -142,10 +142,10 @@
                 </div>
                 <div class="form-div">
                     {% if user.is_superuser %}
-                        <a class="delete-booking" href="{% url 'delete_booking' booking.id %}">
-                            <button class="delete-button">Delete</button>
-                        </a>
-                        <button class="submit-button" type="submit">Save</button>
+                        <div class="crud-button-container">
+                            <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
+                            <button class="submit-button" type="submit">Save</button>
+                        </div>
                     {% endif %}
                 </div>
             </form>

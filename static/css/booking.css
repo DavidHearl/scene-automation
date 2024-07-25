@@ -166,6 +166,7 @@ h5 {
     border-radius: 16px;
     box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
     margin: 16px;
+    padding: 12px;
 }
 
 .booking-title {
@@ -192,14 +193,37 @@ h5 {
     height: 62px;
 }
 
+.form-div {
+    padding: 0;
+}
+
 .form-div label {
     width: 100%;
+    color: #a3a3a3;
 }
 
 .form-div select,
 .form-div input {
     width: 100%;
     padding: 2px 4px;
+    border-radius: 4px;
+    color: white;
+    background: #535353;
+    border: none;
+}
+
+.crud-button-container {
+    width: 100%;
+    display: flex;
+    margin-top: 12px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .add-button {
@@ -209,26 +233,30 @@ h5 {
     padding: 2px 12px;
     border-radius: 8px;
     color: white;
-    margin-bottom: 8px;
+    position: relative;
+    top: 2px;
 }
 
 .submit-button {
     background: linear-gradient(107deg, rgb(68, 172, 30) 11.1%, rgb(95, 166, 94) 95.3%);
     border: 1px solid darkgreen;
-}
-
-.delete-button {
-    background: linear-gradient(107deg, rgb(234, 58, 58) 11.1%, rgb(187, 31, 31) 95.3%);
-    border: 1px solid #500;
-}
-
-.submit-button,
-.delete-button {
     padding: 2px 12px;
     border-radius: 8px;
     color: white;
-    width: 48.9%;
-    margin-bottom: 8px;
+    width: calc(50% - 4px);
+}
+
+.delete-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(107deg, rgb(234, 58, 58) 11.1%, rgb(187, 31, 31) 95.3%);
+    border: 1px solid darkred;
+    border-radius: 8px;
+    margin-right: 8px;
+    width: calc(50% - 4px);
+    text-decoration: none;
+    color: white;
 }
 
 .delete-button > a {
@@ -241,10 +269,6 @@ h5 {
     align-items: center;
     gap: 20px;
     padding: 4px 0;
-}
-
-label {
-    color: gray;
 }
 
 .users-column {

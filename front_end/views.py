@@ -319,7 +319,9 @@ def ships_and_areas(request):
                         if getattr(area, status) in completed_statuses:
                             completed_percentage += process_weighting[i]
 
-                ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
+                if ship.area_set.all().count() != 0:
+                    ship.completed_percentage = round(completed_percentage / ship.area_set.all().count(), 1)
+                    
                 ship.total_scans = total_scans_per_ship
                 ship.save()
         else:
@@ -417,7 +419,7 @@ def ship_detail(request, ship_id):
 
 
 def booking(request):
-    # Get all bookings
+    # Get all bookings & Users
     bookings = Booking.objects.all()
     users = User.objects.all()
 
@@ -683,7 +685,6 @@ def edit_booking(request, booking_id):
 
 
 def delete_booking(request, booking_id):
-    # Get the booking with the given ID
     booking = get_object_or_404(Booking, pk=booking_id)
     booking.delete()
     messages.success(request, 'Booking deleted successfully.')

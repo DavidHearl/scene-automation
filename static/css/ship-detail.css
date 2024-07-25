@@ -224,19 +224,24 @@
     width: 100%;
 }
 
-.save {
+.save-button {
     background: green;
     border: 1px solid darkgreen;
     border-radius: 8px;
 }
 
-.delete {
+.delete-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: #bf2727;
     border: 1px solid darkred;
     border-radius: 8px;
 }
 
-.save, .delete {
+.save-button,
+.delete-button {
+    text-decoration: none;
     color: white;
     font-weight: 600;
 }
@@ -290,11 +295,6 @@
 .status-title {
     padding: 0;
     margin-bottom: 2px;
-}
-
-.delete-button {
-    text-decoration: none;
-    color: white;
 }
 
 .time-star {
