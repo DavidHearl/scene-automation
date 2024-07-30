@@ -32,13 +32,25 @@
         <div class="key status-box both"></div>
         <h6 class="key-title">Both Scanners</h6>
     </div>
+    <div class="year-switcher-container">
+        <h6 class="key-title">Select Year:</h6>
+        {% for year in years %}
+            <a href="?year={{ year }}" class="btn {% if year == selected_year %}btn-primary{% else %}btn-secondary{% endif %}">
+                {{ year }}
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="year-switcher">
+
 </div>
 
 <div class="year">
     {% for month, month_calendar in year_calendar.items %}
         <div class="month">
             <h2>{{ month }}</h2>
-            <div class="week">
+            <div class="week week-titles">
                 <div class="day">
                     <p class="weekday">M</p>
                 </div>

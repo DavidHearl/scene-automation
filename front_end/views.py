@@ -422,16 +422,27 @@ def booking(request):
     bookings = Booking.objects.all()
     users = User.objects.all()
 
-    # Create a dictionary where the keys are the dates and the values are the classes
+    # Determine the year to display
+    selected_year = request.GET.get('year', date.today().year)
+    selected_year = int(selected_year)
+
+    # Create a dictionary where the keys are the dates (including year) and the values are the classes
     booking_classes = {}
     for booking in bookings:
         delta = booking.end_date - booking.start_date  # as timedelta
 
         for i in range(delta.days + 1):
             day = booking.start_date + timedelta(days=i)
-            key = (day.day, day.month)
-            # Use the date and month as the key and the scanner as the value
-            booking_classes[key] = booking.scanner
+            key = (day.year, day.month, day.day)
+            if i == 0:
+                # Add a unique class for the start date
+                booking_classes[key] = f"{booking.scanner} start"
+            elif i == delta.days:
+                # Add a unique class for the end date
+                booking_classes[key] = f"{booking.scanner} end"
+            else:
+                # Use the year, month, and day as the key and the scanner as the value
+                booking_classes[key] = booking.scanner
 
     # Get today's date
     today = date.today()
@@ -439,15 +450,15 @@ def booking(request):
     # Create a dictionary where the keys are the months and the values are the matrices representing the months' calendars
     year_calendar = {}
     for month in range(1, 13):
-        month_calendar = calendar.monthcalendar(2024, month)
+        month_calendar = calendar.monthcalendar(selected_year, month)
         for week in month_calendar:
             for i, day in enumerate(week):
                 if day != 0:
                     # Check if the current day and month match today's day and month
-                    if day == today.day and month == today.month:
-                        week[i] = (day, f"{booking_classes.get((day, month), '')} today")
+                    if day == today.day and month == today.month and selected_year == today.year:
+                        week[i] = (day, f"{booking_classes.get((selected_year, month, day), '')} today")
                     else:
-                        week[i] = (day, booking_classes.get((day, month), ''))
+                        week[i] = (day, booking_classes.get((selected_year, month, day), ''))
         year_calendar[month] = month_calendar
 
     # Convert the month numbers to their names
@@ -472,6 +483,8 @@ def booking(request):
         'year_calendar': year_calendar,
         'booking_form': BookingForm(),
         'users': users,
+        'selected_year': selected_year,
+        'years': [selected_year - 1, selected_year, selected_year + 1],
     }
 
     return render(request, 'front_end/bookings.html', context)

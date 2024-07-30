@@ -23,7 +23,7 @@
     display: flex;
     flex-direction: column;
     background: var(--card-background);
-    width: 335px;
+    width: 300px;
     border: 1px solid #5e5e5e;
     padding: 12px;
     border-radius: 12px;
@@ -36,20 +36,38 @@
     justify-content: center;
 }
 
+.week-titles {
+    border-bottom: 1px solid gray;
+}
+
 .day {
     width: 30px;
     height: 30px;
-    border-radius: 15px;
+    border-radius: 4px;
     justify-content: center;
     align-items: center;
     display: flex;
-    margin: 4px;
+    margin: 3px;
     color: #bfbfbf;
 }
 
 .day > p {
     margin: 0;
     font-size: 0.8rem;
+}
+
+.start {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    padding-left: 1px;
+    margin-left: 2px;
+}
+
+.end {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+    padding-right: 1px;
+    margin-right: 2px;
 }
 
 .weekday {
@@ -117,7 +135,7 @@ h5 {
     width: 100%;
     max-width: 1400px;
     margin: auto;
-    gap: 8px;
+    gap: 12px;
 }
 
 .key-container {
@@ -129,6 +147,17 @@ h5 {
     border-radius: 8px;
     justify-content: center;
     align-items: center;
+}
+
+.year-switcher-container {
+    display: flex;
+    flex-direction: row;
+    background: var(--card-background);
+    padding: 6px;
+    border-radius: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
 .key-title {

@@ -6,7 +6,7 @@
     margin-bottom: 4px;
     font-weight: 300;
     color: #a0a0a0;
-    transition: justify-content 0.5s ease;
+    transition: justify-content 0.5 ease;
 }
 
 .navigation-list {
