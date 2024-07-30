@@ -661,11 +661,18 @@ def edit_booking(request, booking_id):
 
     users = User.objects.all() if request.user.is_superuser else User.objects.filter(id=request.user.id)
 
+    # Retrieve the current ship value
+    original_ship = bookings.ship
+
     if request.method == 'POST':
         print("POST request received")
         modify_form = BookingForm(request.POST, instance=bookings)
         if modify_form.is_valid():
-            bookings = modify_form.save()
+            bookings = modify_form.save(commit=False)
+            # Check if the ship value is present, if not, set it to the original value
+            if not bookings.ship:
+                bookings.ship = original_ship
+            bookings.save()
             messages.success(request, 'Booking edited successfully.')
             return redirect('booking')
         else:
