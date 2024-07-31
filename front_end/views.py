@@ -434,18 +434,16 @@ def booking(request):
         for i in range(delta.days + 1):
             day = booking.start_date + timedelta(days=i)
             key = (day.year, day.month, day.day)
-            if i == 0:
-                # Add a unique class for the start date
-                booking_classes[key] = f"{booking.scanner} start"
-            elif i == delta.days:
-                # Add a unique class for the end date
-                booking_classes[key] = f"{booking.scanner} end"
-            else:
-                # Use the year, month, and day as the key and the scanner as the value
-                booking_classes[key] = booking.scanner
+            # Use the year, month, and day as the key and the scanner as the value
+            booking_classes[key] = booking.scanner
 
     # Get today's date
     today = date.today()
+
+    # Add a flag to each booking indicating if the end date has passed
+    for booking in bookings:
+        booking.has_passed = booking.end_date < today
+        print(f"Booking {booking.id} end_date: {booking.end_date}, today: {today}, has_passed: {booking.has_passed}")
 
     # Create a dictionary where the keys are the months and the values are the matrices representing the months' calendars
     year_calendar = {}
