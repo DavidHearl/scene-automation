@@ -122,8 +122,7 @@
     {% endif %}
 
     {% for booking in bookings %}
-        <div class="booking-card {% if booking.has_passed %}past-booking{% endif %}">
-            <p>Booking {{ booking.id }} has_passed: {{ booking.has_passed }}</p>
+        <div class="booking-card {% if booking.survey_completed %}past-booking{% endif %}">
             <form method="post" action="{% url 'edit_booking' booking.id %}">
                 {% csrf_token %}
                 

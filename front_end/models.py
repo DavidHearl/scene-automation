@@ -158,6 +158,7 @@ class Booking(models.Model):
 	start_date = models.DateField(null=True)
 	end_date = models.DateField(null=True)
 	scanner = models.CharField(max_length=10, choices=SCANNER)
+	survey_completed = models.BooleanField(default=False)
 
 	def __str__(self):
 		if self.ship:
