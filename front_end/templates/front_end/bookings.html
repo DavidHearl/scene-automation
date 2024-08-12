@@ -50,7 +50,7 @@
     {% for month, month_calendar in year_calendar.items %}
         <div class="month">
             <h2>{{ month }}</h2>
-            <div class="week week-titles">
+            <div class="week">
                 <div class="day">
                     <p class="weekday">M</p>
                 </div>
@@ -92,9 +92,10 @@
     {% endfor %}
 </div>
 
-<div class="booking-card-container">
+<div class="booking-section-container">
     <!-- Add Booking -->
     {% if user.is_authenticated %}
+        <h2>Book a Survey</h2>
         <div class="booking-card">
             <form method="post">
                 {% csrf_token %}
@@ -103,15 +104,15 @@
                     {{ booking_form.ship }}
                 </div>
                 <div class="form-div dates">
-                    <label class="new-booking-label"  for="id_start_date">Start Date:</label>
+                    <label class="new-booking-label" for="id_start_date">Start Date:</label>
                     <input type="date" name="start_date" value="{{ booking_form.start_date }}">
                 </div>
                 <div class="form-div dates">
-                    <label class="new-booking-label"  for="id_end_date">End Date:</label>
+                    <label class="new-booking-label" for="id_end_date">End Date:</label>
                     <input type="date" name="end_date" value="{{ booking_form.end_date }}">
                 </div>
                 <div class="form-div">
-                    <label class="new-booking-label"  for="scanner_{{ booking.id }}">Scanner:</label>
+                    <label class="new-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
                     {{ booking_form.scanner }}
                 </div>
                 <div class="crud-button-container">
@@ -120,7 +121,9 @@
             </form>
         </div>
     {% endif %}
+</div>
 
+<div class="booking-section-container">
     {% for booking in bookings %}
         <div class="booking-card {% if booking.survey_completed %}past-booking{% endif %}">
             <form method="post" action="{% url 'edit_booking' booking.id %}">

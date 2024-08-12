@@ -36,10 +36,6 @@
     justify-content: center;
 }
 
-.week-titles {
-    border-bottom: 1px solid gray;
-}
-
 .day {
     width: 30px;
     height: 30px;
@@ -71,7 +67,7 @@
 }
 
 .weekday {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 0.9rem !important;
 }
 
@@ -80,6 +76,8 @@ h2 {
     justify-content: center;
     font-size: 1.5rem;
     color: #e6e6e6;
+    width: 100%;
+    margin: 0px;
 }
 
 h5 {
@@ -179,7 +177,7 @@ h5 {
 /* ------------------------------------------------------------------------------ */
 /* ------------------------------- Booking Form --------------------------------- */
 /* ------------------------------------------------------------------------------ */
-.booking-card-container {
+.booking-section-container {
     width: 100%;
     display: flex;
     flex-wrap: wrap;

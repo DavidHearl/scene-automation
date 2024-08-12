@@ -33,7 +33,7 @@ def timing_decorator(func):
         start_time = time.time()
         result = func(*args, **kwargs)
         end_time = time.time()
-        print(f"{func.__name__} took {end_time - start_time} seconds")
+        print(f"{func.__name__} took : {end_time - start_time} seconds")
         return result
     return wrapper
 
@@ -119,7 +119,7 @@ def calculations():
     for area in areas:
         total_scans += area.scans
 
-    # Iterate through each ship
+    # Calculate the total time to complete all areas
     total_time = 0
     for ship in ships:
         total_time += ship.time_remaining
@@ -128,17 +128,18 @@ def calculations():
 
     # Iterate over all ships
     for ship in ships:
-        # Get all the areas of the ship
-        areas = ship.area_set.all() # Get all related parameters using the _set method
-        ship_time_remaining = 0
+        # Don't iterate through the ship if it is completed
+        if ship.status == False:
 
-        # Get all the areas of the ship
-        area_set = ship.area_set.all()
+            # Get all the areas of the ship
+            areas = ship.area_set.all() # Get all related parameters using the _set method
+            ship_time_remaining = 0
 
-        # Iterate through each area
-        for area in area_set:
-            # Don't iterate through the area if they are complete
-            if area.uploaded != 'Completed':
+            # Get all the areas of the ship
+            area_set = ship.area_set.all()
+
+            # Iterate through each area
+            for area in area_set:
                 # Increment the area count
                 area_count += 1                
 
@@ -165,7 +166,7 @@ def calculations():
                         # Multiply the time remaining by the error time
                         time_remaining *= error_times[error_codes.index(error)]
 
-                # Define the current percentage
+                # Work out the completion percentage for an area
                 complete_percentage = 0
                 for i, status in enumerate(process_stage):
                     if getattr(area, status) in completed_statuses:
@@ -181,10 +182,6 @@ def calculations():
                 area.time_remaining = time_remaining
                 area.save()
 
-                # Add a running total
-                print(type(time_remaining))
-                print(type(total_time))
-
                 total_time += Decimal(time_remaining)
 
         # Update the statistics
@@ -192,11 +189,7 @@ def calculations():
         statistics.total_scans = total_scans
         statistics.save()
 
-        print("")
-        print("")
-        print("")
-
-        return round(total_time, 2)
+    return round(total_time, 2)
 
 # --------------------------------------------------------------------------- #
 # --------------------------------- Views ----------------------------------- #
@@ -219,9 +212,6 @@ def dashboard(request):
     # Prepare shipNames and scannedAreas for the template
     shipNames = [ship.name for ship in ships_with_area_count]
     scannedAreas = [ship.area_count for ship in ships_with_area_count]
-
-    print(shipNames, len(shipNames))
-    print(scannedAreas, len(scannedAreas))
 
     total_time = float(statistics.total_time)
     lower_bound = total_time
@@ -294,13 +284,11 @@ def ships_and_areas(request):
     for ship in ships:
         total_scans_per_ship = 0
         completed_percentage = 0
-        contains_not_required = False
 
         # Check to see if there are any areas not required or on hold
         for area in ship.area_set.all():
             if area.uploaded == "Not Required" or area.uploaded == "On Hold":
-                contains_not_required = True
-                ship.contains_not_required = contains_not_required
+                ship.contains_not_required = True
                 ship.save()
                 break
 
@@ -333,6 +321,16 @@ def ships_and_areas(request):
         # Add the stars count of the current ship to the total stars
         total_stars += ship.stars
 
+    # Set status to complete of not complete based on the completed percentage
+    for ship in ships:
+        if ship.completed_percentage == 100:
+            ship.status = True
+        elif ship.completed_percentage == 0:
+            ship.status = True
+        else:
+            ship.status = False
+        ship.save()
+    
     # Update statistics.total_stars with the new total stars count
     statistics.total_stars = total_stars
     statistics.save()
@@ -371,13 +369,26 @@ def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
     areas = Area.objects.filter(ship=ship).order_by('area_name')
 
-    queued_areas = [area for area in areas if area.uploaded == "Queued"]
-    not_required_areas = [area for area in areas if area.uploaded == "Not Required"]
-    other_areas = [area for area in areas if area.uploaded != "Not Required" and area.uploaded != "Queued"]
+    # Define the priority for each status
+    status_priority = {
+        "Minor Fail": 0,
+        "Queued": 1,
+        "Completed": 2,
+        "Hold": 3,
+        "Not Required": 4
+    }
 
-    sorted_ship_areas = queued_areas + other_areas + not_required_areas
+    # Sort the areas using the custom sort key
+    sorted_areas = sorted(areas, key=lambda area: (
+        status_priority.get(area.processed, 4),
+        status_priority.get(area.registered, 4),
+        status_priority.get(area.cleaned, 4),
+        status_priority.get(area.point_cloud, 4),
+        status_priority.get(area.exported, 4),
+        status_priority.get(area.uploaded, 4)
+    ))
 
-    for area in sorted_ship_areas:
+    for area in sorted_areas:
         area.star = (
             area.raw_size != 0.00 and 
             area.processed_size != 0.00 and 
@@ -387,10 +398,10 @@ def ship_detail(request, ship_id):
 
     # Since you're directly updating the areas, you might not need areas_with_star for the star calculation anymore
     # But if you still need to pass areas with their star status to the context, you can recreate areas_with_star list:
-    areas_with_star = [(area, area.star) for area in sorted_ship_areas]
+    areas_with_star = [(area, area.star) for area in sorted_areas]
 
     # Calculate the number of areas with a star
-    num_areas_with_star = sum(1 for area in sorted_ship_areas if area.star)
+    num_areas_with_star = sum(1 for area in sorted_areas if area.star)
 
     # Save the count to the ship model
     ship.stars = num_areas_with_star
@@ -409,7 +420,7 @@ def ship_detail(request, ship_id):
 
     context = {
         'ship': ship,
-        'areas': sorted_ship_areas,
+        'areas': sorted_areas,
         'area_form': area_form,
         'areas_with_star': areas_with_star,
     }
@@ -644,14 +655,12 @@ def edit_area(request, area_id):
     areas = get_areas()
 
     if request.method == 'POST':
-        print("POST request received")
         modify_form = AreaForm(request.POST, instance=area)
         if modify_form.is_valid():
             area = modify_form.save()
             messages.success(request, 'Area edited successfully.')
             return redirect('ship_detail', area.ship.id)
         else:
-            print("Form is not valid")
             print(modify_form.errors)
     else:
         modify_form = AreaForm(instance=area)
@@ -685,7 +694,6 @@ def edit_booking(request, booking_id):
     original_ship = bookings.ship
 
     if request.method == 'POST':
-        print("POST request received")
         modify_form = BookingForm(request.POST, instance=bookings)
         if modify_form.is_valid():
             bookings = modify_form.save(commit=False)
@@ -696,7 +704,6 @@ def edit_booking(request, booking_id):
             messages.success(request, 'Booking edited successfully.')
             return redirect('booking')
         else:
-            print("Form is not valid")
             print(modify_form.errors)
     else:
         modify_form = BookingForm(instance=bookings)

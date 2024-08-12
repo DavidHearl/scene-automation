@@ -51,7 +51,7 @@
     <!-- Ship and Area Details -->
     <div class="card-container">
         {% for ship in ships %}
-            <div class="ship-card {% if ship.time_remaining == 0 %} ship-card-completed {% endif %} {% if ship.max_stars and ship.stars > 0 %}max-stars{% endif %}">
+            <div class="ship-card {% if ship.status %} ship-card-completed {% endif %} {% if ship.max_stars and ship.stars > 0 %}max-stars{% endif %}">
                  <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
                 </div>
