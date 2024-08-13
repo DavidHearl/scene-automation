@@ -42,7 +42,7 @@ class Ship(models.Model):
 	company = models.CharField(max_length=200)
 	priority = models.IntegerField(choices=PRIORITY_CHOICES, default=2, blank=False)
 	image = models.ImageField(null=True, blank=True)
-	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
+	time_remaining = models.DecimalField(max_digits=7, decimal_places=2, default=0, null=True, blank=True)
 	status = models.BooleanField(default=True)
 
 	stars = models.IntegerField(default=0)
