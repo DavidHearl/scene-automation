@@ -181,6 +181,7 @@ def dashboard(request):
     statistics = Statistics.objects.get(id=8)
     
     active_ships = ships.filter(completed_percentage__lt=100)
+    active_ships = active_ships.exclude(completed_percentage=0)
 
     # Calculate the number of ships and areas
     num_ships = ships.count()
@@ -316,7 +317,7 @@ def ships_and_areas(request):
     statistics.save()
 
     # Star Percentage
-    star_percentage = round((total_stars / num_areas) * 100, 4)
+    star_percentage = round((total_stars / num_areas) * 100, 2)
 
     if request.method == 'POST':
         ship_form = ShipForm(request.POST, request.FILES)
@@ -415,28 +416,23 @@ def booking(request):
     # Get all bookings & Users
     bookings = Booking.objects.all()
     users = User.objects.all()
+    booking_classes = {}  # Initialize the booking_classes dictionary
 
     # Determine the year to display
     selected_year = request.GET.get('year', date.today().year)
     selected_year = int(selected_year)
 
-    # Create a dictionary where the keys are the dates (including year) and the values are the classes
-    booking_classes = {}
+    # Update the booking_classes dictionary to handle the "both" case
     for booking in bookings:
-        delta = booking.end_date - booking.start_date  # as timedelta
-
-        for i in range(delta.days + 1):
-            day = booking.start_date + timedelta(days=i)
-            key = (day.year, day.month, day.day)
-            if i == 0:
-                # Add a unique class for the start date
-                booking_classes[key] = f"{booking.scanner} start"
-            elif i == delta.days:
-                # Add a unique class for the end date
-                booking_classes[key] = f"{booking.scanner} end"
+        start_date = booking.start_date
+        end_date = booking.end_date
+        while start_date <= end_date:
+            key = (start_date.year, start_date.month, start_date.day)
+            if booking.scanner == "both":
+                booking_classes[key] = "red blue"
             else:
-                # Use the year, month, and day as the key and the scanner as the value
                 booking_classes[key] = booking.scanner
+            start_date += timedelta(days=1)
 
     # Get today's date
     today = date.today()
