@@ -434,13 +434,16 @@ def booking(request):
             if booking.scanner == "both":
                 booking_classes[key].update(["red", "blue"])
                 if first_day:
-                    booking_classes[key].add("start")
+                    booking_classes[key].update(["start-red", "start-blue"])
             else:
                 booking_classes[key].add(booking.scanner)
                 if first_day:
                     booking_classes[key].add(f"start-{booking.scanner}")
             if start_date == end_date:
-                booking_classes[key].add("end")
+                if booking.scanner == "both":
+                    booking_classes[key].update(["end-red", "end-blue"])
+                else:
+                    booking_classes[key].add(f"end-{booking.scanner}")
             start_date += timedelta(days=1)
             first_day = False
 

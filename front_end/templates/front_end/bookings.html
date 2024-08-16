@@ -77,8 +77,8 @@
                 <div class="week {% if month_calendar|length == 5 and forloop.first %}padding-top-week{% elif month_calendar|length == 5 and forloop.last %}padding-bottom-week{% endif %}">
                     {% for day in week %}
                         <div class="day {% if 'today' in day.1 %}today{% endif %}">
-                            <div class="red-booking-mark {% if 'red' in day.1 %}red{% endif %} {% if 'start-red' in day.1 %}start{% endif %} {% if 'end' in day.1 and 'red' in day.1 %}end{% endif %}"></div>
-                            <div class="blue-booking-mark {% if 'blue' in day.1 %}blue{% endif %} {% if 'start-blue' in day.1 %}start{% endif %} {% if 'end' in day.1 and 'blue' in day.1 %}end{% endif %}"></div>
+                            <div class="red-booking-mark {% if 'red' in day.1 %}red{% endif %} {% if 'start-red' in day.1 %}start{% endif %} {% if 'end-red' in day.1 %}end{% endif %}"></div>
+                            <div class="blue-booking-mark {% if 'blue' in day.1 %}blue{% endif %} {% if 'start-blue' in day.1 %}start{% endif %} {% if 'end-blue' in day.1 %}end{% endif %}"></div>
                             <p class="date-text">
                                 {% if day.0 %}
                                     {{ day.0 }}
