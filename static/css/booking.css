@@ -54,17 +54,11 @@
 }
 
 .start {
-    border-top-left-radius: 12px;
-    border-bottom-left-radius: 12px;
-    padding-left: 1px;
-    margin-left: 2px;
+    border-left: 4px solid #f76aac;
 }
 
 .end {
-    border-top-right-radius: 12px;
-    border-bottom-right-radius: 12px;
-    padding-right: 1px;
-    margin-right: 2px;
+    border-right: 4px solid #f76aac;
 }
 
 .weekday {

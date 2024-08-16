@@ -422,17 +422,30 @@ def booking(request):
     selected_year = request.GET.get('year', date.today().year)
     selected_year = int(selected_year)
 
-    # Update the booking_classes dictionary to handle the "both" case
+    # Update the booking_classes dictionary to handle the "both" case and overlaps
     for booking in bookings:
         start_date = booking.start_date
         end_date = booking.end_date
+        first_day = True
         while start_date <= end_date:
             key = (start_date.year, start_date.month, start_date.day)
+            if key not in booking_classes:
+                booking_classes[key] = set()
             if booking.scanner == "both":
-                booking_classes[key] = "red blue"
+                booking_classes[key].update(["red", "blue"])
+                if first_day:
+                    booking_classes[key].add("start")
             else:
-                booking_classes[key] = booking.scanner
+                booking_classes[key].add(booking.scanner)
+                if first_day:
+                    booking_classes[key].add(f"start-{booking.scanner}")
+            if start_date == end_date:
+                booking_classes[key].add("end")
             start_date += timedelta(days=1)
+            first_day = False
+
+    # Convert sets to space-separated strings
+    booking_classes = {k: " ".join(v) for k, v in booking_classes.items()}
 
     # Get today's date
     today = date.today()
@@ -451,11 +464,12 @@ def booking(request):
         for week in month_calendar:
             for i, day in enumerate(week):
                 if day != 0:
+                    key = (selected_year, month, day)
+                    classes = booking_classes.get(key, "")
                     # Check if the current day and month match today's day and month
                     if day == today.day and month == today.month and selected_year == today.year:
-                        week[i] = (day, f"{booking_classes.get((selected_year, month, day), '')} today")
-                    else:
-                        week[i] = (day, booking_classes.get((selected_year, month, day), ''))
+                        classes += " today"
+                    week[i] = (day, classes)
         year_calendar[month] = month_calendar
 
     # Convert the month numbers to their names
