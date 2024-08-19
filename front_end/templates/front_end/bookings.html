@@ -127,45 +127,47 @@
 
 <div class="booking-section-container">
     {% for booking in bookings %}
-        <div class="booking-card {% if booking.survey_completed %}past-booking{% endif %}">
-            <form method="post" action="{% url 'edit_booking' booking.id %}">
-                {% csrf_token %}
-                
-                <div class="form-div">
-                    {% if booking.ship %}
-                        <label class="edit-booking-label">Ship:</label>
-                        <h3 class="booking-ship">{{ booking.ship }}</h3>
-                    {% else %}
-                        <label class="edit-booking-label" for="id_ship">Ship:</label>
-                        {{ booking_form.ship }}
-                    {% endif %}
-                </div>
-                <div class="form-div dates">
-                    <label class="edit-booking-label"  for="id_start_date">Start Date:</label>
-                    <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
-                </div>
-                <div class="form-div dates">
-                    <label class="edit-booking-label"  for="id_end_date">End Date:</label>
-                    <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
-                </div>
-                <div class="form-div">
-                    <label class="edit-booking-label"  for="scanner_{{ booking.id }}">Scanner:</label>
-                    <select id="scanner_{{ booking.id }}" name="scanner">
-                        <option value="red" {% if booking.scanner == 'red' %}selected{% endif %}>Red Scanner</option>
-                        <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
-                        <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
-                    </select>
-                </div>
-                <div class="form-div">
-                    {% if user.is_superuser %}
-                        <div class="crud-button-container">
-                            <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
-                            <button class="submit-button" type="submit">Save</button>
-                        </div>
-                    {% endif %}
-                </div>
-            </form>
-        </div>
+        {% if not booking.survey_completed %}
+            <div class="booking-card {% if booking.survey_completed %}past-booking{% endif %}">
+                <form method="post" action="{% url 'edit_booking' booking.id %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-div">
+                        {% if booking.ship %}
+                            <label class="edit-booking-label">Ship:</label>
+                            <h3 class="booking-ship">{{ booking.ship }}</h3>
+                        {% else %}
+                            <label class="edit-booking-label" for="id_ship">Ship:</label>
+                            {{ booking_form.ship }}
+                        {% endif %}
+                    </div>
+                    <div class="form-div dates">
+                        <label class="edit-booking-label"  for="id_start_date">Start Date:</label>
+                        <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
+                    </div>
+                    <div class="form-div dates">
+                        <label class="edit-booking-label"  for="id_end_date">End Date:</label>
+                        <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
+                    </div>
+                    <div class="form-div">
+                        <label class="edit-booking-label"  for="scanner_{{ booking.id }}">Scanner:</label>
+                        <select id="scanner_{{ booking.id }}" name="scanner">
+                            <option value="red" {% if booking.scanner == 'red' %}selected{% endif %}>Red Scanner</option>
+                            <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
+                            <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
+                        </select>
+                    </div>
+                    <div class="form-div">
+                        {% if user.is_superuser %}
+                            <div class="crud-button-container">
+                                <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
+                                <button class="submit-button" type="submit">Save</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        {% endif %}
     {% endfor %}
 </div>
 

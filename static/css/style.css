@@ -61,6 +61,7 @@
     border-radius: 8px;
     padding: 8px 0;
     margin-bottom: 16px;
+    flex-wrap: wrap;
 }
 
 .headline-section {
@@ -83,6 +84,7 @@
     font-weight: 600;
     margin-bottom: 0;
     color: white;
+    text-transform: capitalize;
 }
 
 /* Active Machines */
@@ -573,5 +575,3 @@
     height: 400 !important;
     width: 400 !important;
 }
-
-

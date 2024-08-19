@@ -349,6 +349,27 @@ def ships_and_areas(request):
 def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
     areas = Area.objects.filter(ship=ship).order_by('area_name')
+    # bookings = Booking.objects.filter(ship=ship)
+    booking = get_object_or_404(Booking, ship=ship)
+
+    # Assuming booking.start_date and booking.end_date are datetime.date objects
+    booking_start_date = booking.start_date
+    booking_end_date = booking.end_date
+
+    # Format the date to '12th September'
+    formatted_start_date = booking_start_date.strftime('%d %B')
+    formatted_end_date = booking_end_date.strftime('%d %B')
+
+    # Add the appropriate suffix for the day (st, nd, rd, th)
+    def add_day_suffix(day):
+        if 4 <= day <= 20 or 24 <= day <= 30:
+            return 'th'
+        else:
+            return ['st', 'nd', 'rd'][day % 10 - 1]
+
+    # Apply the suffix
+    formatted_booking_start_date = booking_start_date.strftime(f'%d{add_day_suffix(booking_start_date.day)} %B')
+    formatted_booking_end_date = booking_end_date.strftime(f'%d{add_day_suffix(booking_end_date.day)} %B')
 
     # Define the priority for each status
     status_priority = {
@@ -407,6 +428,9 @@ def ship_detail(request, ship_id):
         'areas': sorted_areas,
         'area_form': area_form,
         'areas_with_star': areas_with_star,
+        'booking': booking,
+        'formatted_booking_start_date': formatted_booking_start_date,
+        'formatted_booking_end_date': formatted_booking_end_date,
     }
 
     return render(request, 'front_end/ship_details.html', context)

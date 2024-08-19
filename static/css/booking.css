@@ -54,11 +54,11 @@
 }
 
 .start {
-    border-left: 3px solid rgb(120, 198, 117);
+    border-left: 3px solid rgb(210, 210, 210);
 }
 
 .end {
-    border-right: 3px solid rgb(62, 191, 221);
+    border-right: 3px solid rgb(210, 210, 210);
 }
 
 .weekday {
