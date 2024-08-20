@@ -503,26 +503,36 @@ def booking(request):
     year_calendar = {calendar.month_name[month]: month_calendar for month, month_calendar in year_calendar.items()}
 
     if request.method == 'POST':
-        booking_form = BookingForm(request.POST)
-        if booking_form.is_valid():
-            booking = booking_form.save(commit=False)
-            booking.save()
-            messages.success(request, 'Booking added successfully.')
-            return redirect('booking')
-        else:
-            print(booking_form.errors)
+        if 'booking_form' in request.POST:
+            booking_form = BookingForm(request.POST)
+            if booking_form.is_valid():
+                booking = booking_form.save(commit=False)
+                booking.save()
+                messages.success(request, 'Booking added successfully.')
+                return redirect('booking')
+            else:
+                print(booking_form.errors)
+        elif 'ship_form' in request.POST:
+            ship_form = ShipForm(request.POST, request.FILES)
+            if ship_form.is_valid():
+                ship_form.save()
+                return redirect('booking')
+            else:
+                print(ship_form.errors)
     else:
         booking_form = BookingForm()
+        ship_form = ShipForm()
 
     bookings = Booking.objects.order_by('start_date')
 
     context = {
         'bookings': bookings,
         'year_calendar': year_calendar,
-        'booking_form': BookingForm(),
+        'booking_form': booking_form,
         'users': users,
         'selected_year': selected_year,
         'years': [selected_year - 1, selected_year, selected_year + 1],
+        'ship_form': ship_form,
     }
 
     return render(request, 'front_end/bookings.html', context)

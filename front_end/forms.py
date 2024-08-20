@@ -6,7 +6,7 @@ from .models import *
 class ShipForm(forms.ModelForm):
     class Meta:
         model = Ship
-        fields = ['name', 'contract_number', 'company', 'priority', 'image']
+        fields = ['name', 'contract_number', 'company', 'image']
 
 
 class AreaForm(forms.ModelForm):

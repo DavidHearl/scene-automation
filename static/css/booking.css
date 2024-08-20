@@ -169,6 +169,7 @@ h5 {
     display: flex;
     flex-direction: column;
     width: 210px;
+    height: 282px;
     background: var(--card-background);
     border-radius: 16px;
     box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
@@ -196,12 +197,13 @@ h5 {
     align-items: center;
 }
 
-.dates {
-    height: 62px;
-}
+/* .dates {
+    height: 56px;
+} */
 
 .form-div {
     padding: 0;
+    height: 56px;
 }
 
 .form-div label {
@@ -215,14 +217,14 @@ h5 {
     padding: 2px 4px;
     border-radius: 4px;
     color: white;
-    background: #535353;
+    background: #3b4353;
     border: none;
 }
 
 .crud-button-container {
     width: 100%;
     display: flex;
-    margin-top: 12px;
+    margin-top: 6px;
 }
 
 .form-container {
@@ -320,4 +322,48 @@ h5 {
 
 .date-text {
     position: absolute;
+}
+
+.booking-info {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: rgb(230, 230, 230);
+    margin-top: 4px;
+}
+
+/* Add Ship */
+
+.add-ship-card,
+.add-booking-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 210px;
+    height: 305px;
+    background: var(--card-background);
+    border-radius: 20px;
+    box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
+    padding: 12px;
+    margin: 16px;
+}
+
+.form-title {
+    color: white;
+    font-size: 1rem;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#id_name,
+#id_ship,
+#id_scanner {
+    height: 28px;
+}
+
+#id_image {
+    padding: 0;
+    height: 28px;
+    background: none;
+    margin: 0;
 }
