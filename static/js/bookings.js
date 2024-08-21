@@ -108,7 +108,7 @@ document.addEventListener('mouseover', function(event) {
                         document.getElementById('ship-name').textContent = booking[0];
                         document.getElementById('start-date').textContent = bookingDates[0];
                         document.getElementById('end-date').textContent = bookingDates[bookingDates.length - 1];
-                        document.getElementById('scanner').textContent = scannerType;
+                        document.getElementById('scanner').className = scannerType;
 
                         document.getElementById('booking-summary').style.display = 'flex';
 
@@ -153,9 +153,6 @@ document.addEventListener('mouseout', function(event) {
                         
                         // Remove active class from the hovered element
                         hoveredElement.classList.remove('active');
-
-                        // Trigger the function to hide the booking summary
-                        hideBookingSummary();
                     }
                 });
             }
@@ -163,12 +160,13 @@ document.addEventListener('mouseout', function(event) {
     }
 });
 
-function hideBookingSummary() {
-    hideTimeout = setTimeout(function() {
+// Add event listener to the #close element to hide the booking summary
+var closeButton = document.getElementById('close');
+if (closeButton) {
+    closeButton.addEventListener('click', function() {
         var bookingSummary = document.getElementById('booking-summary');
-        var activeElement = document.querySelector('.active');
-        if (!activeElement) {
+        if (bookingSummary) {
             bookingSummary.style.display = 'none';
         }
-    }, 5000);
+    });
 }
