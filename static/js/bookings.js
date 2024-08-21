@@ -91,34 +91,42 @@ document.addEventListener('mouseover', function(event) {
             hoveredElement.classList.contains('blue-booking-mark')) {
             
             var hoveredDate = parentElement.id;
+            var hoveredClass = hoveredElement.classList.contains('red') ? 'red' : 'blue';
 
             if (hoveredDate) {
-                allBookings.forEach(function(booking) {
+                for (let booking of allBookings) {
                     if (booking.includes(hoveredDate)) {
                         var scannerType = booking[1];
                         
-                        // Determine which mark to highlight
-                        var hoveredClass = hoveredElement.classList.contains('red') ? 'red' : 'blue';
+                        // Only proceed if the scanner type matches the hovered mark's color or if it applies to both
+                        if ((hoveredClass === 'red' && (scannerType === 'red' || scannerType === 'both')) ||
+                            (hoveredClass === 'blue' && (scannerType === 'blue' || scannerType === 'both'))) {
+                            
+                            // Highlight only dates in this booking with the correct mark
+                            var bookingDates = booking.slice(2);
+                            highlightDates(bookingDates, scannerType, true, hoveredClass);
+                            
+                            // Populate the template values
+                            document.getElementById('ship-name').textContent = booking[0];
+                            document.getElementById('start-date').textContent = bookingDates[0];
+                            document.getElementById('end-date').textContent = bookingDates[bookingDates.length - 1];
+                            document.getElementById('scanner').className = scannerType;
 
-                        // Highlight only dates in this booking and with the correct mark
-                        var bookingDates = booking.slice(2);
-                        highlightDates(bookingDates, scannerType, true, hoveredClass);
-                        
-                        // Populate the template values
-                        document.getElementById('ship-name').textContent = booking[0];
-                        document.getElementById('start-date').textContent = bookingDates[0];
-                        document.getElementById('end-date').textContent = bookingDates[bookingDates.length - 1];
-                        document.getElementById('scanner').className = scannerType;
+                            document.getElementById('booking-summary').style.display = 'flex';
 
-                        document.getElementById('booking-summary').style.display = 'flex';
+                            // Clear any existing timeout to prevent hiding the summary
+                            clearTimeout(hideTimeout);
 
-                        // Clear any existing timeout to prevent hiding the summary
-                        clearTimeout(hideTimeout);
+                            // Check if the hoveredElement has the corresponding class before adding 'active'
+                            if (hoveredElement.classList.contains(hoveredClass)) {
+                                hoveredElement.classList.add('active');
+                            }
 
-                        // Add active class to the hovered element
-                        hoveredElement.classList.add('active');
+                            // Stop processing further bookings since we've handled the first match
+                            break;
+                        }
                     }
-                });
+                }
             }
         }
     }
@@ -138,35 +146,31 @@ document.addEventListener('mouseout', function(event) {
             hoveredElement.classList.contains('blue-booking-mark')) {
             
             var hoveredDate = parentElement.id;
+            var hoveredClass = hoveredElement.classList.contains('red') ? 'red' : 'blue';
 
             if (hoveredDate) {
-                allBookings.forEach(function(booking) {
+                for (let booking of allBookings) {
                     if (booking.includes(hoveredDate)) {
                         var scannerType = booking[1];
-                        
-                        // Determine which mark to highlight
-                        var hoveredClass = hoveredElement.classList.contains('red') ? 'red' : 'blue';
 
-                        // Remove highlight from all dates in the booking
-                        var bookingDates = booking.slice(2);
-                        highlightDates(bookingDates, scannerType, false, hoveredClass);
-                        
-                        // Remove active class from the hovered element
-                        hoveredElement.classList.remove('active');
+                        // Only remove highlight if the scanner type matches the hovered mark's color or if it applies to both
+                        if ((hoveredClass === 'red' && (scannerType === 'red' || scannerType === 'both')) ||
+                            (hoveredClass === 'blue' && (scannerType === 'blue' || scannerType === 'both'))) {
+
+                            // Remove highlight from all dates in the booking
+                            var bookingDates = booking.slice(2);
+                            highlightDates(bookingDates, scannerType, false, hoveredClass);
+
+                            // Remove active class from the hovered element if it has the correct class
+                            if (hoveredElement.classList.contains(hoveredClass)) {
+                                hoveredElement.classList.remove('active');
+                            }
+
+                            break; // Stop processing further bookings
+                        }
                     }
-                });
+                }
             }
         }
     }
 });
-
-// Add event listener to the #close element to hide the booking summary
-var closeButton = document.getElementById('close');
-if (closeButton) {
-    closeButton.addEventListener('click', function() {
-        var bookingSummary = document.getElementById('booking-summary');
-        if (bookingSummary) {
-            bookingSummary.style.display = 'none';
-        }
-    });
-}
