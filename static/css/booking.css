@@ -378,3 +378,19 @@ h5 {
 .active {
     background: yellow;
 }
+
+#booking-summary {
+    display: flex;
+    justify-content: center;
+    height: 300px;
+    width: 300px;
+    position: fixed;
+    border: 1px solid white;
+    z-index: 10;
+    top: 16px;
+    right: 16px;
+    background: #14b52da1;
+    border-radius: 8px;
+    padding: 16px;
+    display: none;
+}
