@@ -75,6 +75,8 @@ function highlightDates(dates, scanner, add, hoveredClass) {
     });
 }
 
+let hideTimeout;
+
 document.addEventListener('mouseover', function(event) {
     var hoveredElement = event.target;
     var parentElement = hoveredElement.closest('.day');
@@ -102,7 +104,19 @@ document.addEventListener('mouseover', function(event) {
                         var bookingDates = booking.slice(2);
                         highlightDates(bookingDates, scannerType, true, hoveredClass);
                         
+                        // Populate the template values
+                        document.getElementById('ship-name').textContent = booking[0];
+                        document.getElementById('start-date').textContent = bookingDates[0];
+                        document.getElementById('end-date').textContent = bookingDates[bookingDates.length - 1];
+                        document.getElementById('scanner').textContent = scannerType;
+
                         document.getElementById('booking-summary').style.display = 'flex';
+
+                        // Clear any existing timeout to prevent hiding the summary
+                        clearTimeout(hideTimeout);
+
+                        // Add active class to the hovered element
+                        hoveredElement.classList.add('active');
                     }
                 });
             }
@@ -130,19 +144,31 @@ document.addEventListener('mouseout', function(event) {
                     if (booking.includes(hoveredDate)) {
                         var scannerType = booking[1];
                         
-                        // Determine which mark to unhighlight
+                        // Determine which mark to highlight
                         var hoveredClass = hoveredElement.classList.contains('red') ? 'red' : 'blue';
 
-                        // Unhighlight only dates in this booking and with the correct mark
+                        // Remove highlight from all dates in the booking
                         var bookingDates = booking.slice(2);
                         highlightDates(bookingDates, scannerType, false, hoveredClass);
                         
-                        setTimeout(function() {
-                            document.getElementById('booking-summary').style.display = 'none';
-                        }, 1000);
+                        // Remove active class from the hovered element
+                        hoveredElement.classList.remove('active');
+
+                        // Trigger the function to hide the booking summary
+                        hideBookingSummary();
                     }
                 });
             }
         }
     }
 });
+
+function hideBookingSummary() {
+    hideTimeout = setTimeout(function() {
+        var bookingSummary = document.getElementById('booking-summary');
+        var activeElement = document.querySelector('.active');
+        if (!activeElement) {
+            bookingSummary.style.display = 'none';
+        }
+    }, 5000);
+}
