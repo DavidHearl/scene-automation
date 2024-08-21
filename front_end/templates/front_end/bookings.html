@@ -227,6 +227,73 @@
             </div>
         {% endif %}
     {% endfor %}
+    <h2>Previous Surveys</h2>
+    {% for booking in bookings %}
+        {% if booking.survey_completed %}
+            <div class="booking-card {% if booking.survey_completed %}past-booking{% endif %}">
+                <form method="post" action="{% url 'edit_booking' booking.id %}">
+                    {% csrf_token %}
+                    
+                    <div class="form-div">
+                        {% if booking.ship %}
+                            <label class="edit-booking-label">Ship:</label>
+                            <h3 class="booking-ship">{{ booking.ship }}</h3>
+                        {% else %}
+                            <label class="edit-booking-label" for="id_ship">Ship:</label>
+                            {{ booking_form.ship }}
+                        {% endif %}
+                    </div>
+                    <div class="form-div dates">
+                        <label class="edit-booking-label" for="id_start_date">Start Date:</label>
+                        <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
+                    </div>
+                    <div class="form-div dates">
+                        <label class="edit-booking-label" for="id_end_date">End Date:</label>
+                        <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
+                    </div>
+                    <div class="form-div">
+                        <label class="edit-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
+                        <select id="scanner_{{ booking.id }}" name="scanner">
+                            <option value="red" {% if booking.scanner == 'red' %}selected{% endif %}>Red Scanner</option>
+                            <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
+                            <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Add dropdown for contract_manager -->
+                    <div class="form-div">
+                        <label class="edit-booking-label" for="contract_manager_{{ booking.id }}">Contract Manager:</label>
+                        <select id="contract_manager_{{ booking.id }}" name="contract_manager">
+                            <option value="" {% if not booking.contract_manager %}selected{% endif %}>-</option>
+                            {% for manager in contract_managers %}
+                                <option value="{{ manager.id }}" {% if booking.contract_manager and booking.contract_manager.id == manager.id %}selected{% endif %}>{{ manager.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Add dropdown for designer -->
+                    <div class="form-div">
+                        <label class="edit-booking-label" for="designer_{{ booking.id }}">Designer:</label>
+                        <select id="designer_{{ booking.id }}" name="designer">
+                            <option value="" {% if not booking.designer %}selected{% endif %}>-</option>
+                            {% for designer in designers %}
+                                <option value="{{ designer.id }}" {% if booking.designer and booking.designer.id == designer.id %}selected{% endif %}>{{ designer.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-div crud">
+                        {% if user.is_superuser %}
+                            <div class="crud-button-container">
+                                <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
+                                <button class="submit-button" type="submit">Save</button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    {% endfor %}
 </div>
 
 <div id="booking-summary">
@@ -239,10 +306,10 @@
     <div class="booking-content">
         <h4 class="booking-content-subtitle">Dates</h4>
         <p>Start:
-            <span id="start-date"></span>
+            <span class="push-right" id="start-date"></span>
         </p>
             <p>End:
-            <span id="end-date"></span>
+            <span class="push-right" id="end-date"></span>
         </p>
         <h4 class="booking-content-subtitle margin-top">Contract Manager</h4>
         <p id="contract-manager"></p>

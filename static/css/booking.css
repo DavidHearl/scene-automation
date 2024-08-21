@@ -375,18 +375,18 @@ h5 {
 }
 
 .active {
-    background: rgb(70, 170, 55);
+    background: rgb(60, 160, 55);
 }
 
 #booking-summary {
     flex-direction: column;
     position: fixed;
-    border: 1px solid white;
+    border: 1px solid rgb(120, 120, 120);
     color: white;
     z-index: 10;
     top: 16px;
     right: 16px;
-    background: #212529d9;
+    background: rgba(33, 36, 40, 0.9);
     border-radius: 8px;
     min-width: 220px;
     display: none;
@@ -394,16 +394,16 @@ h5 {
 
 .booking-header {
     display: flex;
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid rgb(120, 120, 120);
     align-items: center;
     padding: 8px 12px;
 }
 
 #scanner {
-    height: 16px;
-    width: 16px;
-    border: 1px solid white;
-    margin-right: 8px;
+    height: 18px;
+    width: 18px;
+    border: 1px solid rgb(150, 150, 150);
+    margin-right: 10px;
     border-radius: 4px;
 }
 
@@ -440,7 +440,7 @@ h5 {
     border-bottom: 1px solid rgb(150, 150, 150);
 }
 
-span {
+.push-right {
     float: right;
 }
 

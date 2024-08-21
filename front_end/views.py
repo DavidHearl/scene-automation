@@ -509,7 +509,6 @@ def booking(request):
                     if day == today.day and month == today.month and selected_year == today.year:
                         classes += " today"
                     day_id = f"{selected_year:04d}-{month:02d}-{day:02d}"  # Create an ID for the day in "YYYY-MM-DD" format
-                    print(f"Debug: day_id = {day_id}")  # Debugging statement to check the day_id
                     week[i] = (day, classes, day_id)  # Update the day in the calendar matrix with the day, its classes, and its ID
                 year_calendar[month] = month_calendar  # Store the updated month calendar in the year calendar
 

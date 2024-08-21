@@ -28,7 +28,7 @@ class MachineForm(forms.ModelForm):
 class BookingForm(forms.ModelForm):
     class Meta:
         model = Booking
-        fields = ['ship', 'start_date', 'end_date', 'scanner']
+        fields = ['ship', 'start_date', 'end_date', 'scanner', 'contract_manager', 'designer']
 
 
 class AreaPriorityForm(forms.ModelForm):
