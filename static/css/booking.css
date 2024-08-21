@@ -169,7 +169,6 @@ h5 {
     display: flex;
     flex-direction: column;
     width: 210px;
-    height: 282px;
     background: var(--card-background);
     border-radius: 16px;
     box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
@@ -376,7 +375,7 @@ h5 {
 }
 
 .active {
-    background: yellow;
+    background: rgb(70, 170, 55);
 }
 
 #booking-summary {
@@ -389,6 +388,7 @@ h5 {
     right: 16px;
     background: #212529d9;
     border-radius: 8px;
+    min-width: 220px;
     display: none;
 }
 
@@ -409,6 +409,7 @@ h5 {
 
 #booking-summary p {
     margin: 0;
+    color: rgb(210, 210, 210);
 }
 
 #ship-name {
@@ -431,4 +432,22 @@ h5 {
     text-align: center;
     position: absolute;
     right: 8px;
+}
+
+.booking-content-subtitle {
+    font-size: 1rem;
+    color: rgb(230, 230, 230);
+    border-bottom: 1px solid rgb(150, 150, 150);
+}
+
+span {
+    float: right;
+}
+
+.margin-top {
+    margin-top: 16px;
+}
+
+.crud {
+    height: 100%;
 }

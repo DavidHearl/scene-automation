@@ -35,12 +35,19 @@ bookingCards.forEach(function(card) {
         dateValues = allDatesBetween;
     }
 
-    var scannerSelectElement = card.querySelector('select');
+    var scannerSelectElement = card.querySelector('select[name="scanner"]');
     var scannerValue = scannerSelectElement ? scannerSelectElement.value : null;
 
-    var combinedData = [bookingShipText, scannerValue].concat(dateValues);
+    var contractManagerSelectElement = card.querySelector('select[name="contract_manager"]');
+    var contractManagerValue = contractManagerSelectElement ? contractManagerSelectElement.selectedOptions[0].textContent : null;
+
+    var designerSelectElement = card.querySelector('select[name="designer"]');
+    var designerValue = designerSelectElement ? designerSelectElement.selectedOptions[0].textContent : null;
+
+    var combinedData = [bookingShipText, scannerValue, contractManagerValue, designerValue].concat(dateValues);
 
     allBookings.push(combinedData);
+    console.log(combinedData);
 });
 
 function highlightDates(dates, scanner, add, hoveredClass) {
@@ -103,7 +110,7 @@ document.addEventListener('mouseover', function(event) {
                             (hoveredClass === 'blue' && (scannerType === 'blue' || scannerType === 'both'))) {
                             
                             // Highlight only dates in this booking with the correct mark
-                            var bookingDates = booking.slice(2);
+                            var bookingDates = booking.slice(4); // Adjusted to skip ship name, scanner, contract manager, and designer
                             highlightDates(bookingDates, scannerType, true, hoveredClass);
                             
                             // Populate the template values
@@ -111,6 +118,10 @@ document.addEventListener('mouseover', function(event) {
                             document.getElementById('start-date').textContent = bookingDates[0];
                             document.getElementById('end-date').textContent = bookingDates[bookingDates.length - 1];
                             document.getElementById('scanner').className = scannerType;
+
+                            // Populate contract manager and designer
+                            document.getElementById('contract-manager').textContent = booking[2];
+                            document.getElementById('designer').textContent = booking[3];
 
                             document.getElementById('booking-summary').style.display = 'flex';
 
@@ -173,4 +184,8 @@ document.addEventListener('mouseout', function(event) {
             }
         }
     }
+});
+
+document.getElementById('close').addEventListener('click', function() {
+    document.getElementById('booking-summary').style.display = 'none';
 });

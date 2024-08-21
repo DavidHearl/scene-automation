@@ -2,6 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# -----------------------------------------------------------------
+# ----------------------------- Users -----------------------------
+# -----------------------------------------------------------------
+
+class ContractManager(models.Model):
+	name = models.CharField(max_length=200)
+
+	def __str__(self):
+		return self.name
+
+
+class Designer(models.Model):
+	name = models.CharField(max_length=200)
+
+	def __str__(self):
+		return self.name
+
+
 class Statistics(models.Model):
 	total_time = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_scans = models.IntegerField(default=0)
@@ -159,6 +177,8 @@ class Booking(models.Model):
 	end_date = models.DateField(null=True)
 	scanner = models.CharField(max_length=10, choices=SCANNER)
 	survey_completed = models.BooleanField(default=False)
+	contract_manager = models.ForeignKey(ContractManager, on_delete=models.CASCADE, related_name="contract_manager", null=True, blank=True)
+	designer = models.ForeignKey(Designer, on_delete=models.CASCADE, related_name="designer", null=True, blank=True)
 
 	def __str__(self):
 		if self.ship:
@@ -170,7 +190,6 @@ class Booking(models.Model):
 		super().clean()
 		if self.end_date < self.start_date:
 			raise ValidationError("End date cannot be earlier than start date.")
-
 
 # -----------------------------------------------------------------
 # ---------------------------- Logging ----------------------------

@@ -59,6 +59,16 @@ class StorageAdmin(admin.ModelAdmin):
         'storage_available',
     )
 
+class DesignerAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+
+class ContractManagerAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+    )
+
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Machine, MachineAdmin)
@@ -66,3 +76,5 @@ admin.site.register(Statistics, StatisticsAdmin)
 admin.site.register(Booking, BookingAdmin)
 admin.site.register(PageVisit, PageLoggingAdmin)
 admin.site.register(Storage, StorageAdmin)
+admin.site.register(Designer, DesignerAdmin)
+admin.site.register(ContractManager, ContractManagerAdmin)

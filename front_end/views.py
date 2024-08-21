@@ -443,6 +443,8 @@ def booking(request):
     # Retrieve all booking and user records from the database
     bookings = Booking.objects.all()
     users = User.objects.all()
+    designers = Designer.objects.all()
+    contract_managers = ContractManager.objects.all()
 
     booking_classes = {} # Initialise an empty dictionary to store the CSS classes for booking dates
 
@@ -547,6 +549,8 @@ def booking(request):
         'selected_year': selected_year,
         'years': [selected_year - 1, selected_year, selected_year + 1],
         'ship_form': ship_form,
+        'designers': designers,
+        'contract_managers': contract_managers,
     }
 
     return render(request, 'front_end/bookings.html', context)
