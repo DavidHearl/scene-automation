@@ -367,3 +367,14 @@ h5 {
     background: none;
     margin: 0;
 }
+
+.date-text,
+.red-booking-mark,
+.blue-booking-mark,
+.day {
+    cursor: pointer;
+}
+
+.active {
+    background: yellow;
+}
