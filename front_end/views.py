@@ -349,27 +349,30 @@ def ships_and_areas(request):
 def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
     areas = Area.objects.filter(ship=ship).order_by('area_name')
-    # bookings = Booking.objects.filter(ship=ship)
-    booking = get_object_or_404(Booking, ship=ship)
+    bookings = Booking.objects.filter(ship=ship).first()
 
-    # Assuming booking.start_date and booking.end_date are datetime.date objects
-    booking_start_date = booking.start_date
-    booking_end_date = booking.end_date
 
-    # Format the date to '12th September'
-    formatted_start_date = booking_start_date.strftime('%d %B')
-    formatted_end_date = booking_end_date.strftime('%d %B')
+    if bookings:
+        booking_start_date = bookings.start_date    # Assign the start date to a variable
+        booking_end_date = bookings.end_date        # Assign the end date to a variable
 
-    # Add the appropriate suffix for the day (st, nd, rd, th)
-    def add_day_suffix(day):
-        if 4 <= day <= 20 or 24 <= day <= 30:
-            return 'th'
-        else:
-            return ['st', 'nd', 'rd'][day % 10 - 1]
+        # Format the date to this format '12th September'
+        formatted_start_date = booking_start_date.strftime('%d %B')
+        formatted_end_date = booking_end_date.strftime('%d %B')
 
-    # Apply the suffix
-    formatted_booking_start_date = booking_start_date.strftime(f'%d{add_day_suffix(booking_start_date.day)} %B')
-    formatted_booking_end_date = booking_end_date.strftime(f'%d{add_day_suffix(booking_end_date.day)} %B')
+        # Add the appropriate suffix for the day (st, nd, rd, th)
+        def add_day_suffix(day):
+            if 4 <= day <= 20 or 24 <= day <= 30:
+                return 'th'
+            else:
+                return ['st', 'nd', 'rd'][day % 10 - 1]
+
+        # Apply the suffix
+        formatted_booking_start_date = booking_start_date.strftime(f'%d{add_day_suffix(booking_start_date.day)} %B')
+        formatted_booking_end_date = booking_end_date.strftime(f'%d{add_day_suffix(booking_end_date.day)} %B')
+    else:
+        formatted_booking_start_date = None
+        formatted_booking_end_date = None
 
     # Define the priority for each status
     status_priority = {
@@ -437,92 +440,103 @@ def ship_detail(request, ship_id):
 
 
 def booking(request):
-    # Get all bookings & Users
+    # Retrieve all booking and user records from the database
     bookings = Booking.objects.all()
     users = User.objects.all()
-    booking_classes = {}  # Initialize the booking_classes dictionary
 
-    # Determine the year to display
-    selected_year = request.GET.get('year', date.today().year)
-    selected_year = int(selected_year)
+    booking_classes = {} # Initialise an empty dictionary to store the CSS classes for booking dates
 
-    # Update the booking_classes dictionary to handle the "both" case and overlaps
+    selected_year = request.GET.get('year', date.today().year)  # Determine the year to display in the calendar
+    selected_year = int(selected_year) # Convert the year to an integer
+
+    # Update the booking_classes dictionary to handle overlapping bookings and special cases
     for booking in bookings:
-        start_date = booking.start_date
-        end_date = booking.end_date
-        first_day = True
+        start_date = booking.start_date  # The start date of the booking
+        end_date = booking.end_date  # The end date of the booking
+        first_day = True  # Flag to track the first day of the booking
+
+        # Loop through each day in the booking period
         while start_date <= end_date:
-            key = (start_date.year, start_date.month, start_date.day)
+            key = (start_date.year, start_date.month, start_date.day)  # Create a unique key for each day
             if key not in booking_classes:
-                booking_classes[key] = set()
+                booking_classes[key] = set()  # Initialize a set to store CSS classes for this day
+
+            # Handle bookings that cover both "red" and "blue" scanners
             if booking.scanner == "both":
-                booking_classes[key].update(["red", "blue"])
+                booking_classes[key].update(["red", "blue"])  # Add both scanner classes
                 if first_day:
-                    booking_classes[key].update(["start-red", "start-blue"])
+                    booking_classes[key].update(["start-red", "start-blue"])  # Add start classes on the first day
             else:
-                booking_classes[key].add(booking.scanner)
+                booking_classes[key].add(booking.scanner)  # Add the specific scanner class
                 if first_day:
-                    booking_classes[key].add(f"start-{booking.scanner}")
+                    booking_classes[key].add(f"start-{booking.scanner}")  # Add start class on the first day
+
+            # If it's the last day of the booking, add end classes
             if start_date == end_date:
                 if booking.scanner == "both":
-                    booking_classes[key].update(["end-red", "end-blue"])
+                    booking_classes[key].update(["end-red", "end-blue"])  # Add end classes for both scanners
                 else:
-                    booking_classes[key].add(f"end-{booking.scanner}")
-            start_date += timedelta(days=1)
-            first_day = False
+                    booking_classes[key].add(f"end-{booking.scanner}")  # Add end class for the specific scanner
 
-    # Convert sets to space-separated strings
+            start_date += timedelta(days=1)  # Move to the next day
+            first_day = False  # After the first iteration, set this to False
+
+    # Convert each set of CSS classes into a space-separated string
     booking_classes = {k: " ".join(v) for k, v in booking_classes.items()}
 
     # Get today's date
     today = date.today()
 
-    # Add a flag to each booking indicating if the end date has passed
+    # Mark bookings as "survey completed" if their end date has passed and the survey is not already completed
     for booking in bookings:
         if booking.survey_completed != True:
             if booking.end_date < today:
-                booking.survey_completed = True
-                booking.save()
+                booking.survey_completed = True  # Update the survey_completed field
+                booking.save()  # Save the updated booking record
 
-    # Create a dictionary where the keys are the months and the values are the matrices representing the months' calendars
+    # Create a dictionary to store the calendar for each month of the selected year
     year_calendar = {}
     for month in range(1, 13):
-        month_calendar = calendar.monthcalendar(selected_year, month)
+        month_calendar = calendar.monthcalendar(selected_year, month)  # Get the calendar matrix for the month
         for week in month_calendar:
             for i, day in enumerate(week):
-                if day != 0:
-                    key = (selected_year, month, day)
-                    classes = booking_classes.get(key, "")
-                    # Check if the current day and month match today's day and month
+                if day != 0:  # If the day is not part of the previous or next month
+                    key = (selected_year, month, day)  # Create a unique key for the day
+                    classes = booking_classes.get(key, "")  # Get the CSS classes for the day
+                    # Check if the day is today, and if so, add the "today" class
                     if day == today.day and month == today.month and selected_year == today.year:
                         classes += " today"
-                    week[i] = (day, classes)
-        year_calendar[month] = month_calendar
+                    day_id = f"{selected_year:04d}-{month:02d}-{day:02d}"  # Create an ID for the day in "YYYY-MM-DD" format
+                    print(f"Debug: day_id = {day_id}")  # Debugging statement to check the day_id
+                    week[i] = (day, classes, day_id)  # Update the day in the calendar matrix with the day, its classes, and its ID
+                year_calendar[month] = month_calendar  # Store the updated month calendar in the year calendar
 
-    # Convert the month numbers to their names
+    # Convert month numbers to month names in the year calendar dictionary
     year_calendar = {calendar.month_name[month]: month_calendar for month, month_calendar in year_calendar.items()}
 
+    # Handle POST requests (form submissions)
     if request.method == 'POST':
         if 'booking_form' in request.POST:
-            booking_form = BookingForm(request.POST)
+            booking_form = BookingForm(request.POST)  # Initialize the booking form with POST data
             if booking_form.is_valid():
-                booking = booking_form.save(commit=False)
-                booking.save()
-                messages.success(request, 'Booking added successfully.')
-                return redirect('booking')
+                booking = booking_form.save(commit=False)  # Create a booking object without saving it yet
+                booking.save()  # Save the booking object to the database
+                messages.success(request, 'Booking added successfully.')  # Show a success message
+                return redirect('booking')  # Redirect to the booking page
             else:
-                print(booking_form.errors)
+                print(booking_form.errors)  # Print any form validation errors
         elif 'ship_form' in request.POST:
-            ship_form = ShipForm(request.POST, request.FILES)
+            ship_form = ShipForm(request.POST, request.FILES)  # Initialize the ship form with POST data and files
             if ship_form.is_valid():
-                ship_form.save()
-                return redirect('booking')
+                ship_form.save()  # Save the ship form data to the database
+                return redirect('booking')  # Redirect to the booking page
             else:
-                print(ship_form.errors)
+                print(ship_form.errors)  # Print any form validation errors
     else:
-        booking_form = BookingForm()
-        ship_form = ShipForm()
+        booking_form = BookingForm()  # Initialize an empty booking form
+        ship_form = ShipForm()  # Initialize an empty ship form
 
+    # Reorder bookings by start date
     bookings = Booking.objects.order_by('start_date')
 
     context = {
