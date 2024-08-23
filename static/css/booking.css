@@ -375,7 +375,7 @@ h5 {
 }
 
 .active {
-    background: rgb(60, 160, 55);
+    background: rgb(210, 210, 210);
 }
 
 #booking-summary {
@@ -438,6 +438,7 @@ h5 {
     font-size: 1rem;
     color: rgb(230, 230, 230);
     border-bottom: 1px solid rgb(150, 150, 150);
+    margin-bottom: 4px;
 }
 
 .push-right {

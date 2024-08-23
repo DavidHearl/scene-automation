@@ -134,6 +134,12 @@ document.addEventListener('mouseover', function(event) {
                                 contractManagerDiv.appendChild(p);
                             });
 
+                            if (contractManagerDiv.innerHTML === '') {
+                                var p = document.createElement('p');
+                                p.textContent = 'No contract manager assigned';
+                                contractManagerDiv.appendChild(p);
+                            }
+
                             // Clear existing content and populate designer
                             var designerDiv = document.getElementById('designer');
                             designerDiv.innerHTML = ''; // Clear existing content
@@ -142,6 +148,12 @@ document.addEventListener('mouseover', function(event) {
                                 p.textContent = name;
                                 designerDiv.appendChild(p);
                             });
+
+                            if (designerDiv.innerHTML === '') {
+                                var p = document.createElement('p');
+                                p.textContent = 'No designer assigned';
+                                designerDiv.appendChild(p);
+                            }
 
                             document.getElementById('booking-summary').style.display = 'flex';
 
