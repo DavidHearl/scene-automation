@@ -451,3 +451,28 @@ h5 {
 .crud {
     height: 100%;
 }
+
+.many-container {
+    padding: 4px 0;
+    border-radius: 4px;
+    color: rgb(160, 160, 160);
+    border: none;
+}
+
+.many-select-field {
+    display: flex;
+    color: rgb(230, 230, 230);
+}
+
+.many-checkbox {
+    width: 16px !important;
+    margin: 0 8px 2px 2px;
+}
+
+.many-div {
+    border-radius: 4px;
+    color: rgb(160, 160, 160);
+    border: none;
+    max-height: 96px;
+    overflow: auto;
+}

@@ -156,7 +156,6 @@
             </form>
         </div>
     {% endif %}
-
 </div>
 
 <div class="booking-section-container">
@@ -176,14 +175,18 @@
                             {{ booking_form.ship }}
                         {% endif %}
                     </div>
+                    
                     <div class="form-div dates">
                         <label class="edit-booking-label" for="id_start_date">Start Date:</label>
                         <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
                     </div>
+                    
                     <div class="form-div dates">
                         <label class="edit-booking-label" for="id_end_date">End Date:</label>
                         <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
                     </div>
+
+                    <!-- Dropdown for the scanner -->
                     <div class="form-div">
                         <label class="edit-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
                         <select id="scanner_{{ booking.id }}" name="scanner">
@@ -193,26 +196,32 @@
                         </select>
                     </div>
                     
-                    <!-- Add dropdown for contract_manager -->
-                    <div class="form-div">
-                        <label class="edit-booking-label" for="contract_manager_{{ booking.id }}">Contract Manager:</label>
-                        <select id="contract_manager_{{ booking.id }}" name="contract_manager">
-                            <option value="" {% if not booking.contract_manager %}selected{% endif %}>-</option>
+                    <!-- Multi-field checkboxes for contract_manager -->
+                    <div class="many-container">
+                        <label class="edit-booking-label">Contract Manager:</label>
+                        <div class="many-div">
                             {% for manager in contract_managers %}
-                                <option value="{{ manager.id }}" {% if booking.contract_manager and booking.contract_manager.id == manager.id %}selected{% endif %}>{{ manager.name }}</option>
+                                <div class="many-select-field">
+                                    <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_manager" value="{{ manager.id }}"
+                                        {% if manager in booking.contract_manager.all %}checked{% endif %}>
+                                    <label for="contract_manager_{{ manager.id }}">{{ manager.name }}</label>
+                                </div>
                             {% endfor %}
-                        </select>
+                        </div>    
                     </div>
 
-                    <!-- Add dropdown for designer -->
-                    <div class="form-div">
-                        <label class="edit-booking-label" for="designer_{{ booking.id }}">Designer:</label>
-                        <select id="designer_{{ booking.id }}" name="designer">
-                            <option value="" {% if not booking.designer %}selected{% endif %}>-</option>
+                    <!-- Multi-field checkboxes for designer -->
+                    <div class="many-container">
+                        <label class="edit-booking-label">Designer:</label>
+                        <div class="many-div">
                             {% for designer in designers %}
-                                <option value="{{ designer.id }}" {% if booking.designer and booking.designer.id == designer.id %}selected{% endif %}>{{ designer.name }}</option>
+                                <div class="many-select-field">
+                                    <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designer" value="{{ designer.id }}"
+                                        {% if designer in booking.designer.all %}checked{% endif %}>
+                                    <label for="designer_{{ designer.id }}">{{ designer.name }}</label>
+                                </div>
                             {% endfor %}
-                        </select>
+                        </div>
                     </div>
                     
                     <div class="form-div crud">
@@ -227,6 +236,7 @@
             </div>
         {% endif %}
     {% endfor %}
+
     <h2>Previous Surveys</h2>
     {% for booking in bookings %}
         {% if booking.survey_completed %}
@@ -260,26 +270,32 @@
                         </select>
                     </div>
                     
-                    <!-- Add dropdown for contract_manager -->
-                    <div class="form-div">
-                        <label class="edit-booking-label" for="contract_manager_{{ booking.id }}">Contract Manager:</label>
-                        <select id="contract_manager_{{ booking.id }}" name="contract_manager">
-                            <option value="" {% if not booking.contract_manager %}selected{% endif %}>-</option>
+                    <!-- Multi-field checkboxes for contract_manager -->
+                    <div class="many-container">
+                        <label class="edit-booking-label">Contract Manager:</label>
+                        <div class="many-div">
                             {% for manager in contract_managers %}
-                                <option value="{{ manager.id }}" {% if booking.contract_manager and booking.contract_manager.id == manager.id %}selected{% endif %}>{{ manager.name }}</option>
+                                <div class="many-select-field">
+                                    <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_manager" value="{{ manager.id }}"
+                                        {% if manager in booking.contract_manager.all %}checked{% endif %}>
+                                    <label for="contract_manager_{{ manager.id }}">{{ manager.name }}</label>
+                                </div>
                             {% endfor %}
-                        </select>
+                        </div>    
                     </div>
 
-                    <!-- Add dropdown for designer -->
-                    <div class="form-div">
-                        <label class="edit-booking-label" for="designer_{{ booking.id }}">Designer:</label>
-                        <select id="designer_{{ booking.id }}" name="designer">
-                            <option value="" {% if not booking.designer %}selected{% endif %}>-</option>
+                    <!-- Multi-field checkboxes for designer -->
+                    <div class="many-container">
+                        <label class="edit-booking-label">Designer:</label>
+                        <div class="many-div">
                             {% for designer in designers %}
-                                <option value="{{ designer.id }}" {% if booking.designer and booking.designer.id == designer.id %}selected{% endif %}>{{ designer.name }}</option>
+                                <div class="many-select-field">
+                                    <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designer" value="{{ designer.id }}"
+                                        {% if designer in booking.designer.all %}checked{% endif %}>
+                                    <label for="designer_{{ designer.id }}">{{ designer.name }}</label>
+                                </div>
                             {% endfor %}
-                        </select>
+                        </div>
                     </div>
                     
                     <div class="form-div crud">
@@ -312,10 +328,10 @@
             <span class="push-right" id="end-date"></span>
         </p>
         <h4 class="booking-content-subtitle margin-top">Contract Manager</h4>
-        <p id="contract-manager"></p>
+        <div id="contract-manager"></div>
         
         <h4 class="booking-content-subtitle margin-top">Designers</h4>
-        <p id="designer"></p>
+        <div id="designer"></div>
     </div>
 </div>
 

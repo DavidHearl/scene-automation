@@ -26,6 +26,9 @@ class MachineForm(forms.ModelForm):
 
 
 class BookingForm(forms.ModelForm):
+    contract_manager = forms.ModelMultipleChoiceField(queryset=ContractManager.objects.all(), required=False)
+    designer = forms.ModelMultipleChoiceField(queryset=Designer.objects.all(), required=False)
+
     class Meta:
         model = Booking
         fields = ['ship', 'start_date', 'end_date', 'scanner', 'contract_manager', 'designer']
@@ -38,6 +41,7 @@ class AreaPriorityForm(forms.ModelForm):
         widgets = {
             'priority': forms.Select(choices=Area.PRIORITY_CHOICES),
         }
+
 
 class ShipPriorityForm(forms.ModelForm):
     class Meta:

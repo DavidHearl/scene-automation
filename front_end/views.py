@@ -519,7 +519,7 @@ def booking(request):
     if request.method == 'POST':
         if 'booking_form' in request.POST:
             booking_form = BookingForm(request.POST)  # Initialize the booking form with POST data
-            if booking_form.is_valid():
+            if booking_form.is_valid(): # Check if the form is valid 
                 booking = booking_form.save(commit=False)  # Create a booking object without saving it yet
                 booking.save()  # Save the booking object to the database
                 messages.success(request, 'Booking added successfully.')  # Show a success message
@@ -532,10 +532,10 @@ def booking(request):
                 ship_form.save()  # Save the ship form data to the database
                 return redirect('booking')  # Redirect to the booking page
             else:
-                print(ship_form.errors)  # Print any form validation errors
+                print(ship_form.errors) # Print any form validation errors
     else:
-        booking_form = BookingForm()  # Initialize an empty booking form
-        ship_form = ShipForm()  # Initialize an empty ship form
+        booking_form = BookingForm()    # Initialize an empty booking form
+        ship_form = ShipForm()          # Initialize an empty ship form
 
     # Reorder bookings by start date
     bookings = Booking.objects.order_by('start_date')
@@ -736,6 +736,8 @@ def edit_booking(request, booking_id):
         bookings = get_object_or_404(Booking, id=booking_id, users=request.user)
 
     users = User.objects.all() if request.user.is_superuser else User.objects.filter(id=request.user.id)
+    contracts_managers = ContractManager.objects.all()
+    designers = Designer.objects.all()
 
     # Retrieve the current ship value
     original_ship = bookings.ship
@@ -748,6 +750,12 @@ def edit_booking(request, booking_id):
             if not bookings.ship:
                 bookings.ship = original_ship
             bookings.save()
+            modify_form.save_m2m()  # Save many-to-many relationships
+
+            # Update contract_manager and designer manually
+            bookings.contract_manager.set(request.POST.getlist('contract_manager'))
+            bookings.designer.set(request.POST.getlist('designer'))
+
             messages.success(request, 'Booking edited successfully.')
             return redirect('booking')
         else:
@@ -759,6 +767,8 @@ def edit_booking(request, booking_id):
         'bookings': bookings,
         'modify_form': modify_form,
         'users': users,
+        'contract_managers': contract_managers,
+        'designers': designers,
     }
 
     return render(request, 'front_end/bookings.html', context)

@@ -177,8 +177,8 @@ class Booking(models.Model):
 	end_date = models.DateField(null=True)
 	scanner = models.CharField(max_length=10, choices=SCANNER)
 	survey_completed = models.BooleanField(default=False)
-	contract_manager = models.ForeignKey(ContractManager, on_delete=models.CASCADE, related_name="contract_manager", null=True, blank=True)
-	designer = models.ForeignKey(Designer, on_delete=models.CASCADE, related_name="designer", null=True, blank=True)
+	contract_manager = models.ManyToManyField(ContractManager, related_name="contract_manager", blank=True)
+	designer = models.ManyToManyField(Designer, related_name="designer", blank=True)
 
 	def __str__(self):
 		if self.ship:
