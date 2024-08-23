@@ -477,3 +477,28 @@ h5 {
     max-height: 96px;
     overflow: auto;
 }
+
+/* Custom scrollbar for WebKit browsers */
+.many-div::-webkit-scrollbar {
+    width: 8px;
+}
+
+.many-div::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.many-div::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.many-div::-webkit-scrollbar-thumb:hover {
+    background: #3b4353;
+}
+
+/* Custom scrollbar for Firefox */
+.many-div {
+    scrollbar-width: thin;
+    scrollbar-color: #3b4353 #f1f1f1;
+}
