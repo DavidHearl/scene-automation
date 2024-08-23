@@ -16,7 +16,7 @@ function getDatesBetween(startDate, endDate) {
 
 var allBookings = [];
 
-// Iterate over each booking card
+
 bookingCards.forEach(function(card) {
     var bookingShipElement = card.querySelector('.booking-ship');
     var bookingShipText = bookingShipElement ? bookingShipElement.textContent : null;
@@ -38,16 +38,22 @@ bookingCards.forEach(function(card) {
     var scannerSelectElement = card.querySelector('select[name="scanner"]');
     var scannerValue = scannerSelectElement ? scannerSelectElement.value : null;
 
-    var contractManagerSelectElement = card.querySelector('select[name="contract_manager"]');
-    var contractManagerValue = contractManagerSelectElement ? contractManagerSelectElement.selectedOptions[0].textContent : null;
+    // Collect contract manager names from checkboxes
+    var contractManagerCheckboxes = card.querySelectorAll('input[name="contract_manager"]:checked');
+    var contractManagerValues = Array.from(contractManagerCheckboxes).map(function(checkbox) {
+        return checkbox.nextElementSibling.textContent;
+    });
 
-    var designerSelectElement = card.querySelector('select[name="designer"]');
-    var designerValue = designerSelectElement ? designerSelectElement.selectedOptions[0].textContent : null;
+    // Collect designer names from checkboxes
+    var designerCheckboxes = card.querySelectorAll('input[name="designer"]:checked');
+    var designerValues = Array.from(designerCheckboxes).map(function(checkbox) {
+        return checkbox.nextElementSibling.textContent;
+    });
 
-    var combinedData = [bookingShipText, scannerValue, contractManagerValue, designerValue].concat(dateValues);
+    var combinedData = [bookingShipText, scannerValue, contractManagerValues, designerValues].concat(dateValues);
+    console.log("Combined data:", combinedData);
 
     allBookings.push(combinedData);
-    console.log(combinedData);
 });
 
 function highlightDates(dates, scanner, add, hoveredClass) {
@@ -119,9 +125,23 @@ document.addEventListener('mouseover', function(event) {
                             document.getElementById('end-date').textContent = bookingDates[bookingDates.length - 1];
                             document.getElementById('scanner').className = scannerType;
 
-                            // Populate contract manager and designer
-                            document.getElementById('contract-manager').textContent = booking[2];
-                            document.getElementById('designer').textContent = booking[3];
+                            // Clear existing content and populate contract manager
+                            var contractManagerDiv = document.getElementById('contract-manager');
+                            contractManagerDiv.innerHTML = ''; // Clear existing content
+                            booking[2].forEach(function(name) {
+                                var p = document.createElement('p');
+                                p.textContent = name;
+                                contractManagerDiv.appendChild(p);
+                            });
+
+                            // Clear existing content and populate designer
+                            var designerDiv = document.getElementById('designer');
+                            designerDiv.innerHTML = ''; // Clear existing content
+                            booking[3].forEach(function(name) {
+                                var p = document.createElement('p');
+                                p.textContent = name;
+                                designerDiv.appendChild(p);
+                            });
 
                             document.getElementById('booking-summary').style.display = 'flex';
 
