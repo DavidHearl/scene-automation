@@ -204,6 +204,10 @@
     color: rgb(215, 92, 83);
 }
 
+.survey-tbc{
+    color: rgb(214, 168, 118);
+}
+
 .card-feature-text {
     display: flex;
     justify-content: center;

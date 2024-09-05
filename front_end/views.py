@@ -174,6 +174,8 @@ def calculations():
 # --------------------------------------------------------------------------- #
 # --------------------------------- Views ----------------------------------- #
 # --------------------------------------------------------------------------- #
+
+""" Render the dashboard """
 @timing_decorator
 def dashboard(request):
     ships = get_ships()
@@ -219,10 +221,10 @@ def dashboard(request):
 """ Render the main page """
 @timing_decorator
 def ships_and_areas(request):
-    calculations()
+    calculations() # Fetch the function to calculate the time to complete an area
 
-    ships = get_ships()
-    areas = get_areas()
+    ships = get_ships() # Get all the ships
+    areas = get_areas() # Get all the areas
 
     ships = ships.annotate(
         custom_order=Case(
@@ -302,12 +304,15 @@ def ships_and_areas(request):
         # Add the stars count of the current ship to the total stars
         total_stars += ship.stars
 
-    # Set status to complete of not complete based on the completed percentage
+    # Set status to complete or not complete based on the completed percentage and total scans
     for ship in ships:
         if ship.completed_percentage == 100:
             ship.status = True
         elif ship.completed_percentage == 0:
-            ship.status = True
+            if ship.total_scans != 0:
+                ship.status = False
+            else:
+                ship.status = True
         else:
             ship.status = False
         ship.save()

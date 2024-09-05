@@ -67,11 +67,17 @@
                             margin-top: 8px;
                         }
                     </style>
-                    {% if ship.time_remaining == 0 %}
-                        <p class="card-text done">Completed</p>
+
+                    {% if ship.status %}
+                        {% if ship.total_scans != 0 %}
+                            <p class="card-text done">Completed</p>
+                        {% else %}
+                            <p class="card-text survey-tbc">Survey TBC</p>
+                        {% endif %}
                     {% else %}
                         <p class="card-text to-be-completed">Completion in {{ ship.time_remaining }} days</p>
                     {% endif %}
+
                 {% endif %}
 
                 {% if ship.image %}
