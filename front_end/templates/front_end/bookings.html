@@ -105,6 +105,7 @@
             <h3 class="form-title">Add Booking</h3>
             <form method="post" action="{% url 'booking' %}">
                 {% csrf_token %}
+                <!-- Form fields -->
                 <div class="form-div">
                     <label class="new-booking-label" for="id_ship">Ship:</label>
                     {{ booking_form.ship }}
@@ -121,8 +122,30 @@
                     <label class="new-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
                     {{ booking_form.scanner }}
                 </div>
+                <div class="many-container">
+                    <label class="new-booking-label" for="id_designers">Designers:</label>
+                    <div class="many-div">
+                        {% for checkbox in booking_form.designers %}
+                            <div class="many-select-field">
+                                {{ checkbox.tag }}
+                                {{ checkbox.choice_label }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="many-container">
+                    <label class="new-booking-label" for="id_contract_managers">Contract Managers:</label>
+                    <div class="many-div">
+                        {% for checkbox in booking_form.contract_managers %}
+                            <div class="many-select-field">
+                                {{ checkbox.tag }}
+                                {{ checkbox.choice_label }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 <div class="crud-button-container">
-                    <button class="add-button" type="submit">Add</button>
+                    <button class="add-button" type="submit" name="booking_form">Add Booking</button>
                 </div>
             </form>
         </div>

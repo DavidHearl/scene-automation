@@ -523,24 +523,24 @@ def booking(request):
     # Handle POST requests (form submissions)
     if request.method == 'POST':
         if 'booking_form' in request.POST:
-            booking_form = BookingForm(request.POST)  # Initialize the booking form with POST data
-            if booking_form.is_valid(): # Check if the form is valid 
-                booking = booking_form.save(commit=False)  # Create a booking object without saving it yet
-                booking.save()  # Save the booking object to the database
-                messages.success(request, 'Booking added successfully.')  # Show a success message
-                return redirect('booking')  # Redirect to the booking page
+            booking_form = BookingForm(request.POST) # Initialize the booking form with POST data
+            if booking_form.is_valid():
+                booking = booking_form.save(commit=False)
+                booking.save()
+                messages.success(request, 'Booking added successfully.')
+                return redirect('booking')
             else:
-                print(booking_form.errors)  # Print any form validation errors
+                print(booking_form.errors)
         elif 'ship_form' in request.POST:
-            ship_form = ShipForm(request.POST, request.FILES)  # Initialize the ship form with POST data and files
+            ship_form = ShipForm(request.POST, request.FILES)
             if ship_form.is_valid():
-                ship_form.save()  # Save the ship form data to the database
-                return redirect('booking')  # Redirect to the booking page
+                ship_form.save()
+                return redirect('booking')
             else:
-                print(ship_form.errors) # Print any form validation errors
+                print(ship_form.errors)
     else:
-        booking_form = BookingForm()    # Initialize an empty booking form
-        ship_form = ShipForm()          # Initialize an empty ship form
+        booking_form = BookingForm()
+        ship_form = ShipForm()
 
     # Reorder bookings by start date
     bookings = Booking.objects.order_by('start_date')
@@ -816,3 +816,17 @@ def edit_priority(request, area_id):
     }
 
     return render(request, 'front_end/priority.html', context)
+
+
+# Error Handling
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
+
+def custom_500(request):
+    return render(request, '500.html', status=500)
+
+
+def trigger_500(request):
+    # This view will raise an exception to trigger a 500 error
+    raise Exception("This is a test 500 error")

@@ -339,7 +339,6 @@ h5 {
     flex-direction: column;
     position: relative;
     width: 210px;
-    height: 305px;
     background: var(--card-background);
     border-radius: 20px;
     box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
@@ -467,7 +466,7 @@ h5 {
 
 .many-checkbox {
     width: 16px !important;
-    margin: 0 8px 2px 2px;
+    margin: 0 8px 0 2px;
 }
 
 .many-div {
