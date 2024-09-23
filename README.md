@@ -1,19 +1,26 @@
+# TODO:
+source ./virtual_environment/Scripts/activate
+pip install requirements.txt
+
+pip install celery redis
+pip freeze --local > requirements.txt
+
+celery -A scene_automation worker --loglevel=info
+celery -A scene_automation beat --loglevel=info
+
 ## Areas for possible Improvement
-[] - Priority List
 [] - Area in S**2m
-[] - Number of points in the cloud
 [] - Estimated number of scans
 [] - Area Type
-[] - Completion Date
 
 ## Create Virtual Environment
 
 ``` 
 # Create the virtual environment
-py -m venv ./venvwin
+py -m venv virtual_environment
 
 # Load the script
-source ./venvwin/scripts/activate
+source ./virtual_environment/scripts/activate
 
 # Check pip location has changed
 which pip

@@ -10,33 +10,33 @@
 {% block headlines %}
     <div class="headline-section">
         <h4 class="headline-title">Ship:</h4>
-        <h2 class="headline-content">{{ ship.name }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.name }}</h2>
     </div>
 
     <div class="headline-section">
         <h4 class="headline-title">Contract Number:</h4>
-        <h2 class="headline-content">{{ ship.contract_number }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.contract_number }}</h2>
     </div>
 
     <div class="headline-section"">
         <h4 class="headline-title">Completion Percentage</h4>
-        <h2 class="headline-content">{{ ship.completed_percentage }}%</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.completed_percentage }}%</h2>
     </div>
 
     <div class="headline-section"">
         <h4 class="headline-title">Areas</h4>
-        <h2 class="headline-content">{{ ship.area_set.count }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.area_set.count }}</h2>
     </div>
 
     <div class="headline-section"">
         <h4 class="headline-title">Scans</h4>
-        <h2 class="headline-content">{{ ship.total_scans }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.total_scans }}</h2>
     </div>
 
     <!-- {% if not booking.survey_completed %} -->
         <div class="headline-section"">
             <h4 class="headline-title">Survey Dates</h4>
-            <h2 class="headline-content">{{ formatted_booking_start_date }} : {{ formatted_booking_end_date }}</h2>
+            <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ formatted_booking_start_date }} : {{ formatted_booking_end_date }}</h2>
         </div>
     <!-- {% endif %} -->
 {% endblock %}
@@ -115,7 +115,7 @@
 
         {% for area, star in areas_with_star %}
             <div class="area-card">
-                <div class="process-title">
+                <div class="process-title {% if not user.is_authenticated %} obfuscate-intense {% endif %}">
                     <a href="#{{ area.area_name }}" class="area-title" onclick="scrollToSection(event, '{{ area.area_name }}')">
                         {% if user.is_superuser %}
                             {% if star %}
@@ -125,7 +125,7 @@
                         {{ area.area_name }}
                     </a>
                 </div>
-                <div class="number-of-scans">
+                <div class="number-of-scans {% if not user.is_authenticated %} obfuscate-intense {% endif %}">
                     <p class="number-value">{{ area.scans }}</p>
                 </div>
                 <div class="process-status">

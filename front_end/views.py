@@ -40,6 +40,7 @@ def timing_decorator(func):
 # --------------------------------------------------------------------------- #
 # ----------------------------- Cache Models -------------------------------- #
 # --------------------------------------------------------------------------- #
+
 @timing_decorator
 def get_ships():
     # Check if the ships are in the cache
@@ -48,7 +49,7 @@ def get_ships():
     # If not, query the database and cache the result
     if not ships:
         ships = Ship.objects.all()
-        cache.set('all_ships', ships, 3600)  # Cache for 1 hour (3600 seconds)
+        cache.set('all_ships', ships, 600)  # Cache for 10 Minutes
     
     return ships
 
@@ -61,7 +62,7 @@ def get_areas():
     # If not, query the database and cache the result
     if not areas:
         areas = Area.objects.all()
-        cache.set('all_areas', areas, 3600)  # Cache for 1 hour (3600 seconds)
+        cache.set('all_areas', areas, 600)  # Cache for 10 Minutes
     
     return areas
 
@@ -741,8 +742,6 @@ def edit_booking(request, booking_id):
         bookings = get_object_or_404(Booking, id=booking_id, users=request.user)
 
     users = User.objects.all() if request.user.is_superuser else User.objects.filter(id=request.user.id)
-    contracts_managers = ContractManager.objects.all()
-    designers = Designer.objects.all()
 
     # Retrieve the current ship value
     original_ship = bookings.ship
@@ -758,8 +757,8 @@ def edit_booking(request, booking_id):
             modify_form.save_m2m()  # Save many-to-many relationships
 
             # Update contract_manager and designer manually
-            bookings.contract_manager.set(request.POST.getlist('contract_manager'))
-            bookings.designer.set(request.POST.getlist('designer'))
+            bookings.contract_manager.set(request.POST.getlist('contract_managers'))
+            bookings.designer.set(request.POST.getlist('designers'))
 
             messages.success(request, 'Booking edited successfully.')
             return redirect('booking')
@@ -767,6 +766,9 @@ def edit_booking(request, booking_id):
             print(modify_form.errors)
     else:
         modify_form = BookingForm(instance=bookings)
+
+    contract_managers = ContractManager.objects.all()
+    designers = Designer.objects.all()
 
     context = {
         'bookings': bookings,

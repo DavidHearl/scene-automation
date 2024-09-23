@@ -43,7 +43,7 @@
     flex-direction: column;
     width: 30px;
     height: 30px;
-    border-radius: 4px;
+    border-radius: 6px;
     margin: 3px;
     color: #bfbfbf;
 }
@@ -163,17 +163,6 @@ h5 {
     flex-wrap: wrap;
     margin-top: 24px;
     justify-content: center;
-}
-
-.booking-card {
-    display: flex;
-    flex-direction: column;
-    width: 210px;
-    background: var(--card-background);
-    border-radius: 16px;
-    box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
-    margin: 16px;
-    padding: 12px;
 }
 
 .booking-title {
@@ -334,16 +323,38 @@ h5 {
 /* Add Ship */
 
 .add-ship-card,
-.add-booking-card {
+.add-booking-card,
+.edit-booking-card {
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 210px;
     background: var(--card-background);
     border-radius: 20px;
     box-shadow: 0 0 8px rgba(142, 142, 142, 0.25);
-    padding: 12px;
     margin: 16px;
+}
+
+.add-booking-card {
+    flex-direction: column;
+}
+
+.add-ship-card {
+    width: 210px;
+}
+
+.title-flex {
+    padding: 8px 0 6px 0;
+    border: 1px solid #5e5e5e;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.content-flex {
+    padding: 6px 12px 12px;
+    border: 1px solid #5e5e5e;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top: none;
 }
 
 .form-title {
@@ -452,8 +463,14 @@ h5 {
     height: 100%;
 }
 
-.many-container {
-    padding: 4px 0;
+.top-many-container {
+    padding: 0 0 8px 0;
+    border-radius: 4px;
+    color: rgb(160, 160, 160);
+    border: none;
+}
+
+.bottom-many-container {
     border-radius: 4px;
     color: rgb(160, 160, 160);
     border: none;
@@ -465,15 +482,14 @@ h5 {
 }
 
 .many-checkbox {
-    width: 16px !important;
-    margin: 0 8px 0 2px;
+    width: 14px !important;
+    margin: 0 8px 0 0;
 }
 
 .many-div {
-    border-radius: 4px;
     color: rgb(160, 160, 160);
     border: none;
-    max-height: 96px;
+    max-height: 102px;
     overflow: auto;
 }
 
@@ -500,4 +516,37 @@ h5 {
 .many-div {
     scrollbar-width: thin;
     scrollbar-color: #3b4353 #f1f1f1;
+}
+
+.booking-form {
+    display: flex;
+}
+
+.booking-left {
+    display: flex;
+    flex-direction: column;
+    margin-right: 16px;
+    max-width: 180px;
+    border-right: 1px solid #626262;
+    padding-right: 14px;
+}
+
+.booking-right {
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+}
+
+.checkbox-label {
+    font-size: 0.85rem;
+}
+
+.edit-booking-label,
+.new-booking-label {
+    font-size: 1rem;
+    color: a3a3a3;
+}
+
+.scanner-selector {
+    height: 28px;
 }

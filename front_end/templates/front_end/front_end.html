@@ -11,27 +11,27 @@
 {% block headlines %}
     <div class="headline-section">
         <h4 class="headline-title">Time Remaining:</h4>
-        <h2 class="headline-content">{{ statistics.total_time }} Days</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ statistics.total_time }} Days</h2>
     </div>
 
     <div class="headline-section">
         <h4 class="headline-title">Completion Date:</h4>
-        <h2 class="headline-content">{{ today }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ today }}</h2>
     </div>
 
     <div class="headline-section">
         <h4 class="headline-title">Total Scans</h4>
-        <h2 class="headline-content">{{ statistics.total_scans }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ statistics.total_scans }}</h2>
     </div>
     
     <div class="headline-section">
         <h4 class="headline-title">Ships</h4>
-        <h2 class="headline-content">{{ num_ships }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ num_ships }}</h2>
     </div>
     
     <div class="headline-section">
         <h4 class="headline-title">Areas</h4>
-        <h2 class="headline-content">{{ num_areas }}</h2>
+        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ num_areas }}</h2>
     </div>
 
     {% if user.is_superuser %}
@@ -51,50 +51,50 @@
     <!-- Ship and Area Details -->
     <div class="card-container">
         {% for ship in ships %}
-            <div class="ship-card {% if ship.status %} ship-card-completed {% endif %} {% if ship.max_stars and ship.stars > 0 %}max-stars{% endif %}">
+            <div class="ship-card {% if ship.status %} ship-card-completed {% endif %} {% if ship.max_stars and ship.stars > 0 %}max-stars{% endif %} {% if not user.is_authenticated %} obfuscate {% endif %}">
                  <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
                 </div>
-                <h5 class="card-title">{{ ship.name }} 
+                <h5 class="card-title {% if not user.is_authenticated %} obfuscate-intense {% endif %}">
+                    {{ ship.name }} 
                     {% if ship.contains_not_required %}
                         <span class="nreq"></span>
                     {% endif %}
                 </h5>
-                <h5 class="card-secondary-title">Contract Number: {{ ship.contract_number }}</h5>
-                {% if user.is_authenticated %}
-                    <style>
-                        .areas-and-scans {
-                            margin-top: 8px;
-                        }
-                    </style>
+                <h5 class="card-secondary-title {% if not user.is_authenticated %} obfuscate-intense {% endif %}">Contract Number: {{ ship.contract_number }}</h5>
 
-                    {% if ship.status %}
-                        {% if ship.total_scans != 0 %}
-                            <p class="card-text done">Completed</p>
-                        {% else %}
-                            <p class="card-text survey-tbc">Survey TBC</p>
-                        {% endif %}
+                {% if ship.status %}
+                    {% if ship.total_scans != 0 %}
+                        <p class="card-text done">Completed</p>
                     {% else %}
-                        <p class="card-text to-be-completed">Completion in {{ ship.time_remaining }} days</p>
+                        <p class="card-text survey-tbc">Survey TBC</p>
                     {% endif %}
-
+                {% else %}
+                    <p class="card-text to-be-completed {% if not user.is_authenticated %} obfuscate-intense {% endif %}">Completion in {{ ship.time_remaining }} days</p>
                 {% endif %}
 
                 {% if ship.image %}
-                    <img class="ship-image" src="{{ ship.image.url }}" class="ship-image" alt="...">
+                    {% if user.is_authenticated %}
+                        <img class="ship-image" src="{{ ship.image.url }}" class="ship-image" alt="...">
+                    {% else %}
+                        <div class="ship-image-replacement">
+                            <i class="fa-solid fa-sailboat"></i>
+                        </div>
+                    {% endif %}
                 {% else %}
                     <div class="ship-image-replacement">
                         <i class="fa-solid fa-sailboat"></i>
                     </div>
                 {% endif %}
+
                 <div class="areas-and-scans">
                     <div class="scans">
                         <p class="card-text">Scans</p>
-                        <p class="card-feature-text">{{ ship.total_scans }}</p>
+                        <p class="card-feature-text {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.total_scans }}</p>
                     </div>
                     <div class="areas">
                         <p class="card-text">Areas</p>
-                        <p class="card-feature-text">{{ ship.area_set.all.count }}</p>
+                        <p class="card-feature-text {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.area_set.all.count }}</p>
                     </div>
                     {% if user.is_superuser %}
                         <div class="stars">
@@ -103,9 +103,10 @@
                         </div>
                     {% endif %}
                 </div>
+
                 <a href="{% url 'ship_detail' ship.id %}">
                     <button class="more-info">
-                        <span class="button-text">Ship Details</span>
+                        <span class="button-text">More Info</span>
                         <span class="arrows">
                             <i class="fa-solid fa-angle-right"></i>
                             <i class="fa-solid fa-angle-right"></i>
