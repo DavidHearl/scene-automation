@@ -10,7 +10,8 @@ from decimal import Decimal
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_in
-from django.db.models import Sum, Count, F, Case, When, Value, IntegerField
+from django.db.models import Sum, Count, F, Case, When, Value, IntegerField, Func, Value
+from django.db.models.functions import Trunc
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.core.cache import cache
@@ -619,7 +620,9 @@ def training(request):
 
 
 def logs(request):
-    logins = PageVisit.objects.all().order_by('-timestamp')
+    logins = PageVisit.objects.annotate(
+        five_minute=Trunc('timestamp', 'minute', interval=5)
+    ).order_by('-five_minute', 'user', '-timestamp').distinct('five_minute', 'user')
 
     context = {
         'logins': logins,

@@ -14,9 +14,9 @@
     <table>
         <thead>
             <tr>
-                <th>User</th>
+                <th>First Name</th>
+                <th>Last Name</th>
                 <th>TimeStamp</th>
-                <th>Page</th>
                 <th>Time Remaining</th>
             </tr>
         </thead>
@@ -24,10 +24,10 @@
             {% for login in logins %}
                 {% if login.user != 'admin' %}
                     <tr>
-                        <td>{{ login.user }}</td>
-                        <td>{{ login.timestamp }}</td>
-                        <td>{{ login.page }}</td>
-                        <td>{{ login.time_remaining }}</td>
+                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.user.first_name }}</td>
+                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.user.last_name }}</td>
+                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.timestamp }}</td>
+                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.time_remaining }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}
