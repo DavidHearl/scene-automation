@@ -14,10 +14,29 @@ th, td {
     padding: 2px 12px;
 }
 
+th {
+    background: rgb(50, 50, 70);
+    color: white;
+    background: #5c6373;;
+}
+
 .container {
-    background: linear-gradient(315deg, rgb(28, 28, 42), rgb(28, 28, 46));
+    background: rgb(28, 28, 46);
     padding: 12px;
     border-radius: 16px;
+}
+
+/* Alternate Table Row Colors */
+tr:nth-child(even) {
+    background: rgb(38, 38, 56);
+}
+
+tr:nth-child(odd) {
+    background: rgb(28, 28, 46);
+}
+
+tr:hover {
+    background-color: #313246;;
 }
 
 table {
@@ -34,7 +53,7 @@ table {
 
 @media (max-width: 600px) {
     th, td {
-        padding: 0;
-        font-size: 0.85rem;
+        padding: 2px;
+        font-size: 0.825rem;
     }
 }

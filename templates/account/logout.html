@@ -16,7 +16,17 @@
 {% block content %}
     <div class="auth-container">
         <div class="auth-with-fields">
-            <h2 class="auth-primary logout-message">Loggin out of Scene Automation</h2>
+            <h2 class="auth-primary logout-message">Log out of Scene Automation</h2>
+            <div class="ship-leaving">
+                <i class="fa-solid fa-sailboat"></i>
+                <div class="water">
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                </div>
+            </div>
             <!-- <p class="auth-secondary">Are you Sure ?</p> -->
 
             {% url 'account_logout' as action_url %}
@@ -28,7 +38,7 @@
                 {% endif %}
                 <a class="auth-link2 return-home" href="{% url 'ships_and_areas' %}">Return Home</a>
                 <button type="submit" class="auth-button login-button">
-                    <span class="button-text">Ship Details</span>
+                    <span class="button-text">Logout</span>
                     <span class="arrows">
                         <span class="popup-text">Logout</span>
                         <i class="fa-solid fa-right-from-bracket"></i>
