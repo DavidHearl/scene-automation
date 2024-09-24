@@ -563,11 +563,7 @@
 /* Media Queries */
 @media screen and (max-width: 768px) {
     #content-container {
-        width: calc(100% - 8px); /* 250 = Width of Navigation */
-        margin: 8px;
-        margin-top: 60px;
-        margin-left: 24px !important; /* 250 + 32px */
-        margin-right: 24px;
+        margin: 64px 8px 8px 8px !important;
         transition: margin-left 0.2s ease-in-out;
         flex-grow: 1;
     }
@@ -581,6 +577,12 @@
     .mobile-menu-icon {
         z-index: 1000;
         display: block !important;
+    }
+
+    .fa-bars {
+        position: fixed;
+        top: 16px;
+        left: 25px;
     }
 }
 
