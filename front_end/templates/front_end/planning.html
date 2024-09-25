@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load custom_filters %}
+
+{% block title %} 
+    Ship Areas & Details 
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/planning.css' %}">
+{% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+    <h2>Area Planning Matrix</span></h2>
+
+    <table>
+        <caption>Total Areas: <span class="em">{{ cleaned_areas|length }}</span></caption>
+        <thead>
+            <tr>
+                <th>Area</th>
+                <th>Occurrences</th>
+                <th>Average Scans</th>
+                <th>Min</th>
+                <th>Max</th>
+                <th>Ships</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for area in cleaned_areas %}
+                <tr>
+                    <td>{{ area.area_name }}</td>
+                    <td class="center-data">{{ area.occurrences }}</td>
+                    <td class="center-data">{{ area.avg_scans }}</td>
+                    <td class="center-data">{{ area.min_scans }}</td>
+                    <td class="center-data">{{ area.max_scans }}</td>
+                    <td>{{ area.ships }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

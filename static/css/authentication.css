@@ -13,6 +13,8 @@
 }
 
 .fa-sailboat {
+    position: relative;
+    top: 2px;
     font-size: 2.5rem;
     color: #bbb;
     animation: ship 2s infinite ease-in-out;
@@ -30,15 +32,15 @@
 }
 
 .water .fa-water:nth-child(1) {
-    animation-delay: 0s;
+    animation-delay: 0.6s;
 }
 
 .water .fa-water:nth-child(2) {
-    animation-delay: 0.4s;
+    animation-delay: 0.8s;
 }
 
 .water .fa-water:nth-child(3) {
-    animation-delay: 0.8s;
+    animation-delay: 1s;
 }
 
 .water .fa-water:nth-child(4) {
@@ -46,15 +48,15 @@
 }
 
 .water .fa-water:nth-child(5) {
-    animation-delay: 1.6s;
+    animation-delay: 1.4s;
 }
 
 @keyframes ship {
     0%, 100% {
-        transform: translateY(-4px);
+        transform: translateY(-5px) rotate(-2.5deg);
     }
     50% {
-        transform: translateY(3px);
+        transform: translateY(1px) rotate(2.5deg);
     }
 }
 

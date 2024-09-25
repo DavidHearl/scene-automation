@@ -92,6 +92,12 @@
                         <span class="navigation-text">Data</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'planning' %}">
+                        <i class="fa-solid fa-ship"></i>
+                        <span class="navigation-text">Planning</span>
+                    </a>
+                </li>
             </ul>
 
             {% if user.is_superuser %}

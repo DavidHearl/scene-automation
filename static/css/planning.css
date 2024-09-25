@@ -1,0 +1,38 @@
+.headlines {
+    display: none;
+}
+
+.area-list {
+    background: darkslategray;
+    padding: 4px 12px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.area-list > p {
+    margin: 0;
+}
+
+h2 {
+    color: white;
+}
+
+.em {
+    color: red;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 0px 4px;
+    white-space: nowrap;
+}
+
+.center-data {
+    text-align: center;
+}
+
+tr:hover {
+    background-color: #313246;
+    color: white;
+}

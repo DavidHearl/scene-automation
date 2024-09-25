@@ -2,9 +2,12 @@
 import calendar
 import datetime
 import time
+import re
+import math
 from datetime import timedelta, date
 from functools import wraps
 from decimal import Decimal
+from collections import defaultdict, Counter
 
 # Related third party imports
 from django.contrib import messages
@@ -617,6 +620,57 @@ def calculator(request):
 
 def training(request):
     return render(request, 'front_end/training.html')
+
+
+def planning(request):
+    areas = Area.objects.all()
+
+    # Words to filter out
+    filter_words = ["Cabin", "Restroom", "Toilet", "Embark", "Penthouse"]
+
+    # Count occurrences of each area_name
+    area_counter = Counter(area.area_name for area in areas)
+
+    # Filter out areas that occur only once
+    filtered_areas = [area for area in areas if area_counter[area.area_name] > 1]
+
+    # Exclude areas with specific values
+    filtered_areas = [area for area in filtered_areas if not any(word in area.area_name for word in filter_words)]
+
+    # Group remaining areas by area_name and calculate statistics
+    area_dict = defaultdict(lambda: {'ships': [], 'scans': []})
+    for area in filtered_areas:
+        area_dict[area.area_name]['ships'].append(str(area.ship))  # Ensure ship is a string
+        area_dict[area.area_name]['scans'].append(area.scans)  # Assuming 'scans' is a field in Area
+
+    # Format the output with statistics
+    formatted_areas = []
+    for area_name, data in area_dict.items():
+        ships = data['ships']
+        scans = data['scans']
+        occurrences = len(ships)
+        avg_scans = math.ceil(sum(scans) / occurrences) if occurrences > 0 else 0
+        min_scans = min(scans) if scans else 0
+        max_scans = max(scans) if scans else 0
+        ship_list = ", ".join(ships)
+        formatted_area = {
+            'area_name': area_name,
+            'occurrences': occurrences,
+            'avg_scans': avg_scans,
+            'min_scans': min_scans,
+            'max_scans': max_scans,
+            'ships': ship_list
+        }
+        formatted_areas.append(formatted_area)
+
+    # Sort the formatted areas alphabetically by area_name
+    formatted_areas.sort(key=lambda x: x['area_name'])
+
+    context = {
+        'cleaned_areas': formatted_areas,
+    }
+
+    return render(request, 'front_end/planning.html', context)
 
 
 def logs(request):
