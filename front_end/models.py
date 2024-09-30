@@ -110,6 +110,14 @@ class Area(models.Model):
 	calcualted_priority = models.DecimalField(max_digits=10, decimal_places=8, default=0, null=True, blank=True)
 	star = models.BooleanField(default=False)
 
+	created_on = models.DateTimeField(null=True, blank=True)
+	point_cloud_created_on = models.DateTimeField(null=True, blank=True)
+
+	# Registration Accuracy
+	max_error = models.DecimalField(max_digits=4, decimal_places=1, default=0)
+	average_error = models.DecimalField(max_digits=4, decimal_places=1, default=0)
+	min_overlap = models.DecimalField(max_digits=3, decimal_places=1, default=0)
+
 	# Processing Operations
 	processed = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)
 	registered = models.CharField(max_length=20, choices=STATUS_CHOICES, default=default_value)

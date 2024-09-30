@@ -433,6 +433,10 @@ def ship_detail(request, ship_id):
             area.save()
             messages.success(request, 'Area added successfully.')
             return redirect('ship_detail', ship_id)
+        else:
+            print(area_form.errors)
+    else:
+        area_form = AreaForm()
 
     area_form = AreaForm()
 

@@ -155,130 +155,164 @@
         <div class="area-details">
             {% for area, star in areas_with_star %}
                 <div id="{{ area.area_name }}" class="area-detail-card">
-                    <form class="area-form" method="post" action="{% url 'edit_area' area.id %}">
-                        {% csrf_token %}
-                        <!-- Ship Name -->
-                        <input type="hidden" name="ship" value="{{ ship.id }}">
 
-                        <!-- Area Name -->
-                        <div class="area-form inline">
-                            <div class="status-symbol {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}"></div>
-                            <input class="area-margin data-field" type="text" name="area_name" value="{{ area.area_name }}">
-                        </div>
+                    <div class="title-flex">
+                        {% if star %}
+                            <i class="star title-star fa-solid fa-star"></i>
+                        {% endif %}
+                        <h3 class="form-title">Edit Area</h3>
+                        <p class="data-label">
+                            Time: {{ area.time_remaining }}
+                        </p>
+                    </div>
 
-                        <!-- Processing Machine -->
-                        <div class="area-form">
-                            
-                            <p class="data-label">
-                                {% if star %}
-                                    <i class="star time-star fa-solid fa-star"></i>
-                                {% endif %}
-                                Time: {{ area.time_remaining }}
-                            </p>
-                        </div>
+                    <div class="content-flex">
+                        <form class="area-form" method="post" action="{% url 'edit_area' area.id %}">
+                            {% csrf_token %}
+                            <!-- Ship Name -->
+                            <input type="hidden" name="ship" value="{{ ship.id }}">
 
-                        <!-- Area Priority -->
-                        <div class="area-form">
-                            <select class="text-center data-field" name="priority">
-                                {% for choice_value, choice_label in area.PRIORITY_CHOICES %}
-                                    <option value="{{ choice_value }}" {% if choice_value == area.priority %}selected{% endif %}>
-                                        {{ choice_label }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <!-- Number of Scans -->
-                        <div class="area-form">
-                            <input class="above-process-description" type="number" name="scans" value="{{ area.scans }}">
-                        </div>
-                        <div class="area-form">
-                            <p class="process-description">Process : Register : Clean : Point : Export : Upload</p>
-                        </div>
-                        <div class="area-form">
-                            <select name="processed" class="{{ area.processed }}">
-                                {% for status, label in area.STATUS_CHOICES %}
-                                    <option value="{{ status }}" {% if area.processed == status %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="area-form">
-                            <select name="registered" class="{{ area.registered }}">
-                                {% for status, label in area.STATUS_CHOICES %}
-                                    <option value="{{ status }}" {% if area.registered == status %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="area-form">
-                            <select name="cleaned" class="{{ area.cleaned }}">
-                                {% for status, label in area.STATUS_CHOICES %}
-                                    <option value="{{ status }}" {% if area.cleaned == status %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="area-form">
-                            <select name="point_cloud" class="{{ area.point_cloud }}">
-                                {% for status, label in area.STATUS_CHOICES %}
-                                    <option value="{{ status }}" {% if area.point_cloud == status %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="area-form">
-                            <select name="exported" class="{{ area.exported }}">
-                                {% for status, label in area.STATUS_CHOICES %}
-                                    <option value="{{ status }}" {% if area.exported == status %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="area-form">
-                            <select name="uploaded" class="{{ area.uploaded }}">
-                                {% for status, label in area.STATUS_CHOICES %}
-                                    <option value="{{ status }}" {% if area.uploaded == status %}selected{% endif %}>{{ label }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    
-                        <!-- Label -->
-                        <div class="ship-detail-row">
-                            <!-- Point Cloud Total -->
-                            <div class="area-form">
-                                <p class="data-label">Point Cloud:</p>
+                            <!-- Area Name -->
+                            <div class="area-detail-row">
+                                <div class="area-form">
+                                    <div class="status-symbol {% if area.is_completed %}all-completed{% else %}not-completed{% endif %}"></div>
+                                    <input class="area-margin large-data-field" type="text" name="area_name" value="{{ area.area_name }}">
+                                </div>
                             </div>
-                            <div class="area-form">
-                                <input class="text-center data-field" type="number" name="point_cloud_size" value="{{ area.point_cloud_size }}">
-                            </div>
-                        </div>
 
-                        <div class="area-form">
-                            <p class="data-label">Folder Sizes (GB):</p>
-                        </div>
+                            <!-- Area Priority Number of Scans -->
+                            <div class="area-detail-row">
+                                <select class="data-field" name="priority">
+                                    {% for choice_value, choice_label in area.PRIORITY_CHOICES %}
+                                        <option value="{{ choice_value }}" {% if choice_value == area.priority %}selected{% endif %}>
+                                            {{ choice_label }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                                <input class="data-field" type="text" name="scans" value="{{ area.scans }}">
+                            </div>
 
-                        <div class="ship-detail-row">
-                            <!-- Raw File Size -->
-                            <div class="area-form">
-                                <input class="text-center data-field" type="text" name="raw_size" value="{{ area.raw_size }}">
+                            <div class="area-detail-row">
+                                 <div class="area-form">
+                                    <p class="process-description">Process : Register : Clean</p>
+                                </div>
+                                <div class="area-form">
+                                    <p class="process-description">Point : Export : Upload</p>
+                                </div>
                             </div>
-                            <!-- Processed File Fize -->
-                            <div class="area-form">
-                                <input class="text-center data-field" type="text" name="processed_size" value="{{ area.processed_size }}">
+
+                            <div class="area-detail-row">
+                                <div class="area-detail-column">
+                                    <!-- Processing -->
+                                    <div class="area-form">
+                                        <select name="processed" class="{{ area.processed }}">
+                                            {% for status, label in area.STATUS_CHOICES %}
+                                                <option value="{{ status }}" {% if area.processed == status %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Registration -->
+                                    <div class="area-form">
+                                        <select name="registered" class="{{ area.registered }}">
+                                            {% for status, label in area.STATUS_CHOICES %}
+                                                <option value="{{ status }}" {% if area.registered == status %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Cleaning -->
+                                    <div class="area-form">
+                                        <select name="cleaned" class="{{ area.cleaned }}">
+                                            {% for status, label in area.STATUS_CHOICES %}
+                                                <option value="{{ status }}" {% if area.cleaned == status %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="area-detail-column">
+                                    <!-- Point Cloud -->
+                                    <div class="area-form">
+                                        <select name="point_cloud" class="{{ area.point_cloud }}">
+                                            {% for status, label in area.STATUS_CHOICES %}
+                                                <option value="{{ status }}" {% if area.point_cloud == status %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Exporting -->
+                                    <div class="area-form">
+                                        <select name="exported" class="{{ area.exported }}">
+                                            {% for status, label in area.STATUS_CHOICES %}
+                                                <option value="{{ status }}" {% if area.exported == status %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <!-- Uploading -->
+                                    <div class="area-form">
+                                        <select name="uploaded" class="{{ area.uploaded }}">
+                                            {% for status, label in area.STATUS_CHOICES %}
+                                                <option value="{{ status }}" {% if area.uploaded == status %}selected{% endif %}>{{ label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <!-- Exported File Size -->
-                            <div class="area-form">
-                                <input class="text-center data-field" type="text" name="exported_size" value="{{ area.exported_size }}">
+
+                            <div class="area-detail-column">
+                                <div class="area-detail-row">
+                                    <p class="data-label">Point Cloud:</p>
+                                    <input class="text-center data-field" type="text" name="point_cloud_size" value="{{ area.point_cloud_size }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <p class="data-label">Max Error (mm):</p>
+                                    <input class="text-center data-field" type="text" name="max_error" value="{{ area.max_error }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <p class="data-label">Mean Error (mm):</p>
+                                    <input class="text-center data-field" type="text" name="average_error" value="{{ area.average_error }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <p class="data-label">Overlap %:</p>
+                                    <input class="text-center data-field" type="text" name="min_overlap" value="{{ area.min_overlap }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <label class="data-label" for="created_on">Start:</label>
+                                    <input class="text-center data-field" type="datetime-local" name="created_on" value="{{ area.created_on|date:'Y-m-d\\TH:i' }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <label class="data-label" for="point_cloud_created_on">End:</label>
+                                    <input class="text-center data-field" type="datetime-local" name="point_cloud_created_on" value="{{ area.point_cloud_created_on|date:'Y-m-d\\TH:i' }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <p class="data-label">Raw Size:</p>
+                                    <input class="text-center data-field" type="text" name="raw_size" value="{{ area.raw_size }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <p class="data-label">Processed Size:</p>
+                                    <input class="text-center data-field" type="text" name="processed_size" value="{{ area.processed_size }}">
+                                </div>
+                                <div class="area-detail-row">
+                                    <p class="data-label">Exported Size:</p>
+                                    <input class="text-center data-field" type="text" name="exported_size" value="{{ area.exported_size }}">
+                                </div>                                        
                             </div>
-                        </div>
-                    
-                        <!-- Delete and Save -->
-                        <div class="ship-detail-row">
-                            <div class="crud-button-container">
-                                <a class="crud-button delete-button" href="{% url 'delete_area' area.id %}">Delete</a>
+                        
+                            <!-- Delete and Save -->
+                            <div class="area-detail-row">
+                                <div class="crud-button-container">
+                                    <a class="crud-button delete-button" href="{% url 'delete_area' area.id %}">Delete</a>
+                                </div>
+                                <div class="crud-button-container">
+                                    <button class="crud-button save-button" type="submit">
+                                        Save
+                                    </button>
+                                </div>
                             </div>
-                            <div class="crud-button-container">
-                                <button class="crud-button save-button" type="submit">
-                                    Save
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>  
             {% endfor %}
 

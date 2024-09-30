@@ -181,24 +181,74 @@
     justify-content: center;
 }
 
-.area-form {
-    width: 100%;
-    /* margin-bottom: 8px; */
+.area-detail-card {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    background: var(--card-background);
+    border-radius: 16px;
+    box-shadow: 0 0 4px #9f9f9f59;
 }
 
-.area-form > input,
-.area-form > select {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    height: 28px;
-    font-size: 0.9rem;
+.title-flex {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 6px 0;
+    border: 1px solid #5e5e5e;
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+}
+
+.content-flex {
+    padding: 6px 8px;
+    border: 1px solid #5e5e5e;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    border-top: none;
+}
+
+.form-title {
+    color: white;
+    font-size: 1rem;
     text-align: center;
-    margin-bottom: 8px;
-    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.area-form {
+    width: 100%;
+}
+
+select {
+    width: 100%;
+    text-align: center;
+    height: 22px;
+    border: none;
+    border-radius: 2px;
+    margin: 2px 0;
+    font-size: 0.85rem;
+}
+
+.area-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 2px 0;
+    gap: 4px;
+}
+
+.area-detail-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .crud-button-container {
+    margin-top: 4px;
     width: 50%;
 }
 
@@ -207,26 +257,12 @@
     height: 28px;
 }
 
-.area-detail-card {
-    display: flex;
-    width: 20%;
-    min-width: 325px;
-    max-width: 350px;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    background: var(--card-background);
-    border-radius: 12px;
-    padding: 8px;
-    box-shadow: 0 0 4px #9f9f9f59;
-}
-
 /* pseudo element so the page stops at the correct location */
 .area-detail-card::before {
     content: "";
     display: flex;
     flex-direction: column;
     height: -128px;
-    margin-top: 62px;
 }
 
 .area-card-titles {
@@ -234,17 +270,16 @@
 }
 
 .data-label {
-    justify-content: center;
     display: flex;
-    width: 100%;
+    justify-content: center;
+    align-items: center;
     margin: 0;
-    margin-bottom: 8px;
     padding: 0;
     color: #d9d9d9;
-}
+    font-size: 0.8rem;
+    margin-right: 4px;
+    height: 24px;
 
-.area-detail-card > .area-form {
-    width: 100%;
 }
 
 .save-button {
@@ -289,26 +324,13 @@
     border-radius: 8px;
 }
 
-.ship-detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-}
-
 .process-description {
     display: flex;
     justify-content: center;
     margin: 0;
-    margin-bottom: 4px;
     padding: 0;
     font-size: 0.65rem;
     color: #e3e3e3;
-}
-
-.above-process-description {
-    background: #3b4353;
-    color: white;
 }
 
 #add-area {
@@ -320,14 +342,30 @@
     margin-bottom: 2px;
 }
 
-.time-star {
-    margin-top: 6px;
+.title-star {
+    font-size: 1rem;
+}
+
+.large-data-field {
+    background: #3b4353;
+    color: white;
+    width: 100%;
+    height: 24px;
+    font-size: 0.9rem;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
 }
 
 .data-field {
     background: #3b4353;
     color: white;
-    box-shadow: 0 0 2px #d2d2d2c4;
+    width: 60%;
+    height: 24px;
+    font-size: 0.9rem;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
 }
 
 .survey-container {
@@ -394,12 +432,7 @@
         min-width: 196px;
     }
 
-    .area-form > select {
-        height: 26px;
-        margin-bottom: 6px;
-    }
-
-    .data-label {
-        font-size: 0.8rem;
+    select {
+        font-size: 0.75rem;
     }
 }
