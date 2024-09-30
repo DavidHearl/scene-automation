@@ -24,6 +24,8 @@ class Statistics(models.Model):
 	total_time = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_scans = models.IntegerField(default=0)
 	total_stars = models.IntegerField(default=0)
+	total_star_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
 	total_raw_storage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_processed_storage = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 	total_exported_storage = models.DecimalField(max_digits=5, decimal_places=2, default=0)

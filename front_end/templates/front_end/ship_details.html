@@ -315,24 +315,32 @@
                     </div>
                 </div>  
             {% endfor %}
+        </div>
 
-            <!-- Add new area form -->
-            <div class="area-detail-card" id="add-area">
+        <!-- Add Area -->
+        <div class="area-detail-card" id="add-area">
+
+            <div class="title-flex">
+                <h3 class="form-title">Add Area</h3>
+            </div>
+
+            <div class="content-flex">
                 <form class="area-form" method="post">
                     {% csrf_token %}
                     <!-- Ship Name -->
                     <input type="hidden" name="ship" value="{{ ship.id }}">
 
                     <!-- Area Name -->
-                    <div class="area-form inline">{{ area_form.area_name }}</div>
-
-                    <!-- Processing Machine -->
-                    <div class="area-form"><p class="data-label">Time: 0</p></div>
+                    <div class="area-detail-row">
+                        <div class="area-form inline">{{ area_form.area_name }}</div>
+                    </div>
 
                     <!-- Area Priority -->
-                    <div class="area-form">{{ area_form.priority }}</div>
+                    <div class="area-form data-field">{{ area_form.priority }}</div>
+
                     <!-- Number of Scans -->
                     <div class="area-form">{{ area_form.scans }}</div>
+
                     <div class="area-form">
                         <p class="process-description">Process : Register : Clean : Point : Export : Upload</p>
                     </div>
@@ -342,28 +350,46 @@
                     <div class="area-form">{{ area_form.point_cloud }}</div>
                     <div class="area-form">{{ area_form.exported }}</div>
                     <div class="area-form">{{ area_form.uploaded }}</div>
-                
-                    <!-- Label -->
-                    <div class="ship-detail-row">
-                        <!-- Point Cloud Total -->
-                        <div class="area-form">
+
+                    <div class="area-detail-column">
+                        <div class="area-detail-row">
                             <p class="data-label">Point Cloud:</p>
+                            <div class="data-field">{{ area_form.point_cloud_size }}</div>
                         </div>
-                        <div class="area-form">{{ area_form.point_cloud_size }}</div>
+                        <div class="area-detail-row">
+                            <p class="data-label">Max Error (mm):</p>
+                            <div class="data-field">{{ area_form.max_error }}</div>
+                        </div>
+                        <div class="area-detail-row">
+                            <p class="data-label">Mean Error (mm):</p>
+                            <div class="data-field">{{ area_form.average_error }}</div>
+                        </div>
+                        <div class="area-detail-row">
+                            <p class="data-label">Overlap %:</p>
+                            <div class="data-field">{{ area_form.min_overlap }}</div>
+                        </div>
+                        <div class="area-detail-row">
+                            <label class="data-label" for="created_on">Start:</label>
+                            <div class="data-field">{{ area_form.created_on }}</div>
+                        </div>
+                        <div class="area-detail-row">
+                            <label class="data-label" for="point_cloud_created_on">End:</label>
+                            <div class="data-field">{{ area_form.point_cloud_created_on }}</div>
+                        </div>
+                        <div class="area-detail-row">
+                            <p class="data-label">Raw Size:</p>
+                            <div class="data-field">{{ area_form.raw_size }}</div>
+                        </div>
+                        <div class="area-detail-row">
+                            <p class="data-label">Processed Size:</p>
+                            <div class="data-field">{{ area_form.processed_size }}</div>
+                        </div>
+                        <div class="area-detail-row">
+                            <p class="data-label">Exported Size:</p>
+                            <div class="data-field">{{ area_form.exported_size }}</div>
+                        </div>                                        
                     </div>
 
-                    <div class="area-form">
-                        <p class="data-label">Folder Sizes (GB):</p>
-                    </div>
-
-                    <div class="ship-detail-row">
-                        <!-- Raw File Size -->
-                        <div class="area-form">{{ area_form.raw_size }}</div>
-                        <!-- Processed File Fize -->
-                        <div class="area-form">{{ area_form.processed_size }}</div>
-                        <!-- Exported File Size -->
-                        <div class="area-form">{{ area_form.exported_size }}</div>
-                    </div>
                     <!-- Submit -->
                     <div>
                         <button class="crud-button add" type="submit">Add Area</button>

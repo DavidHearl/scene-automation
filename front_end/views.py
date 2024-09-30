@@ -13,6 +13,7 @@ from collections import defaultdict, Counter
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.signals import user_logged_in
+from django.db import transaction
 from django.db.models import Sum, Count, F, Case, When, Value, IntegerField, Func, Value
 from django.db.models.functions import Trunc
 from django.dispatch import receiver
@@ -176,6 +177,72 @@ def calculations():
 
     return round(total_time, 2)
 
+
+@timing_decorator
+def assign_stars():
+    # Fetch all the areas and ships with related objects
+    areas = get_areas()
+    ships = Ship.objects.prefetch_related('area_set').all()
+
+    # Fetch the statistics
+    statistics = Statistics.objects.get(id=8)
+
+    # List to hold areas and ships that need to be updated
+    areas_to_update = []
+    ships_to_update = []
+
+    # Criteria to decide if an area should have a star
+    for area in areas:
+        new_star_value = (
+            area.point_cloud_size != 0 and
+            area.max_error != 0.0 and
+            area.average_error != 0.0 and
+            area.min_overlap != 0.0 and
+            area.created_on is not None and
+            area.point_cloud_created_on is not None and
+            area.raw_size != 0.00 and 
+            area.processed_size != 0.00 and 
+            area.exported_size != 0.00 and
+            area.exported == "Completed"
+        )
+        if area.star != new_star_value:
+            area.star = new_star_value
+            areas_to_update.append(area)
+
+    # Bulk update areas
+    Area.objects.bulk_update(areas_to_update, ['star'])
+
+    for ship in ships:
+        # Count the number of stars for each ship
+        ship_stars = ship.area_set.filter(star=True).count()
+        
+        # Check if the ship has all stars
+        new_max_stars_value = ship_stars == ship.area_set.count()
+        
+        if ship.stars != ship_stars or ship.max_stars != new_max_stars_value:
+            ship.stars = ship_stars
+            ship.max_stars = new_max_stars_value
+            ships_to_update.append(ship)
+
+    # Bulk update ships
+    Ship.objects.bulk_update(ships_to_update, ['stars', 'max_stars'])
+
+    # Update statistics.total_stars to reflect the total number of ship stars
+    total_ship_stars = sum(ship.stars for ship in ships)
+    if statistics.total_stars != total_ship_stars:
+        statistics.total_stars = total_ship_stars
+
+    # Calculate the star percentage
+    total_areas = areas.count()
+    starred_areas = areas.filter(star=True).count()
+    star_percentage = (starred_areas / total_areas) * 100 if total_areas > 0 else 0
+
+    # Update statistics.star_percentage
+    statistics.star_percentage = star_percentage
+
+    # Save the updated statistics
+    statistics.save()
+
 # --------------------------------------------------------------------------- #
 # --------------------------------- Views ----------------------------------- #
 # --------------------------------------------------------------------------- #
@@ -231,6 +298,8 @@ def ships_and_areas(request):
     ships = get_ships() # Get all the ships
     areas = get_areas() # Get all the areas
 
+    assign_stars()
+
     ships = ships.annotate(
         custom_order=Case(
             When(contract_number=0, then=Value(0)),  # 0 comes first
@@ -265,9 +334,6 @@ def ships_and_areas(request):
     # Add 2 days to today's date
     today += datetime.timedelta(weeks=add_week, days=add_day)
 
-    # Initialize total_stars to 0
-    total_stars = 0
-
     # Calculate the complete percentage, total scans and total stars per ship
     for ship in ships:
         total_scans_per_ship = 0
@@ -279,11 +345,6 @@ def ships_and_areas(request):
                 ship.contains_not_required = True
                 ship.save()
                 break
-
-        # Check if the ship has reached the maximum number of stars
-        if ship.stars == ship.area_set.all().count():
-            ship.max_stars = True
-            ship.save()    
 
         if ship.total_scans != 0:
             if ship.completed_percentage != 100:
@@ -306,9 +367,6 @@ def ships_and_areas(request):
             ship.total_scans = total_scans_per_ship
             ship.save()
 
-        # Add the stars count of the current ship to the total stars
-        total_stars += ship.stars
-
     # Set status to complete or not complete based on the completed percentage and total scans
     for ship in ships:
         if ship.completed_percentage == 100:
@@ -321,13 +379,6 @@ def ships_and_areas(request):
         else:
             ship.status = False
         ship.save()
-    
-    # Update statistics.total_stars with the new total stars count
-    statistics.total_stars = total_stars
-    statistics.save()
-
-    # Star Percentage
-    star_percentage = round((total_stars / num_areas) * 100, 2)
 
     if request.method == 'POST':
         ship_form = ShipForm(request.POST, request.FILES)
@@ -350,7 +401,6 @@ def ships_and_areas(request):
         'num_areas': num_areas,
         'today': today,
         'ship_form': ship_form,
-        'star_percentage': star_percentage,
     }
 
     return render(request, 'front_end/front_end.html', context)
@@ -360,7 +410,6 @@ def ship_detail(request, ship_id):
     ship = get_object_or_404(Ship, pk=ship_id)
     areas = Area.objects.filter(ship=ship).order_by('area_name')
     bookings = Booking.objects.filter(ship=ship).first()
-
 
     if bookings:
         booking_start_date = bookings.start_date    # Assign the start date to a variable
@@ -406,12 +455,19 @@ def ship_detail(request, ship_id):
         status_priority.get(area.uploaded, 4)
     ))
 
+    # Criteria to decide if an area should have a star
     for area in sorted_areas:
         area.star = (
+            area.point_cloud_size != 0 and
+            area.max_error != 0.0 and
+            area.average_error != 0.0 and
+            area.min_overlap != 0.0 and
+            area.created_on != None and
+            area.point_cloud_created_on != None and
             area.raw_size != 0.00 and 
             area.processed_size != 0.00 and 
-            area.exported_size != 0.00 and 
-            area.point_cloud_size != 0)
+            area.exported_size != 0.00
+        )
         area.save()  # Save the area with the updated star field
 
     # Since you're directly updating the areas, you might not need areas_with_star for the star calculation anymore
@@ -420,10 +476,6 @@ def ship_detail(request, ship_id):
 
     # Calculate the number of areas with a star
     num_areas_with_star = sum(1 for area in sorted_areas if area.star)
-
-    # Save the count to the ship model
-    ship.stars = num_areas_with_star
-    ship.save()
     
     if request.method == 'POST':
         area_form = AreaForm(request.POST)
