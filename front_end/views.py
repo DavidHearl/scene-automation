@@ -235,10 +235,11 @@ def assign_stars():
     # Calculate the star percentage
     total_areas = areas.count()
     starred_areas = areas.filter(star=True).count()
-    star_percentage = (starred_areas / total_areas) * 100 if total_areas > 0 else 0
+    star_percentage = (starred_areas / total_areas) * 100
+    print(f"Star Percentage: {star_percentage}")
 
     # Update statistics.star_percentage
-    statistics.star_percentage = star_percentage
+    statistics.total_star_percentage = star_percentage
 
     # Save the updated statistics
     statistics.save()

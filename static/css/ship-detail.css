@@ -185,6 +185,7 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
+    max-width: 300px;
     justify-content: space-around;
     background: var(--card-background);
     border-radius: 16px;
@@ -319,9 +320,10 @@ select {
 }
 
 .add {
-    background: rgb(28, 155, 155);
-    border: 1px solid rgb(6, 82, 145);
-    border-radius: 8px;
+    background: rgb(187, 169, 72);
+    border: none;
+    border-radius: 13px;
+    margin-top: 4px;
 }
 
 .process-description {
@@ -334,7 +336,7 @@ select {
 }
 
 #add-area {
-    background: linear-gradient(315deg, rgb(45, 14, 14), rgb(115, 49, 113));
+    background: linear-gradient(315deg, rgb(122, 100, 172), rgb(21, 20, 47));
 }
 
 .status-title {
@@ -346,7 +348,8 @@ select {
     font-size: 1rem;
 }
 
-.large-data-field {
+.large-data-field,
+#id_area_name {
     background: #3b4353;
     color: white;
     width: 100%;
@@ -357,7 +360,18 @@ select {
     border-radius: 2px;
 }
 
-.data-field {
+.data-field,
+#id_raw_size,
+#id_processed_size,
+#id_exported_size,
+#id_point_cloud_created_on,
+#id_created_on,
+#id_min_overlap,
+#id_average_error,
+#id_max_error,
+#id_point_cloud_size,
+#id_priority,
+#id_scans {
     background: #3b4353;
     color: white;
     width: 60%;
