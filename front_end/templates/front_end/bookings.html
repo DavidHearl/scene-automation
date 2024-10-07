@@ -133,24 +133,25 @@
                             <button class="add-button" type="submit" name="booking_form">Add Booking</button>
                         </div>
                     </div>
+                    
                     <div class="booking-right">
                         <div class="top-many-container">
-                            <label class="new-booking-label" for="id_designers">Designers:</label>
+                            <label class="new-booking-label" for="id_designer">Designers:</label>
                             <div class="many-div">
-                                {% for checkbox in booking_form.designers %}
+                                {% for checkbox in booking_form.designer %}
                                     <div class="many-select-field">
-                                        <input class="many-checkbox" type="checkbox" value='{{ checkbox.tag }}'>
+                                        {{ checkbox.tag }}
                                         <label class="checkbox-label">{{ checkbox.choice_label }}</label>
                                     </div>
                                 {% endfor %}
                             </div>
                         </div>
                         <div class="bottom-many-container">
-                            <label class="new-booking-label" for="id_contract_managers">Contract Managers:</label>
+                            <label class="new-booking-label" for="id_contract_manager">Contract Managers:</label>
                             <div class="many-div">
-                                {% for checkbox in booking_form.contract_managers %}
+                                {% for checkbox in booking_form.contract_manager %}
                                     <div class="many-select-field">
-                                        <input class="many-checkbox" type="checkbox" value='{{ checkbox.tag }}'>
+                                        {{ checkbox.tag }}
                                         <label class="checkbox-label">{{ checkbox.choice_label }}</label>
                                     </div>
                                 {% endfor %}

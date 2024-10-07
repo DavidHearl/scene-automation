@@ -26,12 +26,12 @@ class MachineForm(forms.ModelForm):
 
 
 class BookingForm(forms.ModelForm):
-    designers = forms.ModelMultipleChoiceField(
+    designer = forms.ModelMultipleChoiceField(
         queryset=Designer.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=True
     )
-    contract_managers = forms.ModelMultipleChoiceField(
+    contract_manager = forms.ModelMultipleChoiceField(
         queryset=ContractManager.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=True

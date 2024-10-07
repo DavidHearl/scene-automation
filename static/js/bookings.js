@@ -1,21 +1,28 @@
-var bookingCards = document.querySelectorAll('.booking-card');
+// Debugging Statement
+console.log("bookings.js loaded");
+
+
+var bookingCards = document.querySelectorAll('.booking-card'); // Create a variable for the booking-card classes
+var allBookings = [];   // Array to store all booking data
+
 
 // Function to get dates between two dates
 function getDatesBetween(startDate, endDate) {
-    var dates = [];
+    
+    var dates = []; // Create an array to store the dates
+
+    // Convert the start and end dates to Date objects
     var currentDate = new Date(startDate);
     var end = new Date(endDate);
 
+    // Loop through each date from startDate to endDate
     while (currentDate <= end) {
-        dates.push(currentDate.toISOString().split('T')[0]);
-        currentDate.setDate(currentDate.getDate() + 1);
+        dates.push(currentDate.toISOString().split('T')[0]);    // Add the current date to the dates array in YYYY-MM-DD format
+        currentDate.setDate(currentDate.getDate() + 1);         // Move to the next date
     }
 
-    return dates;
+    return dates;   // Return the dates array
 }
-
-var allBookings = [];
-
 
 bookingCards.forEach(function(card) {
     var bookingShipElement = card.querySelector('.booking-ship');

@@ -236,7 +236,7 @@ def assign_stars():
     total_areas = areas.count()
     starred_areas = areas.filter(star=True).count()
     star_percentage = (starred_areas / total_areas) * 100
-    print(f"Star Percentage: {star_percentage}")
+    print(f"Star Percentage: {star_percentage}%")
 
     # Update statistics.star_percentage
     statistics.total_star_percentage = star_percentage
@@ -589,6 +589,7 @@ def booking(request):
             if booking_form.is_valid():
                 booking = booking_form.save(commit=False)
                 booking.save()
+                booking_form.save_m2m()  # Save the many-to-many relationships
                 messages.success(request, 'Booking added successfully.')
                 return redirect('booking')
             else:
