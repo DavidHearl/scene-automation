@@ -945,5 +945,6 @@ def custom_500(request):
 
 
 def trigger_500(request):
+    return render(request, '500.html', status=500)
     # This view will raise an exception to trigger a 500 error
-    raise Exception("This is a test 500 error")
+    # raise Exception("This is a test 500 error")

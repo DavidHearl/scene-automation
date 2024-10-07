@@ -1,22 +1,49 @@
+{% extends "base.html" %}
+
 {% load static %}
+{% load custom_filters %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Server Error</title>
+{% block title %} 
+    Ship Areas & Details 
+{% endblock %}
+
+{% block extra_css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/error_templates.css' %}">
-</head>
+{% endblock %}
 
-<body>
+{% csrf_token %}
+
+{% block content %}
+    
     <div class="container">
-        <h1>500 - Server Error</h1>
-        <p>Sorry, something went wrong on our end.</p>
-        <a href="{% url 'ships_and_areas' %}">
-            <i class="fa-solid fa-house"></i>
-            <span class="navigation-text">Home</span>
-        </a>
-    </div>
-</body>
+        <h1>500 - Internal Server Error</h1>
+        <div class="animation-div">
+            <div class="ship">
+                <i class="fa-solid fa-sailboat"></i>
+                <i class="fa-solid fa-icicles"></i>
+            </div>
+            <div class="water">
+                <div class="water-set-1">
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                </div>
+                <div class="water-set-2">
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                    <i class="fa-solid fa-water"></i>
+                </div>
 
-</html>
+            </div>
+        </div>
+
+        <p>Sorry, something went wrong on our end.</p>
+        <p>Let someone know and we will fix the issue ASAP.</p>
+    </div>
+
+{% endblock %}

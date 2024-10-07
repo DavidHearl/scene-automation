@@ -1,7 +1,206 @@
+.headlines {
+    display: none;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 85vh;
+    height: 100%;
+    background: rgba(255,255,255,0.5);
+    border-radius: 32px;
+}
+
+.ship {
+    display: flex;
+    justify-content: center;
+}
+
+.fa-sailboat {
+    font-size: 5rem;
+    position: relative;
+    right: 75px;
+}
+
+.fa-icicles {
+    rotate: 180deg;
+    color: #99e6e6;
+    font-size: 4rem;
+    position: relative;
+    left: 75px;
+    z-index: -1;
+}
+
+.fa-water {
+    color: #427dee;
+    font-size: 3rem;
+    transform-origin: center;
+}
+
+.animation-div {
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid white; */
+    padding: 24px;
+    padding-bottom: 24px;
+    padding-bottom: 8px;
+}
+
+.water-set-2 {
+    position: relative;
+    bottom: 8px;
+    left: 28px;
+}
+
+@keyframes shipCollide {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    5% {
+        transform: translateX(10px) rotate(1deg);
+    }
+    10% {
+        transform: translateX(20px) rotate(2deg);
+    }
+    15% {
+        transform: translateX(32.5px) rotate(0deg);
+    }
+    20% {
+        transform: translateX(45px) rotate(-2deg);
+    }
+    25% {
+        transform: translateX(57.5px) rotate(0deg);
+    }
+    30% {
+        transform: translateX(70px) rotate(2deg);
+    }
+    35% {
+        transform: translateX(82.5px) rotate(0deg);
+    }
+    40% {
+        transform: translateX(95px) rotate(-2deg);
+    }
+    45% {
+        transform: translateX(107.5px) rotate(0deg);
+    }
+    50% {
+        transform: translateX(120px) rotate(2deg);
+    }
+    55% {
+        transform: translateX(125px) rotate(0deg);
+    }
+    60% {
+        transform: translateX(130px) translateY(18px) rotate(-5deg);
+    }
+    65% {
+        transform: translateX(130px) translateY(27px) rotate(0deg);
+    }
+    70% {
+        transform: translateX(130px) translateY(36px) rotate(5deg);
+    }
+    75% {
+        transform: translateX(130px) translateY(45px) rotate(0deg);
+    }
+    80% {
+        transform: translateX(130px) translateY(54px) rotate(-5deg);
+    }
+    85% {
+        transform: translateX(130px) translateY(63px) rotate(0deg);
+    }
+    90% {
+        transform: translateX(130px) translateY(68px) rotate(5deg);
+    }
+    95% {
+        transform: translateX(130px) translateY(72px) rotate(0deg);
+    }
+}
+
+@keyframes iceBerg {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    99% {
+        transform: translateX(50px);
+    }
+}
+
+.fa-sailboat {
+    animation: shipCollide 15s infinite;
+}
+
+.fa-icicles {
+    animation: iceBerg 15s infinite;
+}
+
+@keyframes moveUpDown {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(-3px) rotate(2deg);
+    }
+    40% {
+        transform: translateY(-6px) rotate(-2deg);
+    }
+    60% {
+        transform: translateY(-3px) rotate(-2deg);
+    }
+    80% {
+        transform: translateY(0) rotate(0deg);
+    }
+}
+
+.water-set-1 .fa-water:nth-child(1) {
+    animation: moveUpDown 2s infinite ease-in-out;
+}
+
+.water-set-1 .fa-water:nth-child(2) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.2s;
+}
+
+.water-set-1 .fa-water:nth-child(3) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.4s;
+}
+
+.water-set-1 .fa-water:nth-child(4) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.6s;
+}
+
+.water-set-1 .fa-water:nth-child(5) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.8s;
+}
+
+.water-set-1 .fa-water:nth-child(6) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 1s;
+}
+
+.water-set-2 .fa-water:nth-child(1) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.1s;
+}
+
+.water-set-2 .fa-water:nth-child(2) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.3s;
+}
+
+.water-set-2 .fa-water:nth-child(3) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.5s;
+}
+
+.water-set-2 .fa-water:nth-child(4) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.7s;
+}
+
+.water-set-2 .fa-water:nth-child(5) {
+    animation: moveUpDown 2s infinite ease-in-out;
+    animation-delay: 0.9s;
 }
