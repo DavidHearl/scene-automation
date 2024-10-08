@@ -14,388 +14,390 @@
 {% csrf_token %}
 
 {% block content %}
-<!-- Key -->
-<div class="keys">
-    <div class="key-container">
-        <div class="key status-box today"></div>
-        <h6 class="key-title">Today</h6>
-    </div>
-    <div class="key-container">
-        <div class="key status-box red"></div>
-        <h6 class="key-title">Red Scanner</h6>
-    </div>
-    <div class="key-container">
-        <div class="key status-box blue"></div>
-        <h6 class="key-title">Blue Scanner</h6>
-    </div>
-    <div class="key-container">
-        <div class="key status-box red start end"></div>
-        <h6 class="key-title">Start/End</h6>
-    </div>
-    <div class="year-switcher-container">
-        <h6 class="key-title">Select Year:</h6>
-        {% for year in years %}
-            <a href="?year={{ year }}" class="btn {% if year == selected_year %}btn-primary{% else %}btn-secondary{% endif %}">
-                {{ year }}
-            </a>
-        {% endfor %}
-    </div>
-</div>
-
-<div class="year-switcher">
-
-</div>
-
-<div class="year">
-    {% for month, month_calendar in year_calendar.items %}
-        <div class="month">
-            <h2>{{ month }}</h2>
-            <div class="week">
-                <div class="day">
-                    <p class="weekday">M</p>
-                </div>
-                <div class="day">
-                    <p class="weekday">T</p>
-                </div>
-                <div class="day">
-                    <p class="weekday">W</p>
-                </div>
-                <div class="day">
-                    <p class="weekday">T</p>
-                </div>
-                <div class="day">
-                    <p class="weekday">F</p>
-                </div>
-                <div class="day">
-                    <p class="weekday">S</p>
-                </div>
-                <div class="day">
-                    <p class="weekday">S</p>
-                </div>
-            </div>
-            {% for week in month_calendar %}
-                <div class="week {% if month_calendar|length == 5 and forloop.first %}padding-top-week{% elif month_calendar|length == 5 and forloop.last %}padding-bottom-week{% endif %}">
-                    {% for day in week %}
-                        <div class="day {% if 'today' in day.1 %}today{% endif %}" id="{{ day.2 }}">
-                            <div class="red-booking-mark {% if 'red' in day.1 %}red{% endif %} {% if 'start-red' in day.1 %}start{% endif %} {% if 'end-red' in day.1 %}end{% endif %}"></div>
-                            <div class="blue-booking-mark {% if 'blue' in day.1 %}blue{% endif %} {% if 'start-blue' in day.1 %}start{% endif %} {% if 'end-blue' in day.1 %}end{% endif %}"></div>
-                            <p class="date-text">
-                                {% if day.0 %}
-                                    {{ day.0 }}
-                                {% else %}
-                                    &nbsp;
-                                {% endif %}
-                            </p>
-                        </div>
-                    {% endfor %}
-                </div>
+{% if user.is_authenticated %}
+    <!-- Key -->
+    <div class="keys">
+        <div class="key-container">
+            <div class="key status-box today"></div>
+            <h6 class="key-title">Today</h6>
+        </div>
+        <div class="key-container">
+            <div class="key status-box red"></div>
+            <h6 class="key-title">Red Scanner</h6>
+        </div>
+        <div class="key-container">
+            <div class="key status-box blue"></div>
+            <h6 class="key-title">Blue Scanner</h6>
+        </div>
+        <div class="key-container">
+            <div class="key status-box red start end"></div>
+            <h6 class="key-title">Start/End</h6>
+        </div>
+        <div class="year-switcher-container">
+            <h6 class="key-title">Select Year:</h6>
+            {% for year in years %}
+                <a href="?year={{ year }}" class="btn {% if year == selected_year %}btn-primary{% else %}btn-secondary{% endif %}">
+                    {{ year }}
+                </a>
             {% endfor %}
         </div>
-    {% endfor %}
-</div>
+    </div>
 
-<div class="booking-section-container">
-    <!-- Add Booking -->
-    {% if user.is_authenticated %}
-        <h2>Book a Survey</h2>
-        <p class="booking-info">
-            <em>If the ship is missing from the list please add it using the form on the right.</em>
-        </p>
+    <div class="year-switcher">
 
-        <!-- Add Booking -->
-        <div class="add-booking-card">
-            <div class="title-flex">
-                <h3 class="form-title">Add Booking</h3>
+    </div>
+
+    <div class="year">
+        {% for month, month_calendar in year_calendar.items %}
+            <div class="month">
+                <h2>{{ month }}</h2>
+                <div class="week">
+                    <div class="day">
+                        <p class="weekday">M</p>
+                    </div>
+                    <div class="day">
+                        <p class="weekday">T</p>
+                    </div>
+                    <div class="day">
+                        <p class="weekday">W</p>
+                    </div>
+                    <div class="day">
+                        <p class="weekday">T</p>
+                    </div>
+                    <div class="day">
+                        <p class="weekday">F</p>
+                    </div>
+                    <div class="day">
+                        <p class="weekday">S</p>
+                    </div>
+                    <div class="day">
+                        <p class="weekday">S</p>
+                    </div>
+                </div>
+                {% for week in month_calendar %}
+                    <div class="week {% if month_calendar|length == 5 and forloop.first %}padding-top-week{% elif month_calendar|length == 5 and forloop.last %}padding-bottom-week{% endif %}">
+                        {% for day in week %}
+                            <div class="day {% if 'today' in day.1 %}today{% endif %}" id="{{ day.2 }}">
+                                <div class="red-booking-mark {% if 'red' in day.1 %}red{% endif %} {% if 'start-red' in day.1 %}start{% endif %} {% if 'end-red' in day.1 %}end{% endif %}"></div>
+                                <div class="blue-booking-mark {% if 'blue' in day.1 %}blue{% endif %} {% if 'start-blue' in day.1 %}start{% endif %} {% if 'end-blue' in day.1 %}end{% endif %}"></div>
+                                <p class="date-text">
+                                    {% if day.0 %}
+                                        {{ day.0 }}
+                                    {% else %}
+                                        &nbsp;
+                                    {% endif %}
+                                </p>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
             </div>
+        {% endfor %}
+    </div>
 
-            <div class="content-flex">
-                <form class="booking-form" method="post" action="{% url 'booking' %}">
-                    {% csrf_token %}
-                    <!-- Form fields -->
-                    <div class="booking-left">
+    <div class="booking-section-container">
+        <!-- Add Booking -->
+        {% if user.is_authenticated %}
+            <h2>Book a Survey</h2>
+            <p class="booking-info">
+                <em>If the ship is missing from the list please add it using the form on the right.</em>
+            </p>
+
+            <!-- Add Booking -->
+            <div class="add-booking-card">
+                <div class="title-flex">
+                    <h3 class="form-title">Add Booking</h3>
+                </div>
+
+                <div class="content-flex">
+                    <form class="booking-form" method="post" action="{% url 'booking' %}">
+                        {% csrf_token %}
+                        <!-- Form fields -->
+                        <div class="booking-left">
+                            <div class="form-div">
+                                <label class="new-booking-label" for="id_ship">Ship:</label>
+                                {{ booking_form.ship }}
+                            </div>
+                            <div class="form-div dates">
+                                <label class="new-booking-label" for="id_start_date">Start Date:</label>
+                                <input type="date" name="start_date" value="{{ booking_form.start_date }}">
+                            </div>
+                            <div class="form-div dates">
+                                <label class="new-booking-label" for="id_end_date">End Date:</label>
+                                <input type="date" name="end_date" value="{{ booking_form.end_date }}">
+                            </div>
+                            <div class="form-div">
+                                <label class="new-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
+                                {{ booking_form.scanner }}
+                            </div>
+                            <div class="crud-button-container">
+                                <button class="add-button" type="submit" name="booking_form">Add Booking</button>
+                            </div>
+                        </div>
+                        
+                        <div class="booking-right">
+                            <div class="top-many-container">
+                                <label class="new-booking-label" for="id_designer">Designers:</label>
+                                <div class="many-div">
+                                    {% for checkbox in booking_form.designer %}
+                                        <div class="many-select-field">
+                                            {{ checkbox.tag }}
+                                            <label class="checkbox-label">{{ checkbox.choice_label }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="bottom-many-container">
+                                <label class="new-booking-label" for="id_contract_manager">Contract Managers:</label>
+                                <div class="many-div">
+                                    {% for checkbox in booking_form.contract_manager %}
+                                        <div class="many-select-field">
+                                            {{ checkbox.tag }}
+                                            <label class="checkbox-label">{{ checkbox.choice_label }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Add Ship -->
+        {% if user.is_authenticated %}
+            <div class="add-ship-card">
+                <div class="title-flex">
+                    <h3 class="form-title">Add Ship</h3>
+                </div>
+                
+                <div class="content-flex">
+                    <form class="ship-form" method="post" action="{% url 'ships_and_areas' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
                         <div class="form-div">
-                            <label class="new-booking-label" for="id_ship">Ship:</label>
-                            {{ booking_form.ship }}
-                        </div>
-                        <div class="form-div dates">
-                            <label class="new-booking-label" for="id_start_date">Start Date:</label>
-                            <input type="date" name="start_date" value="{{ booking_form.start_date }}">
-                        </div>
-                        <div class="form-div dates">
-                            <label class="new-booking-label" for="id_end_date">End Date:</label>
-                            <input type="date" name="end_date" value="{{ booking_form.end_date }}">
+                            <label class="new-ship-label" for="id_name">Ship:</label>
+                            {{ ship_form.name }}
                         </div>
                         <div class="form-div">
-                            <label class="new-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
-                            {{ booking_form.scanner }}
+                            <label class="new-ship-label" for="id_contract_number">Contract Number:</label>
+                            {{ ship_form.contract_number }}
+                        </div>
+                        <div class="form-div">
+                            <label class="new-ship-label" for="id_company">Company:</label>
+                            {{ ship_form.company }}
+                        </div>
+                        <div class="form-div">
+                            <label class="new-ship-label">Image:</label>
+                            {{ ship_form.image }}
                         </div>
                         <div class="crud-button-container">
-                            <button class="add-button" type="submit" name="booking_form">Add Booking</button>
-                        </div>
-                    </div>
-                    
-                    <div class="booking-right">
-                        <div class="top-many-container">
-                            <label class="new-booking-label" for="id_designer">Designers:</label>
-                            <div class="many-div">
-                                {% for checkbox in booking_form.designer %}
-                                    <div class="many-select-field">
-                                        {{ checkbox.tag }}
-                                        <label class="checkbox-label">{{ checkbox.choice_label }}</label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <div class="bottom-many-container">
-                            <label class="new-booking-label" for="id_contract_manager">Contract Managers:</label>
-                            <div class="many-div">
-                                {% for checkbox in booking_form.contract_manager %}
-                                    <div class="many-select-field">
-                                        {{ checkbox.tag }}
-                                        <label class="checkbox-label">{{ checkbox.choice_label }}</label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    {% endif %}
-
-    <!-- Add Ship -->
-    {% if user.is_authenticated %}
-        <div class="add-ship-card">
-            <div class="title-flex">
-                <h3 class="form-title">Add Ship</h3>
-            </div>
-            
-            <div class="content-flex">
-                <form class="ship-form" method="post" action="{% url 'ships_and_areas' %}" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-div">
-                        <label class="new-ship-label" for="id_name">Ship:</label>
-                        {{ ship_form.name }}
-                    </div>
-                    <div class="form-div">
-                        <label class="new-ship-label" for="id_contract_number">Contract Number:</label>
-                        {{ ship_form.contract_number }}
-                    </div>
-                    <div class="form-div">
-                        <label class="new-ship-label" for="id_company">Company:</label>
-                        {{ ship_form.company }}
-                    </div>
-                    <div class="form-div">
-                        <label class="new-ship-label">Image:</label>
-                        {{ ship_form.image }}
-                    </div>
-                    <div class="crud-button-container">
-                        <button class="add-button" type="submit">Add Ship</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    {% endif %}
-</div>
-
-<div class="booking-section-container">
-    <h2>Upcoming Surveys</h2>
-    {% for booking in bookings %}
-        {% if not booking.survey_completed %}
-            <div class="edit-booking-card {% if booking.survey_completed %}past-booking{% endif %}">
-                <div class="title-flex">
-                    <h3 class="form-title">Edit Booking : {{ booking.ship }}</h3>
-                </div>
-    
-                <div class="content-flex">
-                    <form class="booking-form" method="post" action="{% url 'edit_booking' booking.id %}">
-                        {% csrf_token %}
-                        <div class="booking-left">
-                            <div class="form-div">
-                                {% if booking.ship %}
-                                    <label class="edit-booking-label">Ship:</label>
-                                    <h3 class="booking-ship">{{ booking.ship }}</h3>
-                                {% else %}
-                                    <label class="edit-booking-label" for="id_ship">Ship:</label>
-                                    {{ booking_form.ship }}
-                                {% endif %}
-                            </div>
-                            
-                            <div class="form-div dates">
-                                <label class="edit-booking-label" for="id_start_date">Start Date:</label>
-                                <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
-                            </div>
-                            
-                            <!-- End Date -->
-                            <div class="form-div dates">
-                                <label class="edit-booking-label" for="id_end_date">End Date:</label>
-                                <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
-                            </div>
-    
-                            <!-- Dropdown for the scanner selector -->
-                            <div class="form-div">
-                                <label class="edit-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
-                                <select class="scanner-selector" id="scanner_{{ booking.id }}" name="scanner">
-                                    <option value="red" {% if booking.scanner == 'red' %}selected{% endif %}>Red Scanner</option>
-                                    <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
-                                    <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
-                                </select>
-                            </div>
-    
-                            <!-- Submit Button -->
-                            <div class="crud-button-container"> 
-                                {% if user.is_superuser %}
-                                    <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
-                                    <button class="submit-button" type="submit">Save</button>
-                                {% endif %}
-                            </div>    
-                        </div>
-    
-                        <!-- Designer and CM Checkboxes -->
-                        <div class="booking-right">
-                            <div class="top-many-container">
-                                <label class="edit-booking-label">Designer:</label>
-                                <div class="many-div">
-                                    {% for designer in designers %}
-                                        <div class="many-select-field">
-                                            <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designers" value="{{ designer.id }}"
-                                                {% if designer in booking.designer.all %}checked{% endif %}>
-                                            <label class="checkbox-label" for="designer_{{ designer.id }}">{{ designer.name }}</label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-    
-                            <div class="bottom-many-container">
-                                <label class="edit-booking-label">Contract Manager:</label>
-                                <div class="many-div">
-                                    {% for manager in contract_managers %}
-                                        <div class="many-select-field">
-                                            <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_managers" value="{{ manager.id }}"
-                                                {% if manager in booking.contract_manager.all %}checked{% endif %}>
-                                            <label class="checkbox-label" for="contract_manager_{{ manager.id }}">{{ manager.name }}</label>
-                                        </div>
-                                    {% endfor %}
-                                </div>    
-                            </div>
-                        </div>
-    
-                    </form>
-                </div>
-            </div>
-        {% endif %}
-    {% endfor %}
-
-    <h2>Previous Surveys</h2>
-    {% for booking in bookings %}
-        {% if booking.survey_completed %}
-            <div class="edit-booking-card {% if booking.survey_completed %}past-booking{% endif %}">
-                <div class="title-flex">
-                    <h3 class="form-title">Edit Previous Booking</h3>
-                </div>
-
-                <div class="content-flex">
-                    <form class="booking-form" method="post" action="{% url 'edit_booking' booking.id %}">
-                        {% csrf_token %}
-                        <div class="booking-left">
-                            <div class="form-div">
-                                {% if booking.ship %}
-                                    <label class="edit-booking-label">Ship:</label>
-                                    <h3 class="booking-ship">{{ booking.ship }}</h3>
-                                {% else %}
-                                    <label class="edit-booking-label" for="id_ship">Ship:</label>
-                                    {{ booking_form.ship }}
-                                {% endif %}
-                            </div>
-                            
-                            <div class="form-div dates">
-                                <label class="edit-booking-label" for="id_start_date">Start Date:</label>
-                                <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
-                            </div>
-                            
-                            <!-- End Date -->
-                            <div class="form-div dates">
-                                <label class="edit-booking-label" for="id_end_date">End Date:</label>
-                                <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
-                            </div>
-
-                            <!-- Dropdown for the scanner selector -->
-                            <div class="form-div">
-                                <label class="edit-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
-                                <select class="scanner-selector" id="scanner_{{ booking.id }}" name="scanner">
-                                    <option value="red" {% if booking.scanner == 'red' %}selected{% endif %}>Red Scanner</option>
-                                    <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
-                                    <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
-                                </select>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <div class="crud-button-container"> 
-                                {% if user.is_superuser %}
-                                    <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
-                                    <button class="submit-button" type="submit">Save</button>
-                                {% endif %}
-                            </div>    
-                        </div>
-
-                        <!-- Designer and CM Checkboxes -->
-                        <div class="booking-right">
-                            <div class="top-many-container">
-                                <label class="edit-booking-label">Designer:</label>
-                                <div class="many-div">
-                                    {% for designer in designers %}
-                                        <div class="many-select-field">
-                                            <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designers" value="{{ designer.id }}"
-                                                {% if designer in booking.designer.all %}checked{% endif %}>
-                                            <label class="checkbox-label" for="designer_{{ designer.id }}">{{ designer.name }}</label>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-    
-                            <div class="bottom-many-container">
-                                <label class="edit-booking-label">Contract Manager:</label>
-                                <div class="many-div">
-                                    {% for manager in contract_managers %}
-                                        <div class="many-select-field">
-                                            <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_managers" value="{{ manager.id }}"
-                                                {% if manager in booking.contract_manager.all %}checked{% endif %}>
-                                            <label class="checkbox-label" for="contract_manager_{{ manager.id }}">{{ manager.name }}</label>
-                                        </div>
-                                    {% endfor %}
-                                </div>    
-                            </div>
+                            <button class="add-button" type="submit">Add Ship</button>
                         </div>
                     </form>
                 </div>
             </div>
         {% endif %}
-    {% endfor %}
-</div>
-
-<div id="booking-summary">
-    <div class="booking-header">
-        <div class="scanner" id="scanner"></div>        
-        <h3 id="ship-name">Test</h3>
-        <i id="close" class="fa-solid fa-xmark"></i>
     </div>
 
-    <div class="booking-content">
-        <h4 class="booking-content-subtitle">Dates</h4>
-        <p>Start:
-            <span class="push-right" id="start-date"></span>
-        </p>
-            <p>End:
-            <span class="push-right" id="end-date"></span>
-        </p>
-        <h4 class="booking-content-subtitle margin-top">Contract Manager</h4>
-        <div id="contract-manager"></div>
+    <div class="booking-section-container">
+        <h2>Upcoming Surveys</h2>
+        {% for booking in bookings %}
+            {% if not booking.survey_completed %}
+                <div class="edit-booking-card {% if booking.survey_completed %}past-booking{% endif %}">
+                    <div class="title-flex">
+                        <h3 class="form-title">Edit Booking : {{ booking.ship }}</h3>
+                    </div>
         
-        <h4 class="booking-content-subtitle margin-top">Designers</h4>
-        <div id="designer"></div>
-    </div>
-</div>
+                    <div class="content-flex">
+                        <form class="booking-form" method="post" action="{% url 'edit_booking' booking.id %}">
+                            {% csrf_token %}
+                            <div class="booking-left">
+                                <div class="form-div">
+                                    {% if booking.ship %}
+                                        <label class="edit-booking-label">Ship:</label>
+                                        <h3 class="booking-ship">{{ booking.ship }}</h3>
+                                    {% else %}
+                                        <label class="edit-booking-label" for="id_ship">Ship:</label>
+                                        {{ booking_form.ship }}
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="form-div dates">
+                                    <label class="edit-booking-label" for="id_start_date">Start Date:</label>
+                                    <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
+                                </div>
+                                
+                                <!-- End Date -->
+                                <div class="form-div dates">
+                                    <label class="edit-booking-label" for="id_end_date">End Date:</label>
+                                    <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
+                                </div>
+        
+                                <!-- Dropdown for the scanner selector -->
+                                <div class="form-div">
+                                    <label class="edit-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
+                                    <select class="scanner-selector" id="scanner_{{ booking.id }}" name="scanner">
+                                        <option value="red" {% if booking.scanner == 'red' %}selected{% endif %}>Red Scanner</option>
+                                        <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
+                                        <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
+                                    </select>
+                                </div>
+        
+                                <!-- Submit Button -->
+                                <div class="crud-button-container"> 
+                                    {% if user.is_superuser %}
+                                        <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
+                                        <button class="submit-button" type="submit">Save</button>
+                                    {% endif %}
+                                </div>    
+                            </div>
+        
+                            <!-- Designer and CM Checkboxes -->
+                            <div class="booking-right">
+                                <div class="top-many-container">
+                                    <label class="edit-booking-label">Designer:</label>
+                                    <div class="many-div">
+                                        {% for designer in designers %}
+                                            <div class="many-select-field">
+                                                <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designers" value="{{ designer.id }}"
+                                                    {% if designer in booking.designer.all %}checked{% endif %}>
+                                                <label class="checkbox-label" for="designer_{{ designer.id }}">{{ designer.name }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+        
+                                <div class="bottom-many-container">
+                                    <label class="edit-booking-label">Contract Manager:</label>
+                                    <div class="many-div">
+                                        {% for manager in contract_managers %}
+                                            <div class="many-select-field">
+                                                <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_managers" value="{{ manager.id }}"
+                                                    {% if manager in booking.contract_manager.all %}checked{% endif %}>
+                                                <label class="checkbox-label" for="contract_manager_{{ manager.id }}">{{ manager.name }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>    
+                                </div>
+                            </div>
+        
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
 
-<script src="{% static 'js/bookings.js' %}"></script>
+        <h2>Previous Surveys</h2>
+        {% for booking in bookings %}
+            {% if booking.survey_completed %}
+                <div class="edit-booking-card {% if booking.survey_completed %}past-booking{% endif %}">
+                    <div class="title-flex">
+                        <h3 class="form-title">Edit Previous Booking</h3>
+                    </div>
+
+                    <div class="content-flex">
+                        <form class="booking-form" method="post" action="{% url 'edit_booking' booking.id %}">
+                            {% csrf_token %}
+                            <div class="booking-left">
+                                <div class="form-div">
+                                    {% if booking.ship %}
+                                        <label class="edit-booking-label">Ship:</label>
+                                        <h3 class="booking-ship">{{ booking.ship }}</h3>
+                                    {% else %}
+                                        <label class="edit-booking-label" for="id_ship">Ship:</label>
+                                        {{ booking_form.ship }}
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="form-div dates">
+                                    <label class="edit-booking-label" for="id_start_date">Start Date:</label>
+                                    <input id="start_date_{{ booking.id }}" type="date" name="start_date" value="{{ booking.start_date|date:"Y-m-d" }}">
+                                </div>
+                                
+                                <!-- End Date -->
+                                <div class="form-div dates">
+                                    <label class="edit-booking-label" for="id_end_date">End Date:</label>
+                                    <input id="end_date_{{ booking.id }}" type="date" name="end_date" value="{{ booking.end_date|date:"Y-m-d" }}">
+                                </div>
+
+                                <!-- Dropdown for the scanner selector -->
+                                <div class="form-div">
+                                    <label class="edit-booking-label" for="scanner_{{ booking.id }}">Scanner:</label>
+                                    <select class="scanner-selector" id="scanner_{{ booking.id }}" name="scanner">
+                                        <option value="red" {% if booking.scanner == 'red' %}selected{% endif %}>Red Scanner</option>
+                                        <option value="blue" {% if booking.scanner == 'blue' %}selected{% endif %}>Blue Scanner</option>
+                                        <option value="both" {% if booking.scanner == 'both' %}selected{% endif %}>Both Scanners</option>
+                                    </select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="crud-button-container"> 
+                                    {% if user.is_superuser %}
+                                        <a class="crud-button delete-button" href="{% url 'delete_booking' booking.id %}">Delete</a>
+                                        <button class="submit-button" type="submit">Save</button>
+                                    {% endif %}
+                                </div>    
+                            </div>
+
+                            <!-- Designer and CM Checkboxes -->
+                            <div class="booking-right">
+                                <div class="top-many-container">
+                                    <label class="edit-booking-label">Designer:</label>
+                                    <div class="many-div">
+                                        {% for designer in designers %}
+                                            <div class="many-select-field">
+                                                <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designers" value="{{ designer.id }}"
+                                                    {% if designer in booking.designer.all %}checked{% endif %}>
+                                                <label class="checkbox-label" for="designer_{{ designer.id }}">{{ designer.name }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+        
+                                <div class="bottom-many-container">
+                                    <label class="edit-booking-label">Contract Manager:</label>
+                                    <div class="many-div">
+                                        {% for manager in contract_managers %}
+                                            <div class="many-select-field">
+                                                <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_managers" value="{{ manager.id }}"
+                                                    {% if manager in booking.contract_manager.all %}checked{% endif %}>
+                                                <label class="checkbox-label" for="contract_manager_{{ manager.id }}">{{ manager.name }}</label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <div id="booking-summary">
+        <div class="booking-header">
+            <div class="scanner" id="scanner"></div>        
+            <h3 id="ship-name">Test</h3>
+            <i id="close" class="fa-solid fa-xmark"></i>
+        </div>
+
+        <div class="booking-content">
+            <h4 class="booking-content-subtitle">Dates</h4>
+            <p>Start:
+                <span class="push-right" id="start-date"></span>
+            </p>
+                <p>End:
+                <span class="push-right" id="end-date"></span>
+            </p>
+            <h4 class="booking-content-subtitle margin-top">Contract Manager</h4>
+            <div id="contract-manager"></div>
+            
+            <h4 class="booking-content-subtitle margin-top">Designers</h4>
+            <div id="designer"></div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/bookings.js' %}"></script>
+{% endif %}
 
 {% endblock %}

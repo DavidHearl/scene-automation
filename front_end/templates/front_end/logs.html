@@ -24,10 +24,10 @@
             {% for login in logins %}
                 {% if login.user != 'admin' %}
                     <tr>
-                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.user.first_name }}</td>
-                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.user.last_name }}</td>
-                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.timestamp|date:"d/m/Y - H:i" }}</td>
-                        <td class="{% if login.user.first_name == "William" %}special{% endif %}">{{ login.time_remaining }}</td>
+                        <td class="{% if login.user.first_name == "Darren" %}special{% endif %}">{{ login.user.first_name }}</td>
+                        <td class="{% if login.user.first_name == "Darren" %}special{% endif %}">{{ login.user.last_name }}</td>
+                        <td class="{% if login.user.first_name == "Darren" %}special{% endif %}">{{ login.timestamp|date:"d/m/Y - H:i" }}</td>
+                        <td class="{% if login.user.first_name == "Darren" %}special{% endif %}">{{ login.time_remaining }}</td>
                     </tr>
                 {% endif %}
             {% endfor %}

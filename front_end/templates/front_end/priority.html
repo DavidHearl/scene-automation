@@ -13,102 +13,102 @@
 {% endblock %}
 
 {% block content %} 
-
-    <button id="pdfButton">Generate PDF</button>
-    <table id="priority-table">
-        <thead>
-            <tr>
-                <th>P</th>
-                <th>Ship</th>
-                <th>Area Name</th>
-                <th># Scans</th>
-                {% if user.is_superuser %}
-                    <th>Ship Priority</th>
-                    <th>Area Priority</th>
-                {% endif %}
-                <th>Time (Days)</th>
-                <th>Completion</th>
-                {% if user.is_superuser %}
-                    <th>Priority</th>
-                    <th>Save</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for area in areas %}
-                <form class="area-form" method="post" action="{% url 'edit_priority' area.id %}">
-                    {% csrf_token %}
-                    <tr class={% if area.registered == "Minor" %}Minor{% endif %}>
-                        <td>{{ forloop.counter }}</td>
-                        <td class="td-start">
-                            <a class="ship-link" href="{% url 'ship_detail' area.ship.id %}">{{ area.ship.name }}</a>
-                        </td>
-                        <td class="td-start">{{ area.area_name }}</td>
-                        <td>{{ area.scans }}</td>
-
-                        <!-- If user is superuser show selection boxes for the priorities -->
-                        {% if user.is_superuser %}
-                            <!-- Ship Priority -->
-                            <td>
-                                <select class="select-priorities {{ label }}" name="ship-priority">
-                                    {% for status, label in area.PRIORITY_CHOICES %}
-                                        <option value="{{ status }}" {% if status == area.ship.priority %}selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
-                                </select>
+    {% if user.is_authenticated %}
+        <button id="pdfButton">Generate PDF</button>
+        <table id="priority-table">
+            <thead>
+                <tr>
+                    <th>P</th>
+                    <th>Ship</th>
+                    <th>Area Name</th>
+                    <th># Scans</th>
+                    {% if user.is_superuser %}
+                        <th>Ship Priority</th>
+                        <th>Area Priority</th>
+                    {% endif %}
+                    <th>Time (Days)</th>
+                    <th>Completion</th>
+                    {% if user.is_superuser %}
+                        <th>Priority</th>
+                        <th>Save</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for area in areas %}
+                    <form class="area-form" method="post" action="{% url 'edit_priority' area.id %}">
+                        {% csrf_token %}
+                        <tr class={% if area.registered == "Minor" %}Minor{% endif %}>
+                            <td>{{ forloop.counter }}</td>
+                            <td class="td-start">
+                                <a class="ship-link" href="{% url 'ship_detail' area.ship.id %}">{{ area.ship.name }}</a>
                             </td>
+                            <td class="td-start">{{ area.area_name }}</td>
+                            <td>{{ area.scans }}</td>
 
-                            <!-- Area Priority -->
-                            <td>
-                                <select class="select-priorities" name="area-priority">
-                                    {% for status, label in area.PRIORITY_CHOICES %}
-                                        <option value="{{ status }}" {% if status == area.priority %}selected{% endif %}>{{ label }}</option>
-                                    {% endfor %}
-                                </select>
-                            </td> 
-                        {% endif %}
+                            <!-- If user is superuser show selection boxes for the priorities -->
+                            {% if user.is_superuser %}
+                                <!-- Ship Priority -->
+                                <td>
+                                    <select class="select-priorities {{ label }}" name="ship-priority">
+                                        {% for status, label in area.PRIORITY_CHOICES %}
+                                            <option value="{{ status }}" {% if status == area.ship.priority %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
 
-                        <td>{{ area.time_remaining }}</td>
-                        <td>
-                            <div class="complete-container">
-                                <div class="{{ area.processed|status_to_class }}"></div>
-                                <div class="{{ area.registered|status_to_class }}"></div>
-                                <div class="{{ area.cleaned|status_to_class }}"></div>
-                                <div class="{{ area.point_cloud|status_to_class }}"></div>
-                                <div class="{{ area.exported|status_to_class }}"></div>
-                                <div class="{{ area.uploaded|status_to_class }}"></div>
-                            </div>
-                        </td>
-                        {% if user.is_superuser %}
-                            <td>{{ area.calcualted_priority }}</td>
+                                <!-- Area Priority -->
+                                <td>
+                                    <select class="select-priorities" name="area-priority">
+                                        {% for status, label in area.PRIORITY_CHOICES %}
+                                            <option value="{{ status }}" {% if status == area.priority %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td> 
+                            {% endif %}
+
+                            <td>{{ area.time_remaining }}</td>
                             <td>
-                                <button class="priority-save" type="submit">Save</button>
+                                <div class="complete-container">
+                                    <div class="{{ area.processed|status_to_class }}"></div>
+                                    <div class="{{ area.registered|status_to_class }}"></div>
+                                    <div class="{{ area.cleaned|status_to_class }}"></div>
+                                    <div class="{{ area.point_cloud|status_to_class }}"></div>
+                                    <div class="{{ area.exported|status_to_class }}"></div>
+                                    <div class="{{ area.uploaded|status_to_class }}"></div>
+                                </div>
                             </td>
-                        {% endif %}
-                    </tr>
-                </form>
-            {% endfor %}
-        </tbody>
-    </table>
+                            {% if user.is_superuser %}
+                                <td>{{ area.calcualted_priority }}</td>
+                                <td>
+                                    <button class="priority-save" type="submit">Save</button>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    </form>
+                {% endfor %}
+            </tbody>
+        </table>
 
 
-    <script>
-        window.onload = function() {
-            document.getElementById("pdfButton").addEventListener("click", function() {
-                var element = document.getElementById('priority-table');
-        
-                html2canvas(element, {
-                    onrendered: function(canvas) {
-                        var imgData = canvas.toDataURL('image/png');
-                        var doc = new jsPDF('p', 'mm', 'a4');
-                        var width = doc.internal.pageSize.getWidth();
-                        var height = doc.internal.pageSize.getHeight();
-                        height = height * 1.5;
-                        doc.addImage(imgData, 'PNG', 0, 0, width, height);
-                        doc.save('table.pdf');
-                    }
+        <script>
+            window.onload = function() {
+                document.getElementById("pdfButton").addEventListener("click", function() {
+                    var element = document.getElementById('priority-table');
+            
+                    html2canvas(element, {
+                        onrendered: function(canvas) {
+                            var imgData = canvas.toDataURL('image/png');
+                            var doc = new jsPDF('p', 'mm', 'a4');
+                            var width = doc.internal.pageSize.getWidth();
+                            var height = doc.internal.pageSize.getHeight();
+                            height = height * 1.5;
+                            doc.addImage(imgData, 'PNG', 0, 0, width, height);
+                            doc.save('table.pdf');
+                        }
+                    });
                 });
-            });
-        }
-    </script>
-
+            }
+        </script>
+    {% endif %}
 {% endblock %}

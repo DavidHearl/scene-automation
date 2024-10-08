@@ -9,147 +9,151 @@
 {% load custom_filters %}
 
 {% block headlines %}
-    <div class="headline-section">
-        <h4 class="headline-title">Time Remaining:</h4>
-        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ statistics.total_time }} Days</h2>
-    </div>
-
-    <div class="headline-section">
-        <h4 class="headline-title">Completion Date:</h4>
-        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ today }}</h2>
-    </div>
-
-    <div class="headline-section">
-        <h4 class="headline-title">Total Scans</h4>
-        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ statistics.total_scans }}</h2>
-    </div>
-    
-    <div class="headline-section">
-        <h4 class="headline-title">Ships</h4>
-        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ num_ships }}</h2>
-    </div>
-    
-    <div class="headline-section">
-        <h4 class="headline-title">Areas</h4>
-        <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ num_areas }}</h2>
-    </div>
-
-    {% if user.is_superuser %}
+    {% if user.is_authenticated %}
         <div class="headline-section">
-            <h4 class="headline-title"><i class="star star-title fa-solid fa-star"></i></h4>
-            <h2 class="headline-content">{{ statistics.total_stars }}</h2>
+            <h4 class="headline-title">Time Remaining:</h4>
+            <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ statistics.total_time }} Days</h2>
         </div>
 
         <div class="headline-section">
-            <h4 class="headline-title">Percentage</h4>
-            <h2 class="headline-content">{{ statistics.total_star_percentage }}%</h2>
+            <h4 class="headline-title">Completion Date:</h4>
+            <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ today }}</h2>
         </div>
+
+        <div class="headline-section">
+            <h4 class="headline-title">Total Scans</h4>
+            <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ statistics.total_scans }}</h2>
+        </div>
+        
+        <div class="headline-section">
+            <h4 class="headline-title">Ships</h4>
+            <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ num_ships }}</h2>
+        </div>
+        
+        <div class="headline-section">
+            <h4 class="headline-title">Areas</h4>
+            <h2 class="headline-content {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ num_areas }}</h2>
+        </div>
+
+        {% if user.is_superuser %}
+            <div class="headline-section">
+                <h4 class="headline-title"><i class="star star-title fa-solid fa-star"></i></h4>
+                <h2 class="headline-content">{{ statistics.total_stars }}</h2>
+            </div>
+
+            <div class="headline-section">
+                <h4 class="headline-title">Percentage</h4>
+                <h2 class="headline-content">{{ statistics.total_star_percentage }}%</h2>
+            </div>
+        {% endif %}
     {% endif %}
 {% endblock %}
 
 {% block content %}
-    <!-- Ship and Area Details -->
-    <div class="card-container">
-        {% for ship in ships %}
-            <div class="ship-card {% if ship.status %} ship-card-completed {% endif %} {% if ship.max_stars and ship.stars > 0 %}max-stars{% endif %} {% if not user.is_authenticated %} obfuscate {% endif %}">
-                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
-                </div>
-                <h5 class="card-title {% if not user.is_authenticated %} obfuscate-intense {% endif %}">
-                    {{ ship.name }} 
-                    {% if ship.contains_not_required %}
-                        <span class="nreq"></span>
-                    {% endif %}
-                </h5>
-                <h5 class="card-secondary-title {% if not user.is_authenticated %} obfuscate-intense {% endif %}">Contract Number: {{ ship.contract_number }}</h5>
+    {% if user.is_authenticated %}
+        <!-- Ship and Area Details -->
+        <div class="card-container">
+            {% for ship in ships %}
+                <div class="ship-card {% if ship.status %} ship-card-completed {% endif %} {% if ship.max_stars and ship.stars > 0 %}max-stars{% endif %} {% if not user.is_authenticated %} obfuscate {% endif %}">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ ship.completed_percentage }}%;" aria-valuenow="{{ ship.completed_percentage }}" aria-valuemin="0" aria-valuemax="100">{{ ship.completed_percentage }}%</div>
+                    </div>
+                    <h5 class="card-title {% if not user.is_authenticated %} obfuscate-intense {% endif %}">
+                        {{ ship.name }} 
+                        {% if ship.contains_not_required %}
+                            <span class="nreq"></span>
+                        {% endif %}
+                    </h5>
+                    <h5 class="card-secondary-title {% if not user.is_authenticated %} obfuscate-intense {% endif %}">Contract Number: {{ ship.contract_number }}</h5>
 
-                {% if ship.status %}
-                    {% if ship.total_scans != 0 %}
-                        <p class="card-text done">Completed</p>
+                    {% if ship.status %}
+                        {% if ship.total_scans != 0 %}
+                            <p class="card-text done">Completed</p>
+                        {% else %}
+                            <p class="card-text survey-tbc">Survey TBC</p>
+                        {% endif %}
                     {% else %}
-                        <p class="card-text survey-tbc">Survey TBC</p>
+                        <p class="card-text to-be-completed {% if not user.is_authenticated %} obfuscate-intense {% endif %}">Completion in {{ ship.time_remaining }} days</p>
                     {% endif %}
-                {% else %}
-                    <p class="card-text to-be-completed {% if not user.is_authenticated %} obfuscate-intense {% endif %}">Completion in {{ ship.time_remaining }} days</p>
-                {% endif %}
 
-                {% if ship.image %}
-                    {% if user.is_authenticated %}
-                        <img class="ship-image" src="{{ ship.image.url }}" class="ship-image" alt="...">
+                    {% if ship.image %}
+                        {% if user.is_authenticated %}
+                            <img class="ship-image" src="{{ ship.image.url }}" class="ship-image" alt="...">
+                        {% else %}
+                            <div class="ship-image-replacement">
+                                <i class="fa-solid fa-sailboat"></i>
+                            </div>
+                        {% endif %}
                     {% else %}
                         <div class="ship-image-replacement">
                             <i class="fa-solid fa-sailboat"></i>
                         </div>
                     {% endif %}
-                {% else %}
-                    <div class="ship-image-replacement">
-                        <i class="fa-solid fa-sailboat"></i>
-                    </div>
-                {% endif %}
 
-                <div class="areas-and-scans">
-                    <div class="scans">
-                        <p class="card-text">Scans</p>
-                        <p class="card-feature-text {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.total_scans }}</p>
-                    </div>
-                    <div class="areas">
-                        <p class="card-text">Areas</p>
-                        <p class="card-feature-text {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.area_set.all.count }}</p>
-                    </div>
-                    {% if user.is_superuser %}
-                        <div class="stars">
-                            <p class="card-text"><i class="star star-card fa-solid fa-star"></i></p>
-                            <p class="card-feature-text">{{ ship.stars }}</p>
+                    <div class="areas-and-scans">
+                        <div class="scans">
+                            <p class="card-text">Scans</p>
+                            <p class="card-feature-text {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.total_scans }}</p>
                         </div>
-                    {% endif %}
+                        <div class="areas">
+                            <p class="card-text">Areas</p>
+                            <p class="card-feature-text {% if not user.is_authenticated %} obfuscate-intense {% endif %}">{{ ship.area_set.all.count }}</p>
+                        </div>
+                        {% if user.is_superuser %}
+                            <div class="stars">
+                                <p class="card-text"><i class="star star-card fa-solid fa-star"></i></p>
+                                <p class="card-feature-text">{{ ship.stars }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <a href="{% url 'ship_detail' ship.id %}">
+                        <button class="more-info">
+                            <span class="button-text">More Info</span>
+                            <span class="arrows">
+                                <i class="fa-solid fa-angle-right"></i>
+                                <i class="fa-solid fa-angle-right"></i>
+                                <i class="fa-solid fa-angle-right"></i>
+                                <i class="fa-solid fa-angle-right"></i>
+                                <i class="fa-solid fa-angle-right"></i>
+                            </span>
+                        </button>
+                    </a> 
                 </div>
+            {% endfor %}
 
-                <a href="{% url 'ship_detail' ship.id %}">
-                    <button class="more-info">
-                        <span class="button-text">More Info</span>
-                        <span class="arrows">
-                            <i class="fa-solid fa-angle-right"></i>
-                            <i class="fa-solid fa-angle-right"></i>
-                            <i class="fa-solid fa-angle-right"></i>
-                            <i class="fa-solid fa-angle-right"></i>
-                            <i class="fa-solid fa-angle-right"></i>
-                        </span>
-                    </button>
-                </a> 
-            </div>
-        {% endfor %}
+            <!-- Add Ship -->
+            {% if user.is_superuser %}
+                <div class="ship-card">
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    </div>
 
-        <!-- Add Ship -->
-        {% if user.is_superuser %}
-            <div class="ship-card">
-                <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">100%</div>
+                    <form class="ship-form" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-div">
+                            <label class="new-ship-label" for="id_name">Ship:</label>
+                            {{ ship_form.name }}
+                        </div>
+                        <div class="form-div">
+                            <label class="new-ship-label" for="id_contract_number">Contract Number:</label>
+                            {{ ship_form.contract_number }}
+                        </div>
+                        <div class="form-div">
+                            <label class="new-ship-label" for="id_company">Company:</label>
+                            {{ ship_form.company }}
+                        </div>
+                        <div class="form-div">
+                            {{ ship_form.image }}
+                        </div>
+                        <div class="form-div">
+                            {{ ship_form.priority }}
+                        </div>
+                        <button class="add-new-ship" type="submit">Add Ship</button>
+                    </form>
                 </div>
+            {% endif %}
 
-                <form class="ship-form" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="form-div">
-                        <label class="new-ship-label" for="id_name">Ship:</label>
-                        {{ ship_form.name }}
-                    </div>
-                    <div class="form-div">
-                        <label class="new-ship-label" for="id_contract_number">Contract Number:</label>
-                        {{ ship_form.contract_number }}
-                    </div>
-                    <div class="form-div">
-                        <label class="new-ship-label" for="id_company">Company:</label>
-                        {{ ship_form.company }}
-                    </div>
-                    <div class="form-div">
-                        {{ ship_form.image }}
-                    </div>
-                    <div class="form-div">
-                        {{ ship_form.priority }}
-                    </div>
-                    <button class="add-new-ship" type="submit">Add Ship</button>
-                </form>
-            </div>
-        {% endif %}
-
-    </div>
+        </div>
+    {% endif %}
 {% endblock %}

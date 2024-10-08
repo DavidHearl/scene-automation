@@ -13,205 +13,208 @@
 {% endblock %}
 
 {% block headlines %}
-    <div class="headline-section">
-        <h4 class="headline-title">Points Per Scan</h4>
-        <h2 class="headline-content">{{ average_point|intcomma }}</h2>
-    </div>
+    {% if user.is_authenticated %}
+        <div class="headline-section">
+            <h4 class="headline-title">Points Per Scan</h4>
+            <h2 class="headline-content">{{ average_point|intcomma }}</h2>
+        </div>
 
-    <div class="headline-section">
-        <h4 class="headline-title">Raw Size per Scan</h4>
-        <h2 class="headline-content">{{ average_raw }} GB</h2>
-    </div>
+        <div class="headline-section">
+            <h4 class="headline-title">Raw Size per Scan</h4>
+            <h2 class="headline-content">{{ average_raw }} GB</h2>
+        </div>
 
-    <div class="headline-section">
-        <h4 class="headline-title">Processed Size per Scan</h4>
-        <h2 class="headline-content">{{ average_processed }} GB</h2>
-    </div>
-    
-    <div class="headline-section">
-        <h4 class="headline-title">Exported Size per Scan</h4>
-        <h2 class="headline-content">{{ average_exported }} GB</h2>
-    </div>
+        <div class="headline-section">
+            <h4 class="headline-title">Processed Size per Scan</h4>
+            <h2 class="headline-content">{{ average_processed }} GB</h2>
+        </div>
+        
+        <div class="headline-section">
+            <h4 class="headline-title">Exported Size per Scan</h4>
+            <h2 class="headline-content">{{ average_exported }} GB</h2>
+        </div>
 
-    <div class="headline-section">
-        <h4 class="headline-title">Data Points</h4>
-        <h2 class="headline-content">{{ num_areas }}</h2>
-    </div>
+        <div class="headline-section">
+            <h4 class="headline-title">Data Points</h4>
+            <h2 class="headline-content">{{ num_areas }}</h2>
+        </div>
+    {% endif %}
 {% endblock %}
 
 {% block content %} 
-    <div class="notes">
-        <p class="notes-text"><em>
-            Areas above 100 scans have been removed from the data till more data points have been added
-        </em></p>
-    </div>
+    {% if user.is_authenticated %}
+        <div class="notes">
+            <p class="notes-text"><em>
+                Areas above 100 scans have been removed from the data till more data points have been added
+            </em></p>
+        </div>
 
-    <canvas id="pointCloudSizeChart"></canvas>
-    <canvas id="combinedSizeChart"></canvas>
+        <canvas id="pointCloudSizeChart"></canvas>
+        <canvas id="combinedSizeChart"></canvas>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var pointContext = document.getElementById('pointCloudSizeChart').getContext('2d');
-            var combinedContext = document.getElementById('combinedSizeChart').getContext('2d');        
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var pointContext = document.getElementById('pointCloudSizeChart').getContext('2d');
+                var combinedContext = document.getElementById('combinedSizeChart').getContext('2d');        
 
-            // -----------------------------------------------------------
-            // ------------------ Point Cloud Size Chart -----------------
-            // -----------------------------------------------------------
-            var pointScatterData = {
-                datasets: [{
-                    label: 'Number of Points / Number of Scans',
-                    data: {{ point_cloud_scans|safe }},
-                    pointRadius: 3
-                }]
-            };
+                // -----------------------------------------------------------
+                // ------------------ Point Cloud Size Chart -----------------
+                // -----------------------------------------------------------
+                var pointScatterData = {
+                    datasets: [{
+                        label: 'Number of Points / Number of Scans',
+                        data: {{ point_cloud_scans|safe }},
+                        pointRadius: 3
+                    }]
+                };
 
-            var pointScatterChart = new Chart(pointContext, {
-                type: 'scatter',
-                data: pointScatterData,
-                options: {
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: 'white',
-                            },
-                            type: 'linear',
-                            position: 'bottom',
-                            title: {
-                                display: true,
-                                text: 'Number of Scans',
-                                font: {
-                                    size: 14,
+                var pointScatterChart = new Chart(pointContext, {
+                    type: 'scatter',
+                    data: pointScatterData,
+                    options: {
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: 'white',
+                                },
+                                type: 'linear',
+                                position: 'bottom',
+                                title: {
+                                    display: true,
+                                    text: 'Number of Scans',
+                                    font: {
+                                        size: 14,
+                                    },
+                                    color: 'white'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.5)',
                                 },
                                 color: 'white'
                             },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.5)',
-                            },
-                            color: 'white'
-                        },
-                        y: {
-                            ticks: {
-                                color: 'white',
-                            },
-                            title: {
-                                display: true,
-                                text: 'Number of Scans',
-                                font: {
-                                    size: 14,
+                            y: {
+                                ticks: {
+                                    color: 'white',
                                 },
-                                color: 'white'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.5)',
-                            },
-                            color: 'white'
-                        }
-                    },
-                    plugins: {
-                        legend:{
-                            labels: {
+                                title: {
+                                    display: true,
+                                    text: 'Number of Scans',
+                                    font: {
+                                        size: 14,
+                                    },
+                                    color: 'white'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.5)',
+                                },
                                 color: 'white'
                             }
                         },
-                        title: {
-                            display: true,
-                            text: 'Point Cloud Size / Number of Scans',
-                            font: {
-                                size: 18
-                            },
-                            position: 'top',
-                            color: 'white'
-                        }
-                    },
-                }
-            });
-
-            // -----------------------------------------------------------
-            // ---------------------- Combined Chart ---------------------
-            // -----------------------------------------------------------
-            var combinedScatterData = {
-                datasets: [{
-                    label: 'Raw Data Size / Number of Scans',
-                    data: {{ raw_size_scans|safe }},
-                    pointRadius: 3,
-                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                    borderColor: 'rgba(255, 99, 132, 1)'
-                }, {
-                    label: 'Processed Data Size / Number of Scans',
-                    data: {{ processed_size_scans|safe }},
-                    pointRadius: 3,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)'
-                }, {
-                    label: 'Exported Data Size / Number of Scans',
-                    data: {{ exported_size_scans|safe }},
-                    pointRadius: 3,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)'
-                }]
-            };
-
-            var combinedScatterChart = new Chart(combinedContext, {
-                type: 'scatter',
-                data: combinedScatterData,
-                options: {
-                    scales: {
-                        x: {
-                            ticks: {
-                                color: 'white',
-                            },
-                            type: 'linear',
-                            position: 'bottom',
-                            title: {
-                                display: true,
-                                text: 'Number of Scans',
-                                font: {
-                                    size: 14,
-                                },
-                                color: 'white'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.5)',
-                            },
-                            color: 'white'
-                        },
-                        y: {
-                            ticks: {
-                                color: 'white',
+                        plugins: {
+                            legend:{
+                                labels: {
+                                    color: 'white'
+                                }
                             },
                             title: {
                                 display: true,
-                                text: 'Data Size (GB)',
+                                text: 'Point Cloud Size / Number of Scans',
                                 font: {
-                                    size: 14,
+                                    size: 18
                                 },
-                                color: 'white'
-                            },
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.5)',
-                            },
-                            color: 'white'
-                        }
-                    },
-                    plugins: {
-                        legend:{
-                            labels: {
+                                position: 'top',
                                 color: 'white'
                             }
                         },
-                        title: {
-                            display: true,
-                            text: 'Data Size / Number of Scans',
-                            font: {
-                                size: 18
-                            },
-                            position: 'top',
-                            color: 'white'
-                        }
-                    },
-                }
-            });
-        });
-    </script>
+                    }
+                });
 
+                // -----------------------------------------------------------
+                // ---------------------- Combined Chart ---------------------
+                // -----------------------------------------------------------
+                var combinedScatterData = {
+                    datasets: [{
+                        label: 'Raw Data Size / Number of Scans',
+                        data: {{ raw_size_scans|safe }},
+                        pointRadius: 3,
+                        backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                        borderColor: 'rgba(255, 99, 132, 1)'
+                    }, {
+                        label: 'Processed Data Size / Number of Scans',
+                        data: {{ processed_size_scans|safe }},
+                        pointRadius: 3,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)'
+                    }, {
+                        label: 'Exported Data Size / Number of Scans',
+                        data: {{ exported_size_scans|safe }},
+                        pointRadius: 3,
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)'
+                    }]
+                };
+
+                var combinedScatterChart = new Chart(combinedContext, {
+                    type: 'scatter',
+                    data: combinedScatterData,
+                    options: {
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: 'white',
+                                },
+                                type: 'linear',
+                                position: 'bottom',
+                                title: {
+                                    display: true,
+                                    text: 'Number of Scans',
+                                    font: {
+                                        size: 14,
+                                    },
+                                    color: 'white'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.5)',
+                                },
+                                color: 'white'
+                            },
+                            y: {
+                                ticks: {
+                                    color: 'white',
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Data Size (GB)',
+                                    font: {
+                                        size: 14,
+                                    },
+                                    color: 'white'
+                                },
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.5)',
+                                },
+                                color: 'white'
+                            }
+                        },
+                        plugins: {
+                            legend:{
+                                labels: {
+                                    color: 'white'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Data Size / Number of Scans',
+                                font: {
+                                    size: 18
+                                },
+                                position: 'top',
+                                color: 'white'
+                            }
+                        },
+                    }
+                });
+            });
+        </script>
+    {% endif %}
 {% endblock %}

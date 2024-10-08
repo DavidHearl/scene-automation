@@ -101,7 +101,7 @@ ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
 LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'ships_and_areas'
 
 WSGI_APPLICATION = 'scene_automation.wsgi.application'
 
