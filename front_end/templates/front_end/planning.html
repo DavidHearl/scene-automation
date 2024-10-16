@@ -15,32 +15,72 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <h2>Area Planning Matrix</span></h2>
+        <h2>Area Planning Matrix</h2>
 
-        <table>
-            <caption>Total Areas: <span class="em">{{ cleaned_areas|length }}</span></caption>
-            <thead>
-                <tr>
-                    <th>Area</th>
-                    <th>Occurrences</th>
-                    <th>Average Scans</th>
-                    <th>Min</th>
-                    <th>Max</th>
-                    <th>Ships</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for area in cleaned_areas %}
-                    <tr>
-                        <td>{{ area.area_name }}</td>
-                        <td class="center-data">{{ area.occurrences }}</td>
-                        <td class="center-data">{{ area.avg_scans }}</td>
-                        <td class="center-data">{{ area.min_scans }}</td>
-                        <td class="center-data">{{ area.max_scans }}</td>
-                        <td>{{ area.ships }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <p id="running-total"></p>
+
+        <div class="table" id="area-planning-table">
+            <div class="table-row table-header">
+                <div class="table-cell area">Area</div>
+                <div class="table-cell occurrences">Occurrences</div>
+                <div class="table-cell avg-scans">Average Scans</div>
+                <div class="table-cell min-scans">Min</div>
+                <div class="table-cell max-scans">Max</div>
+            </div>
+            {% for area in cleaned_areas %}
+                <div class="table-row">
+                    <div class="table-cell area">
+                        {{ area.area_name }}
+                    </div>
+                    <div class="table-cell occurrences">
+                        {{ area.occurrences }}
+                    </div>
+                    <div class="table-cell avg-scans">
+                        {{ area.avg_scans }}
+                    </div>
+                    <div class="table-cell min-scans">
+                        {{ area.min_scans }}
+                    </div>
+                    <div class="table-cell max-scans">
+                        {{ area.max_scans }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const table = document.getElementById('area-planning-table');
+                const rows = table.getElementsByClassName('table-row');
+                const runningTotalElement = document.getElementById('running-total');
+                let runningTotal = 0;
+        
+                function updateRunningTotal() {
+                    runningTotalElement.textContent = `Running Total: ${runningTotal}`;
+                }
+        
+                for (let row of rows) {
+                    row.addEventListener('click', function() {
+                        const avgScansCell = this.querySelector('.avg-scans');
+                        const avgScansValue = parseFloat(avgScansCell.textContent) || 0;
+        
+                        this.classList.toggle('selected');
+                        if (this.classList.contains('selected')) {
+                            this.style.backgroundColor = 'purple';
+                            this.style.color = 'white';
+                            runningTotal += avgScansValue;
+                        } else {
+                            this.style.backgroundColor = '';
+                            this.style.color = '';
+                            runningTotal -= avgScansValue;
+                        }
+        
+                        updateRunningTotal();
+                    });
+                }
+        
+                updateRunningTotal(); // Initialize the running total display
+            });
+        </script>
     {% endif %}
 {% endblock %}

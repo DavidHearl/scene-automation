@@ -1,3 +1,12 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
 .headlines {
     display: none;
 }
@@ -16,6 +25,7 @@
 
 h2 {
     color: white;
+    font-size: 1.5rem;
 }
 
 .em {
@@ -35,4 +45,64 @@ th, td {
 tr:hover {
     background-color: #313246;
     color: white;
+}
+
+
+/* Table Settings */
+.table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-collapse: collapse;
+
+}
+
+.table-row {
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-header {
+    background-color: #356ea1 !important;
+    font-weight: bold;
+    color: white;
+    padding: 4px 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.table-cell {
+    flex: 1;
+    padding: 2px;
+    text-align: center;
+}
+
+.area {
+    text-align: left;
+    padding-left: 6px;
+}
+
+.checkbox {
+    flex: 0 0 50px; /* Adjust the width of the checkbox column */
+}
+
+.area, .occurrences, .avg-scans, .min-scans, .max-scans {
+    flex: 1;
+}
+
+.table-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table-row:nth-child(odd) {
+    background-color: #ebebeb;
+}
+
+.table-row:hover {
+    background-color: #d4cfb2;
+}
+
+.selected {
+    background-color: #d4cfb2; /* Highlight color for selected rows */
 }
