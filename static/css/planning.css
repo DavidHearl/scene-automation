@@ -5,6 +5,7 @@
 
 p {
     margin: 0;
+    padding: 0 !important;
 }
 
 .headlines {
@@ -105,4 +106,63 @@ tr:hover {
 
 .selected {
     background-color: #d4cfb2; /* Highlight color for selected rows */
+}
+
+#hidden-data {
+    display: none;
+}
+
+.areas {
+    display: flex;
+}
+
+.dash-container {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.dash {
+    border: 1px solid black;
+    color: white;
+    background: #356ea1;
+    padding: 8px;
+    border-radius: 8px;
+    flex-grow: 1;
+}
+
+.small-title {
+    font-size: 1rem;
+    text-decoration: underline;
+    margin-bottom: 0;
+    margin-bottom: 4px;
+}
+
+#missing-areas div {
+    display: flex;
+    align-items: center;
+}
+
+.ma-checkbox {
+    margin-right: 6px;
+    height: 16px;
+    width: 16px;
+}
+
+.number-input {
+    width: 80px;
+    height: 20px;
+    margin-left: auto;
+    border: none;
+    border-radius: 4px;
+    padding-left: 4px;
+    font-size: 0.9rem;
+}
+
+#ship-select {
+    width: 100%;
+    padding: 2px;
+    padding-left: 4px;
+    border-radius: 4px;
+    border: none;
 }

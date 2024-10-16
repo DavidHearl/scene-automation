@@ -17,20 +17,40 @@
     {% if user.is_authenticated %}
         <h2>Area Planning Matrix</h2>
 
-    <p id="running-total"></p>
+        <div class="dash-container">
+            <div class="dash">
+                <h3 class="small-title">Running Total</h3>
+                <p id="running-total"></p>
+            </div>
+
+            <div class="dash">
+                <h3 class="small-title">Similar Ships</h3>
+                <select id="ship-select" onchange="updateMissingAreas()">
+                    <option value="">-- Select a Ship --</option>
+                    {% for ship in ships %}
+                        <option value="{{ ship.name }}">{{ ship.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="dash" id="missing-areas">
+                <h3 class="small-title">Missing Areas</h3>
+            </div>
+        </div>
+
 
         <div class="table" id="area-planning-table">
             <div class="table-row table-header">
-                <div class="table-cell area">Area</div>
-                <div class="table-cell occurrences">Occurrences</div>
-                <div class="table-cell avg-scans">Average Scans</div>
-                <div class="table-cell min-scans">Min</div>
-                <div class="table-cell max-scans">Max</div>
+                <div class="table-cell">Area</div>
+                <div class="table-cell">Occurrences</div>
+                <div class="table-cell">Average Scans</div>
+                <div class="table-cell">Min</div>
+                <div class="table-cell">Max</div>
             </div>
             {% for area in cleaned_areas %}
                 <div class="table-row">
                     <div class="table-cell area">
-                        {{ area.area_name }}
+                        <p class="main-area-value">{{ area.area_name }}</p>
                     </div>
                     <div class="table-cell occurrences">
                         {{ area.occurrences }}
@@ -48,39 +68,22 @@
             {% endfor %}
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const table = document.getElementById('area-planning-table');
-                const rows = table.getElementsByClassName('table-row');
-                const runningTotalElement = document.getElementById('running-total');
-                let runningTotal = 0;
-        
-                function updateRunningTotal() {
-                    runningTotalElement.textContent = `Running Total: ${runningTotal}`;
-                }
-        
-                for (let row of rows) {
-                    row.addEventListener('click', function() {
-                        const avgScansCell = this.querySelector('.avg-scans');
-                        const avgScansValue = parseFloat(avgScansCell.textContent) || 0;
-        
-                        this.classList.toggle('selected');
-                        if (this.classList.contains('selected')) {
-                            this.style.backgroundColor = 'purple';
-                            this.style.color = 'white';
-                            runningTotal += avgScansValue;
-                        } else {
-                            this.style.backgroundColor = '';
-                            this.style.color = '';
-                            runningTotal -= avgScansValue;
-                        }
-        
-                        updateRunningTotal();
-                    });
-                }
-        
-                updateRunningTotal(); // Initialize the running total display
-            });
-        </script>
+        <div id="hidden-data">
+            <p>Total number of areas: {{ areas|length }}</p>
+            <table id="hidden-areas-table">
+                <tr>
+                    <th>Ship</th>
+                    <th>Area</th>
+                </tr>
+                {% for area in areas %}
+                    <tr class="area-row">
+                        <td>{{ area.ship }}</td>
+                        <td>{{ area.area_name }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <script src="{% static 'js/planning.js' %}"></script>
     {% endif %}
 {% endblock %}

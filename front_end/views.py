@@ -681,7 +681,7 @@ def training(request):
 
 
 def planning(request):
-    areas = Area.objects.all()
+    areas = get_areas()
 
     # Words to filter out
     filter_words = ["Cabin", "Restroom", "Toilet", "Embark", "Penthouse"]
@@ -726,6 +726,8 @@ def planning(request):
 
     context = {
         'cleaned_areas': formatted_areas,
+        'areas': areas,
+        'ships': get_ships(),
     }
 
     return render(request, 'front_end/planning.html', context)
