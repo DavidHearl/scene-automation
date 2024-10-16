@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let runningTotal = 0;
 
     function updateRunningTotal() {
-        runningTotalElement.textContent = `Number of Scans: ${runningTotal}`;
+        runningTotalElement.textContent = `Running Total: ${runningTotal}`;
     }
 
     function toggleRowSelection(row) {
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const mainAreaValue = document.getElementsByClassName('main-area-value');
 
         // Clear the current content of #missing-areas
-        missingAreas.innerHTML = '<h3 class=small-title>Missing Areas</h3>';
+        missingAreas.innerHTML = '<h3 class=small-headline>Missing Areas</h3>';
 
         // Create arrays to store the areas
         const hiddenAreaArray = [];
@@ -97,18 +97,18 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add the new formatted string to the missing array
             missing.push(`${cabinCount} x Cabins`);
         }
-        
+
         console.log(missing);
-        
+
         // Clear the current content of #missing-areas
         missingAreas.innerHTML = '<h3 class=small-title>Missing Areas</h3>';
-        
+
         // Create a checkbox, p element, and number input for every value in the missing array
         missing.forEach(area => {
             const div = document.createElement('div');
+            div.classList.add('flex-item'); // Add a class to the div
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
-            checkbox.classList.add('ma-checkbox')
             const p = document.createElement('p');
             p.textContent = area;
             const numberInput = document.createElement('input');
@@ -120,25 +120,51 @@ document.addEventListener('DOMContentLoaded', function() {
             div.appendChild(p);
             div.appendChild(numberInput);
             missingAreas.appendChild(div);
-        
+
             // Add event listener to the checkbox
             checkbox.addEventListener('change', function() {
                 if (this.checked) {
-                    div.style.transition = 'opacity 8s';
+                    div.style.transition = 'opacity 3s';
                     div.style.opacity = '0';
                 } else {
                     div.style.transition = 'none';
                     div.style.opacity = '1';
                 }
             });
-        
-            // Remove the div when the transition ends
+
+            // Remove the div when the transition ends and add to the table
             div.addEventListener('transitionend', function() {
                 if (div.style.opacity === '0') {
+                    const areaName = p.textContent;
+                    const avgScansValue = numberInput.value;
+
+                    // Create a new row in the table
+                    const newRow = document.createElement('div');
+                    newRow.classList.add('table-row'); // Add table-row class
+                    newRow.innerHTML = `
+                        <div class="table-cell area">
+                            <p class="main-area-value">${areaName}</p>
+                        </div>
+                        <div class="table-cell occurrences"></div>
+                        <div class="table-cell avg-scans">${avgScansValue}</div>
+                        <div class="table-cell min-scans"></div>
+                        <div class="table-cell max-scans"></div>
+                    `;
+                    table.appendChild(newRow);
+
+                    // Add click event listener to the new row to toggle selection
+                    newRow.addEventListener('click', function() {
+                        toggleRowSelection(newRow);
+                    });
+
+                    // Highlight the new row
+                    toggleRowSelection(newRow);
+
+                    // Remove the div
                     div.remove();
                 }
             });
-        
+
             // Add event listener to the number input to update the running total
             numberInput.addEventListener('input', function() {
                 const previousValue = parseFloat(numberInput.getAttribute('data-previous-value')) || 0;
@@ -148,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateRunningTotal();
             });
         });
-        
+
         // Reset the state of all rows and the running total
         runningTotal = 0;
         for (let row of rows) {
@@ -156,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
             row.style.backgroundColor = '';
             row.style.color = '';
         }
-        
+
         // Simulate click on rows corresponding to included areas
         for (let row of rows) {
             const areaNameElement = row.querySelector('.main-area-value');
@@ -167,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }
-        
+
         // Update the running total display
         updateRunningTotal();
     }
