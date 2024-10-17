@@ -2,17 +2,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const table = document.getElementById('area-planning-table');
     const rows = table.getElementsByClassName('table-row');
     const runningTotalElement = document.getElementById('running-total');
+    const requiredTimeElement = document.getElementById('required-time');
+    const requiredDaysElement = document.getElementById('required-days');
+    const scannerRadios = document.getElementsByName('scanners');
+    const qualityRadios = document.getElementsByName('quality');
     let runningTotal = 0;
+    let scanners = 1;
+    let quality = 'high';
 
     function updateRunningTotal() {
-        runningTotalElement.textContent = `Running Total: ${runningTotal}`;
+        runningTotalElement.textContent = `Scans: ${runningTotal}`;
+        // quality either low or high
+        // scanners either 1 or 2
+
+        let scansPerHour;
+        if (quality === 'high') {
+            scansPerHour = 3600 / 455
+            if (scanners == 2) {
+                scansPerHour += 3600 / 661
+            }
+        } else {
+            scansPerHour = 3600 / 234
+            if (scanners == 2) {
+                scansPerHour += 3600 / 279
+            }
+        }
+
+        let scanTime = runningTotal / scansPerHour;
+        requiredTimeElement.textContent = `Time Required: ${scanTime.toFixed(2)} Hours`;
+
+        let scanDays = scanTime / 12
+        requiredDaysElement.textContent = `Days Required: ${scanDays.toFixed(2)} Days`
     }
 
     function toggleRowSelection(row) {
         const avgScansCell = row.querySelector('.avg-scans');
         if (!avgScansCell) return; // Ensure avgScansCell is not null
         const avgScansValue = parseFloat(avgScansCell.textContent) || 0;
-
+    
         row.classList.toggle('selected');
         if (row.classList.contains('selected')) {
             row.style.backgroundColor = 'purple';
@@ -23,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             row.style.color = '';
             runningTotal -= avgScansValue;
         }
-
+    
         updateRunningTotal();
     }
 
@@ -33,7 +60,21 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    updateRunningTotal(); // Initialize the running total display
+    // Add event listeners to the scanner radio buttons
+    scannerRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            scanners = parseInt(this.value);
+            updateRunningTotal();
+        });
+    });
+
+    // Add event listeners to the quality radio buttons
+    qualityRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            quality = this.value;
+            updateRunningTotal();
+        });
+    });
 
     function updateMissingAreas() {
         const shipSelect = document.getElementById('ship-select');
@@ -43,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const mainAreaValue = document.getElementsByClassName('main-area-value');
 
         // Clear the current content of #missing-areas
-        missingAreas.innerHTML = '<h3 class=small-headline>Missing Areas</h3>';
+        missingAreas.innerHTML = '<h3 class=small-title>Missing Areas</h3>';
 
         // Create arrays to store the areas
         const hiddenAreaArray = [];
@@ -81,24 +122,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Look through the missing array, and change repeated values
-        const toiletCount = missing.filter(area => area.toLowerCase().includes('toilets')).length;
-        const cabinCount = missing.filter(area => area.toLowerCase().includes('cabin')).length;
+        const toiletCount = missing.filter(area => /toilet|restroom/i.test(area)).length;
+        const cabinCount = missing.filter(area => /cabin/i.test(area)).length;
 
         if (toiletCount > 0) {
             // Remove all instances of 'toilets' or 'restrooms' from the missing array
-            missing = missing.filter(area => !area.toLowerCase().includes('toilets') && !area.toLowerCase().includes('restrooms'));
+            missing = missing.filter(area => !/toilet|restroom/i.test(area));
             // Add the new formatted string to the missing array
             missing.push(`${toiletCount} x Toilets/Restrooms`);
         }
 
         if (cabinCount > 0) {
             // Remove all instances of 'cabin' from the missing array
-            missing = missing.filter(area => !area.toLowerCase().includes('cabin'));
+            missing = missing.filter(area => !/cabin/i.test(area));
             // Add the new formatted string to the missing array
             missing.push(`${cabinCount} x Cabins`);
         }
-
-        console.log(missing);
 
         // Clear the current content of #missing-areas
         missingAreas.innerHTML = '<h3 class=small-title>Missing Areas</h3>';
@@ -109,6 +148,7 @@ document.addEventListener('DOMContentLoaded', function() {
             div.classList.add('flex-item'); // Add a class to the div
             const checkbox = document.createElement('input');
             checkbox.type = 'checkbox';
+            checkbox.classList.add('checkbox')
             const p = document.createElement('p');
             p.textContent = area;
             const numberInput = document.createElement('input');
@@ -124,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add event listener to the checkbox
             checkbox.addEventListener('change', function() {
                 if (this.checked) {
-                    div.style.transition = 'opacity 3s';
+                    div.style.transition = 'opacity 5s';
                     div.style.opacity = '0';
                 } else {
                     div.style.transition = 'none';

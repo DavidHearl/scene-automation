@@ -19,11 +19,6 @@
 
         <div class="dash-container">
             <div class="dash">
-                <h3 class="small-title">Running Total</h3>
-                <p id="running-total"></p>
-            </div>
-
-            <div class="dash">
                 <h3 class="small-title">Similar Ships</h3>
                 <select id="ship-select" onchange="updateMissingAreas()">
                     <option value="">-- Select a Ship --</option>
@@ -31,6 +26,29 @@
                         <option value="{{ ship.name }}">{{ ship.name }}</option>
                     {% endfor %}
                 </select>
+                <div class="radio-container">
+                    <label>
+                        <input type="radio" name="scanners" value="1" checked> 1 Scanner
+                    </label>
+                    <label>
+                        <input type="radio" name="scanners" value="2"> 2 Scanners
+                    </label>
+                </div>
+                <div class="radio-container">
+                    <label>
+                        <input type="radio" name="quality" value="high" checked> High Quality
+                    </label>
+                    <label>
+                        <input type="radio" name="quality" value="low"> Low Quality
+                    </label>
+                </div>
+            </div>
+
+            <div class="dash">
+                <h3 class="small-title">Running Total</h3>
+                <p id="running-total"></p>
+                <p id="required-time"></p>
+                <p id="required-days"></p>
             </div>
 
             <div class="dash" id="missing-areas">
@@ -42,8 +60,8 @@
         <div class="table" id="area-planning-table">
             <div class="table-row table-header">
                 <div class="table-cell">Area</div>
-                <div class="table-cell">Occurrences</div>
                 <div class="table-cell">Average Scans</div>
+                <div class="table-cell">Occurrences</div>
                 <div class="table-cell">Min</div>
                 <div class="table-cell">Max</div>
             </div>
@@ -52,11 +70,11 @@
                     <div class="table-cell area">
                         <p class="main-area-value">{{ area.area_name }}</p>
                     </div>
-                    <div class="table-cell occurrences">
-                        {{ area.occurrences }}
-                    </div>
                     <div class="table-cell avg-scans">
                         {{ area.avg_scans }}
+                    </div>
+                    <div class="table-cell occurrences">
+                        {{ area.occurrences }}
                     </div>
                     <div class="table-cell min-scans">
                         {{ area.min_scans }}
