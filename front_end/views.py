@@ -78,17 +78,17 @@ def get_areas():
 
 # Constants to define the time taken for each process
 time_per_scan = 20
-time_per_area = 35
+time_per_area = 40
 
 # Error times
 error_codes = ["Minor Fail", "Major Fail", "Critical Fail"]
-error_times = [2, 2.45, 2.9]
+error_times = [2, 2.4, 2.8]
 
 # Constants to define the number of hours in a workday
 hours_per_workday = 7.5
 
 # Constant to define the time added for complexity of the area
-exponential_factor = 1.006 # 0.6% increase in time per scan
+exponential_factor = 1.005 # 0.5% increase in time per scan
 
 # Processes and their respective weightings
 process_stage = ["processed", "registered", "cleaned", "point_cloud", "exported", "uploaded"]
@@ -806,10 +806,6 @@ def data(request):
     }
 
     return render(request, 'front_end/data.html', context)
-
-
-def manual(request):
-    return render(request, 'front_end/manual.html')
 
 
 def settings(request):

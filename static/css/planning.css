@@ -56,6 +56,8 @@ tr:hover {
     width: 100%;
     border-collapse: collapse;
     border: 1px solid black;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .table-row {
@@ -125,6 +127,9 @@ tr:hover {
     padding: 8px;
     border-radius: 8px;
     flex-grow: 1;
+    flex-basis: 0; /* Allow flex items to grow and shrink equally */
+    flex-shrink: 1; /* Allow flex items to shrink equally */
+    flex-grow: 1; /* Allow flex items to grow equally */
 }
 
 .small-title {
@@ -159,7 +164,7 @@ tr:hover {
     width: 100%;
     padding: 4px;
     border-radius: 4px;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     border: none;
 }
 

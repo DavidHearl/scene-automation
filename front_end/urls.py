@@ -14,7 +14,6 @@ urlpatterns = [
     path('edit_priority/<int:area_id>/', views.edit_priority, name='edit_priority'),
     path('logs/', views.logs, name='logs'),
     path('data/', views.data, name='data'),
-    path('manual/', views.manual, name='manual'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('settings/', views.settings, name='settings'),
     path('delete_booking/<int:booking_id>/', views.delete_booking, name='delete_booking'),

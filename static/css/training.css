@@ -27,10 +27,6 @@
 .training-navigation {
     display: flex;
     flex-direction: column;
-    background: white;
-    border: 1px solid black;
-    border-radius: 4px;
-    padding: 12px;
     position: fixed;
     top: 16px;
     right: 32px;
@@ -150,4 +146,44 @@ th {
 .center {
     width: 50%;
     text-align: center;
+}
+
+.aside-navigation-header {
+    display: flex;
+    justify-content: center;
+    padding: 6px;
+    background: rgb(25, 31, 44);
+    color: white;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border: 1px solid #757575;
+    border-bottom: none;
+}
+
+.aside-navigation-content {
+    display: flex;
+    flex-direction: column;
+    padding: 6px;
+    background: linear-gradient(to bottom, rgb(25, 31, 44), rgb(43, 52, 71));
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: 1px solid #757575
+}
+
+h4 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+h5 {
+    color: #9ed2f5;
+    font-size: 1rem;
+    margin: 0;
+}
+
+h6 {
+    color: #65c1ff;
+    font-size: 0.9rem;
+    margin: 0;
+    font-style: italic;
 }

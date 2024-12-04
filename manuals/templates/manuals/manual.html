@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manuals/manual.css' %}">
+{% endblock %}
+{% block content %} 
+    <div class="container">
+        <div class="left-side" id="content-section">
+            <!-- Content will be loaded here -->
+        </div>
+        <div class="right-side">
+            <div class="section-container">
+                <h3 class="section-title">Stream</h3>
+                <ul class="section-list">
+                    <li><a href="{% url 'manuals:connecting_to_wifi' %}" class="ajax-link">Connecting to WiFi</a></li>
+                </ul>
+            </div>
+            <div class="section-container">
+                <h3 class="section-title">Scene</h3>
+            </div>
+            <div class="section-container">
+                <h3 class="section-title">Sphere</h3>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.ajax-link');
+            links.forEach(link => {
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const url = this.href;
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            document.getElementById('content-section').innerHTML = html;
+                        })
+                        .catch(error => console.warn('Error loading content:', error));
+                });
+            });
+        });
+    </script>
+{% endblock %}
