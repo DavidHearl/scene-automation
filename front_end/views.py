@@ -870,8 +870,8 @@ def edit_booking(request, booking_id):
             modify_form.save_m2m()  # Save many-to-many relationships
 
             # Update contract_manager and designer manually
-            bookings.contract_manager.set(request.POST.getlist('contract_managers'))
-            bookings.designer.set(request.POST.getlist('designers'))
+            bookings.contract_manager.set(request.POST.getlist('contract_manager'))
+            bookings.designer.set(request.POST.getlist('designer'))
 
             messages.success(request, 'Booking edited successfully.')
             return redirect('booking')

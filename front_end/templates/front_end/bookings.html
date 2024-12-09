@@ -259,25 +259,25 @@
                                     <div class="many-div">
                                         {% for designer in designers %}
                                             <div class="many-select-field">
-                                                <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designers" value="{{ designer.id }}"
+                                                <input class="many-checkbox" type="checkbox" id="designer_{{ designer.id }}" name="designer" value="{{ designer.id }}"
                                                     {% if designer in booking.designer.all %}checked{% endif %}>
                                                 <label class="checkbox-label" for="designer_{{ designer.id }}">{{ designer.name }}</label>
                                             </div>
                                         {% endfor %}
                                     </div>
                                 </div>
-        
+                        
                                 <div class="bottom-many-container">
                                     <label class="edit-booking-label">Contract Manager:</label>
                                     <div class="many-div">
                                         {% for manager in contract_managers %}
                                             <div class="many-select-field">
-                                                <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_managers" value="{{ manager.id }}"
+                                                <input class="many-checkbox" type="checkbox" id="contract_manager_{{ manager.id }}" name="contract_manager" value="{{ manager.id }}"
                                                     {% if manager in booking.contract_manager.all %}checked{% endif %}>
                                                 <label class="checkbox-label" for="contract_manager_{{ manager.id }}">{{ manager.name }}</label>
                                             </div>
                                         {% endfor %}
-                                    </div>    
+                                    </div>
                                 </div>
                             </div>
         
