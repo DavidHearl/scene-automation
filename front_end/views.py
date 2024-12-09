@@ -78,7 +78,7 @@ def get_areas():
 
 # Constants to define the time taken for each process
 time_per_scan = 20
-time_per_area = 40
+time_per_area = 60
 
 # Error times
 error_codes = ["Minor Fail", "Major Fail", "Critical Fail"]

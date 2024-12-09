@@ -2,7 +2,7 @@
 console.log("bookings.js loaded");
 
 
-var bookingCards = document.querySelectorAll('.booking-card'); // Create a variable for the booking-card classes
+var bookingCards = document.querySelectorAll('.edit-booking-card'); // Create a variable for the booking-card classes
 var allBookings = [];   // Array to store all booking data
 
 
