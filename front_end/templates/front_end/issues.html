@@ -13,14 +13,16 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        <h1 class="titles">Issues</h1>
+        {% if user.is_superuser %}
+            <h1 class="titles">Issues</h1>
 
-        <form method="post">
-            {% csrf_token %}
-            {{ issue_form.as_p }}
-            <button class="submit-button" type="submit">Add Issue</button>
-        </form>
-        
+            <form method="post">
+                {% csrf_token %}
+                {{ issue_form.as_p }}
+                <button class="submit-button" type="submit">Add Issue</button>
+            </form>
+        {% endif %}
+
         <h2 class="titles">Existing Issues ({{ issue_count }})</h2>
         <div class="issue-list">
             {% for issue in issues %}
