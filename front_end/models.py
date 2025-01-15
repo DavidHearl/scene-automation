@@ -210,3 +210,9 @@ class PageVisit(models.Model):
 	page = models.CharField(max_length=200)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
+
+
+class Issues(models.Model):
+	date = models.DateTimeField(auto_now_add=True)
+	issue = models.TextField()
+	

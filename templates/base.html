@@ -98,6 +98,12 @@
                         <span class="navigation-text">Planning</span>
                     </a>
                 </li>
+                <li>
+                    <a href="{% url 'issues' %}">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span class="navigation-text">Issues</span>
+                    </a>
+                </li>
             </ul>
 
             {% if user.is_superuser %}

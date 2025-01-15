@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load custom_filters %}
+
+{% block title %} 
+    Ship Areas & Details 
+{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/issues.css' %}">
+{% endblock %}
+
+{% csrf_token %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1 class="titles">Issues</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ issue_form.as_p }}
+            <button class="submit-button" type="submit">Add Issue</button>
+        </form>
+        
+        <h2 class="titles">Existing Issues</h2>
+        <div class="issue-list">
+            {% for issue in issues %}
+                <div class="issue-container">
+                    <div class="issue-date">
+                        <p>{{ issue.date|date:"M jS" }}:</p>
+                    </div>
+                    <div class="issue-description">
+                        <p>
+                            {{ issue.issue }}
+                        </p>
+                    </div> 
+                    <div class="issue-actions">
+                        <a class="delete-button" href="{% url 'delete_issue' issue.id %}">Delete</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

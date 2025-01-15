@@ -58,3 +58,9 @@ class ShipPriorityForm(forms.ModelForm):
         widgets = {
             'priority': forms.Select(choices=Ship.PRIORITY_CHOICES),
         }
+
+
+class IssueForm(forms.ModelForm):
+    class Meta:
+        model = Issues
+        fields = ['issue']

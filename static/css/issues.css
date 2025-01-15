@@ -1,0 +1,76 @@
+.headlines {
+    display: none;
+}
+
+.titles {
+    color: white;
+    font-size: 1.3rem;
+}
+
+.issue-list {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 0 8px;
+    border-radius: 4px;
+}
+
+.issue-container {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 2px 0;
+}
+
+.issue-date {
+    margin: 2px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.issue-description {
+    margin: 2px;
+    width: 100%;
+}
+
+.issue-actions {
+    padding: 4px 0;
+}
+
+label {
+    display: none;
+}
+
+p {
+    margin: 0;
+}
+
+form {
+    margin-bottom: 24px;
+}
+
+#id_issue {
+    width: 100%;
+    padding: 4px;
+    height: 106px;
+    border-radius: 8px;
+}
+
+.submit-button {
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: none;
+    background: #9cdb9c;
+    float: right;
+}
+
+.delete-button {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: none;
+    background: #ff6b6b;
+    color: white;
+    text-decoration: none;
+    margin-left: auto;
+    font-size: 0.8rem;
+}

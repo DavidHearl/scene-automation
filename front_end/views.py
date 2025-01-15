@@ -812,6 +812,33 @@ def settings(request):
     return render(request, 'front_end/settings.html')
 
 
+def issues(request):
+    if request.method == 'POST':
+        issue_form = IssueForm(request.POST)
+        if issue_form.is_valid():
+            issue_form.save()
+            messages.success(request, 'Issue added successfully.')
+            return redirect('issues')
+        else:
+            print(issue_form.errors)
+    else:
+        issue_form = IssueForm()
+
+    context = {
+        'issue_form': issue_form,
+        'issues': Issues.objects.all().order_by('-date'),
+    }
+
+    return render(request, 'front_end/issues.html', context)
+
+
+def delete_issue(request, issue_id):
+    issue = get_object_or_404(Issues, pk=issue_id)
+    issue.delete()
+    messages.success(request, 'Issue deleted successfully.')
+    return redirect('issues')
+
+
 # --------------------------------------------------------------------------- #
 # ----------------------------- CRUD Operations ----------------------------- #
 # --------------------------------------------------------------------------- #
