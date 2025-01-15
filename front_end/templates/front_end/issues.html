@@ -11,8 +11,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/issues.css' %}">
 {% endblock %}
 
-{% csrf_token %}
-
 {% block content %}
     {% if user.is_authenticated %}
         <h1 class="titles">Issues</h1>
@@ -23,23 +21,40 @@
             <button class="submit-button" type="submit">Add Issue</button>
         </form>
         
-        <h2 class="titles">Existing Issues</h2>
+        <h2 class="titles">Existing Issues ({{ issue_count }})</h2>
         <div class="issue-list">
             {% for issue in issues %}
                 <div class="issue-container">
-                    <div class="issue-date">
-                        <p>{{ issue.date|date:"M jS" }}:</p>
-                    </div>
-                    <div class="issue-description">
-                        <p>
-                            {{ issue.issue }}
-                        </p>
-                    </div> 
-                    <div class="issue-actions">
-                        <a class="delete-button" href="{% url 'delete_issue' issue.id %}">Delete</a>
-                    </div>
+                    <div class="issue-date">{{ issue.date|date:"M jS" }}:</div>
+                    <div class="issue-description">{{ issue.issue }}</div>
+                    {% if user.is_superuser %}
+                        <div class="issue-actions">
+                            <a class="edit-button" href="javascript:void(0);" onclick="toggleEditForm({{ issue.id }})">Edit</a>
+                            <a class="delete-button" href="{% url 'delete_issue' issue.id %}">Delete</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="edit-form" id="edit-form-{{ issue.id }}" style="display: none;">
+                    <form method="post" action="{% url 'edit_issue' issue.id %}">
+                        {% csrf_token %}
+                        <textarea class="edit-issue" name="issue">{{ issue.issue }}</textarea>
+                        <button class="save-button" type="submit">Save</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>
     {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleEditForm(issueId) {
+    var editForm = document.getElementById('edit-form-' + issueId);
+    if (editForm.style.display === 'none') {
+        editForm.style.display = 'block';
+    } else {
+        editForm.style.display = 'none';
+    }
+}
+</script>
 {% endblock %}

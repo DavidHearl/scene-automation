@@ -824,9 +824,30 @@ def issues(request):
     else:
         issue_form = IssueForm()
 
+    issues = Issues.objects.all().order_by('-date')
     context = {
         'issue_form': issue_form,
-        'issues': Issues.objects.all().order_by('-date'),
+        'issues': issues,
+        'issue_count': issues.count(),
+    }
+
+    return render(request, 'front_end/issues.html', context)
+
+
+def edit_issue(request, issue_id):
+    issue = get_object_or_404(Issues, pk=issue_id)
+    if request.method == 'POST':
+        issue_form = IssueForm(request.POST, instance=issue)
+        if issue_form.is_valid():
+            issue_form.save()
+            messages.success(request, 'Issue updated successfully.')
+            return redirect('issues')
+    else:
+        issue_form = IssueForm(instance=issue)
+
+    context = {
+        'issue_form': issue_form,
+        'issues': Issues.objects.all(),
     }
 
     return render(request, 'front_end/issues.html', context)
