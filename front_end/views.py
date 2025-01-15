@@ -815,19 +815,28 @@ def settings(request):
 def issues(request):
     if request.method == 'POST':
         issue_form = IssueForm(request.POST)
-        if issue_form.is_valid():
+        category_form = IssueCategoryForm(request.POST)
+        if 'issue_submit' in request.POST and issue_form.is_valid():
             issue_form.save()
             messages.success(request, 'Issue added successfully.')
             return redirect('issues')
+        elif 'category_submit' in request.POST and category_form.is_valid():
+            category_form.save()
+            messages.success(request, 'Category added successfully.')
+            return redirect('issues')
         else:
-            print(issue_form.errors)
+            print(issue_form.errors, category_form.errors)
     else:
         issue_form = IssueForm()
+        category_form = IssueCategoryForm()
 
     issues = Issues.objects.all().order_by('-date')
+    categories = IssueCategory.objects.all()
     context = {
         'issue_form': issue_form,
+        'category_form': category_form,
         'issues': issues,
+        'categories': categories,
         'issue_count': issues.count(),
     }
 

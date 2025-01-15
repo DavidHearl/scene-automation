@@ -13,21 +13,46 @@
 
 {% block content %}
     {% if user.is_authenticated %}
-        {% if user.is_superuser %}
-            <h1 class="titles">Issues</h1>
 
-            <form method="post">
-                {% csrf_token %}
-                {{ issue_form.as_p }}
-                <button class="submit-button" type="submit">Add Issue</button>
-            </form>
+        {% if user.is_superuser %}
+            <div class="new-issue-container">
+                <div class="add-issue">
+                    <h2 class="titles">Add New Issue</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ issue_form.issue.label_tag }} {{ issue_form.issue }}
+                        <div class="form-row">
+                            {{ issue_form.category.label_tag }} {{ issue_form.category }}
+                            <button class="submit-button" type="submit" name="issue_submit">Add Issue</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- <div class="add-category">
+                    <h2 class="titles">Add Category</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ category_form.as_p }}
+                        <button class="submit-button" type="submit" name="category_submit">Add Category</button>
+                    </form>
+                </div> -->
+            </div>
         {% endif %}
 
-        <h2 class="titles">Existing Issues ({{ issue_count }})</h2>
+        <h2 class="titles">Issues ({{ issue_count }})</h2>
         <div class="issue-list">
             {% for issue in issues %}
                 <div class="issue-container">
                     <div class="issue-date">{{ issue.date|date:"M jS" }}:</div>
+
+                    {% if issue.category.name == "Crash Report" %}
+                        <div class="crash-report">CR</div>
+                    {% elif issue.category.name == "Unexplained Failure" %}
+                        <div class="unexplained-failure">UF</div>
+                    {% else %}
+                        <div class="issue-category">{{ issue.category.name }}</div>
+                    {% endif %}
+
                     <div class="issue-description">{{ issue.issue }}</div>
                     {% if user.is_superuser %}
                         <div class="issue-actions">
@@ -40,6 +65,11 @@
                     <form method="post" action="{% url 'edit_issue' issue.id %}">
                         {% csrf_token %}
                         <textarea class="edit-issue" name="issue">{{ issue.issue }}</textarea>
+                        <select name="category">
+                            {% for category in categories %}
+                                <option value="{{ category.id }}" {% if issue.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
                         <button class="save-button" type="submit">Save</button>
                     </form>
                 </div>

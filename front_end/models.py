@@ -212,7 +212,18 @@ class PageVisit(models.Model):
 	time_remaining = models.DecimalField(max_digits=5, decimal_places=2, default=0, null=True, blank=True)
 
 
+class IssueCategory(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
 class Issues(models.Model):
-	date = models.DateTimeField(auto_now_add=True)
-	issue = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    issue = models.TextField()
+    category = models.ForeignKey(IssueCategory, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.issue
 	
