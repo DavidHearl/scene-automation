@@ -11,20 +11,60 @@
         </div>
         <div class="right-side">
             <div class="section-container">
+                <h3 class="section-title">Technical Information</h3>
+                <ul class="section-list">
+                    <li class="ajax-list"><a href="{% url 'manuals:folder_structure' %}" class="ajax-link">Folder Structure</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:data_storage' %}" class="ajax-link">Data Storage</a></li>
+                </ul>
+            </div>
+            <div class="section-container">
+                <div class="section-title">Scanner</div>
+                <div class="section-list">
+                    <li class="ajax-list"><a href="{% url 'manuals:scanner_settings' %}" class="ajax-link">Scanner Settings</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:cleaning_scanner' %}" class="ajax-link">Cleaning Scanner</a></li>
+                </div>
+            </div>
+            <div class="section-container">
                 <h3 class="section-title">Stream</h3>
                 <ul class="section-list">
-                    <li><a href="{% url 'manuals:connecting_to_wifi' %}" class="ajax-link">Connecting to WiFi</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:file_names' %}" class="ajax-link">File Names</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:connecting_to_wifi' %}" class="ajax-link">Connecting to WiFi</a></li>
                 </ul>
             </div>
             <div class="section-container">
                 <h3 class="section-title">Scene</h3>
+                <ul class="section-list">
+                    <li class="ajax-list"><a href="{% url 'manuals:scene_settings' %}" class="ajax-link">Settings</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:processing' %}" class="ajax-link">Processing</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:registration' %}" class="ajax-link">Registration</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:point_cloud' %}" class="ajax-link">Point Cloud</a></li>
+                    <li class="ajax-list"><a href="{% url 'manuals:exporting' %}" class="ajax-link">Exporting</a></li>
+                </ul>
             </div>
-            <div class="section-container">
+            <!-- <div class="section-container">
                 <h3 class="section-title">Sphere</h3>
-            </div>
+            </div> -->
         </div>
     </div>
 {% endblock %}
+
+def processing(request):
+    return render(request, 'manuals/processing.html')
+
+def registration(request):
+    return render(request, 'manuals/registration.html')
+
+def cleaning(request):
+    return render(request, 'manuals/cleaning.html')
+
+def point_cloud(request):
+    return render(request, 'manuals/point_cloud.html')
+
+def exporting(request):
+    return render(request, 'manuals/exporting.html')
+
+
+
 {% block extra_js %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {

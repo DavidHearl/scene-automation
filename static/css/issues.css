@@ -53,7 +53,7 @@ form {
 
 #id_issue {
     width: 100%;
-    padding: 4px;
+    padding: 4px 6px;
     height: 106px;
     border-radius: 8px;
 }
