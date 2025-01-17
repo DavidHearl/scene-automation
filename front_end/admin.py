@@ -73,7 +73,7 @@ class ContractManagerAdmin(admin.ModelAdmin):
 
 class IssueAdmin(admin.ModelAdmin):
     list_display = (
-        'issue',
+        'issues',
         'date',
     )
 
