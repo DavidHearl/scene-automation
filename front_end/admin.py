@@ -73,9 +73,10 @@ class ContractManagerAdmin(admin.ModelAdmin):
 
 class IssueAdmin(admin.ModelAdmin):
     list_display = (
-        'issues',
+        'issue',
         'date',
     )
+
 
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)

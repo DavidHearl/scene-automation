@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 # -----------------------------------------------------------------
@@ -220,7 +221,7 @@ class IssueCategory(models.Model):
 
 
 class Issues(models.Model):
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateTimeField(default=timezone.now, editable=True)
     issue = models.TextField()
     category = models.ForeignKey(IssueCategory, on_delete=models.SET_NULL, null=True, blank=True)
 
