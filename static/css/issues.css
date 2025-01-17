@@ -109,7 +109,8 @@ form {
 }
 
 .crash-report,
-.unexplained-failure {
+.unexplained-failure,
+.registration-failure {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -127,6 +128,10 @@ form {
 
 .unexplained-failure {
     background: rgb(105, 10, 30);
+}
+
+.registration-failure {
+    background: rgb(202, 85, 26);
 }
 
 .new-issue-container {

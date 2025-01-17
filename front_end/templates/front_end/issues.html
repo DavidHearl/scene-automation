@@ -28,14 +28,14 @@
                     </form>
                 </div>
 
-                <!-- <div class="add-category">
+                <div class="add-category">
                     <h2 class="titles">Add Category</h2>
                     <form method="post">
                         {% csrf_token %}
                         {{ category_form.as_p }}
                         <button class="submit-button" type="submit" name="category_submit">Add Category</button>
                     </form>
-                </div> -->
+                </div>
             </div>
         {% endif %}
 
@@ -49,6 +49,8 @@
                         <div class="crash-report">CR</div>
                     {% elif issue.category.name == "Unexplained Failure" %}
                         <div class="unexplained-failure">UF</div>
+                    {% elif issue.category.name == "Registration Failure" %}
+                        <div class="registration-failure">RF</div>
                     {% else %}
                         <div class="issue-category">{{ issue.category.name }}</div>
                     {% endif %}
