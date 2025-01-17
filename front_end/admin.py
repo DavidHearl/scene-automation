@@ -71,6 +71,12 @@ class ContractManagerAdmin(admin.ModelAdmin):
         'name',
     )
 
+class IssueAdmin(admin.ModelAdmin):
+    list_display = (
+        'issue',
+        'date',
+    )
+
 admin.site.register(Ship, ShipAdmin)
 admin.site.register(Area, AreaAdmin)
 admin.site.register(Machine, MachineAdmin)
@@ -80,3 +86,5 @@ admin.site.register(PageVisit, PageLoggingAdmin)
 admin.site.register(Storage, StorageAdmin)
 admin.site.register(Designer, DesignerAdmin)
 admin.site.register(ContractManager, ContractManagerAdmin)
+admin.site.register(Issue, IssueAdmin)
+```
