@@ -1,16 +1,10 @@
 # TODO:
-source ./virtual_environment/Scripts/activate
-pip install requirements.txt
-
-pip install celery redis
-pip freeze --local > requirements.txt
-
-celery -A scene_automation worker --loglevel=info
-celery -A scene_automation beat --loglevel=info
+- Embed the Scan Viewer for each venue, or a link etc.
+- Embed the live location of the ship
+- Pull the ship itinerary
 
 ## Areas for possible Improvement
 [] - Area in S**2m
-[] - Estimated number of scans
 [] - Area Type
 
 ## Create Virtual Environment

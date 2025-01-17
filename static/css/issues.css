@@ -110,7 +110,9 @@ form {
 
 .crash-report,
 .unexplained-failure,
-.registration-failure {
+.registration-failure,
+.processing-error,
+.error-message {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -132,6 +134,14 @@ form {
 
 .registration-failure {
     background: rgb(202, 85, 26);
+}
+
+.processing-error {
+    background: rgb(192, 157, 1);
+}
+
+.error-message {
+    background: rgb(58, 82, 239);
 }
 
 .new-issue-container {
@@ -163,4 +173,33 @@ form {
     padding: 2px;
     height: 28px;
     border-radius: 4px;
+}
+
+.issue-time-lost {
+    white-space: nowrap;
+}
+
+.time-lost-container {
+    display: flex;
+    background: white;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.time-lost-subcontainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.tl-title {
+    margin: 0;
+    font-size: 1.5rem;
 }

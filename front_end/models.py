@@ -214,17 +214,18 @@ class PageVisit(models.Model):
 
 
 class IssueCategory(models.Model):
-    name = models.CharField(max_length=200)
+	name = models.CharField(max_length=200)
 
-    def __str__(self):
-        return self.name
+	def __str__(self):
+		return self.name
 
 
 class Issues(models.Model):
-    date = models.DateTimeField(default=timezone.now, editable=True)
-    issue = models.TextField()
-    category = models.ForeignKey(IssueCategory, on_delete=models.SET_NULL, null=True, blank=True)
+	date = models.DateTimeField(default=timezone.now, editable=True)
+	issue = models.TextField()
+	category = models.ForeignKey(IssueCategory, on_delete=models.SET_NULL, null=True, blank=True)
+	time_lost = models.DecimalField(max_digits=5, decimal_places=2, default=0.25, null=True, blank=True)
 
-    def __str__(self):
-        return self.issue
+	def __str__(self):
+		return self.issue
 	

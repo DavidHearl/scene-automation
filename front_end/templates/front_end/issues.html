@@ -23,6 +23,7 @@
                         {{ issue_form.issue.label_tag }} {{ issue_form.issue }}
                         <div class="form-row">
                             {{ issue_form.category.label_tag }} {{ issue_form.category }}
+                            {{ issue_form.time_lost.label_tag }} {{ issue_form.time_lost }}
                             <button class="submit-button" type="submit" name="issue_submit">Add Issue</button>
                         </div>
                     </form>
@@ -39,6 +40,21 @@
             </div>
         {% endif %}
 
+        <div class="time-lost-container">
+            <div class="time-lost-subcontainer">
+                <h3 class="tl-title">Total Time Lost</h3>
+                <p class="tl-content">{{ total_time_lost }} Hours</p>
+            </div>
+            <div class="time-lost-subcontainer">
+                <h3 class="tl-title">This Month</h3>
+                <p class="tl-content">{{ total_time_lost_month }} Hours</p>
+            </div>
+            <div class="time-lost-subcontainer">
+                <h3 class="tl-title">This Week</h3>
+                <p class="tl-content">{{ total_time_lost_week }} Hours</p>
+            </div>
+        </div>
+
         <h2 class="titles">Issues ({{ issue_count }})</h2>
         <div class="issue-list">
             {% for issue in issues %}
@@ -51,11 +67,16 @@
                         <div class="unexplained-failure">UF</div>
                     {% elif issue.category.name == "Registration Failure" %}
                         <div class="registration-failure">RF</div>
+                    {% elif issue.category.name == "Processing Error" %}
+                        <div class="processing-error">PE</div>
+                    {% elif issue.category.name == "Error Message" %}
+                        <div class="error-message">EM</div>
                     {% else %}
                         <div class="issue-category">{{ issue.category.name }}</div>
                     {% endif %}
 
                     <div class="issue-description">{{ issue.issue }}</div>
+                    <div class="issue-time-lost">Time Lost: {{ issue.time_lost }} H</div>
                     {% if user.is_superuser %}
                         <div class="issue-actions">
                             <a class="edit-button" href="javascript:void(0);" onclick="toggleEditForm({{ issue.id }})">Edit</a>
@@ -72,6 +93,7 @@
                                 <option value="{{ category.id }}" {% if issue.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
                             {% endfor %}
                         </select>
+                        <input type="number" name="time_lost" value="{{ issue.time_lost }}" step="0.01">
                         <button class="save-button" type="submit">Save</button>
                     </form>
                 </div>

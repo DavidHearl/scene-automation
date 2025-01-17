@@ -63,7 +63,7 @@ class ShipPriorityForm(forms.ModelForm):
 class IssueForm(forms.ModelForm):
     class Meta:
         model = Issues
-        fields = ['issue', 'category']
+        fields = ['issue', 'category', 'time_lost']
 
 
 class IssueCategoryForm(forms.ModelForm):

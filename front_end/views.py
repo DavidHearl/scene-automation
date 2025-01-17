@@ -832,12 +832,27 @@ def issues(request):
 
     issues = Issues.objects.all().order_by('-date')
     categories = IssueCategory.objects.all()
+
+    # Calculate total time lost
+    total_time_lost = sum(issue.time_lost for issue in issues)
+
+    # Calculate total time lost this week
+    start_of_week = timezone.now() - timedelta(days=timezone.now().weekday())
+    total_time_lost_week = sum(issue.time_lost for issue in issues if issue.date >= start_of_week)
+
+    # Calculate total time lost this month
+    start_of_month = timezone.now().replace(day=1)
+    total_time_lost_month = sum(issue.time_lost for issue in issues if issue.date >= start_of_month)
+
     context = {
         'issue_form': issue_form,
         'category_form': category_form,
         'issues': issues,
         'categories': categories,
         'issue_count': issues.count(),
+        'total_time_lost': total_time_lost,
+        'total_time_lost_week': total_time_lost_week,
+        'total_time_lost_month': total_time_lost_month,
     }
 
     return render(request, 'front_end/issues.html', context)
