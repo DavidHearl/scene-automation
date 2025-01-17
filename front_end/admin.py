@@ -87,4 +87,3 @@ admin.site.register(Storage, StorageAdmin)
 admin.site.register(Designer, DesignerAdmin)
 admin.site.register(ContractManager, ContractManagerAdmin)
 admin.site.register(Issue, IssueAdmin)
-```
